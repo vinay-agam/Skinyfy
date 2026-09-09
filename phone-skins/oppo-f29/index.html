@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>OPPO F29 Skins | Premium Vinyl Wraps | Skinify</title>
+  <meta name="description" content="Precision-cut skins for OPPO F29. Bubble-free application, scratch resistant, ultra thin. Choose design and order on WhatsApp.">
+  <link rel="canonical" href="/phone-skins/oppo-f29/">
+  <meta property="og:title" content="OPPO F29 Skins | Skinify">
+  <meta property="og:description" content="Custom vinyl skins for OPPO F29. Order on WhatsApp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <meta name="theme-color" content="#1B8C5C">
+</head>
+<body>
+
+  <main id="main-content">
+    <!-- Active Model Banner -->
+    <div style="background:var(--color-primary-light);border:1px solid var(--color-primary);border-radius:var(--radius-xl);padding:var(--space-3) var(--space-4);margin:var(--space-3) var(--space-4);display:flex;align-items:center;justify-content:space-between;gap:var(--space-2);font-size:var(--text-xs);">
+      <div style="display:flex;align-items:center;gap:var(--space-2);color:var(--color-primary);font-weight:700">
+        <span>✓</span>
+        <span>Selected Model: <strong>OPPO F29</strong> (Cut Ready)</span>
+      </div>
+      <a href="/phone-skins/" style="color:var(--color-text-secondary);text-decoration:underline;font-size:var(--text-xs)">All Models</a>
+    </div>
+
+    <!-- Filter Chips -->
+    <div id="filter-chips-container"></div>
+
+    <!-- Page Title + Sort -->
+    <div class="sort-wrapper">
+      <div>
+        <h1 class="page-title-small">OPPO F29 Skins</h1>
+        <p class="page-subtitle-small">Choose your skin design below for OPPO F29</p>
+      </div>
+      <button class="sort-btn" id="sort-btn">
+        Sort by
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="product-grid" id="product-grid"></div>
+
+    <!-- SEO Content -->
+    <section style="padding: var(--space-8) var(--space-4);">
+      <h2 style="font-size:var(--text-lg);font-weight:800;margin-bottom:var(--space-3)">Custom OPPO F29 Skins</h2>
+      <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.7;margin-bottom:var(--space-4)">
+        Protect and customize your Oppo OPPO F29 with Skinify's precision-cut vinyl skins.
+        Engineered specifically for the dimensions and camera cutouts of OPPO F29, our skins offer 3M-grade quality,
+        air-release channels for bubble-free application, and leave zero sticky residue upon removal.
+      </p>
+    </section>
+
+    <footer class="site-footer">
+      <p>© 2026 Skinify. All rights reserved.</p>
+    </footer>
+  </main>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "OPPO F29 Skins",
+    "description": "Precision vinyl skins for OPPO F29.",
+    "url": "/phone-skins/oppo-f29/"
+  }
+  </script>
+
+  <script type="module">
+    import { dataService, Analytics } from '/assets/js/app.js';
+    import { initPage, createFilterChips, renderProductGrid } from '/assets/js/components.js';
+
+    await initPage(dataService, { activePage: 'categories', showBack: true });
+
+    const [categories, allProducts] = await Promise.all([
+      dataService.getCategories(),
+      dataService.getProductsByType('phone')
+    ]);
+
+    const activeDeviceId = 'oppo-f29';
+    const grid = document.getElementById('product-grid');
+    const filterContainer = document.getElementById('filter-chips-container');
+
+    const params = new URLSearchParams(window.location.search);
+    let activeCategory = params.get('category') || 'all';
+    const replaceParam = params.get('replace');
+    const actionParam = params.get('action');
+
+    // If replace mode banner
+    if (replaceParam) {
+      const replaceBanner = document.createElement('div');
+      replaceBanner.style.cssText = 'background:#fff8e6;border:1.5px solid #f59e0b;border-radius:var(--radius-xl);padding:var(--space-3) var(--space-4);margin:var(--space-3) var(--space-4);display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);';
+      replaceBanner.innerHTML = `
+        <div style="display:flex;align-items:center;gap:var(--space-2);color:#92400e;font-size:var(--text-xs);font-weight:700">
+          <span style="font-size:1.2rem">🔄</span>
+          <div>
+            <div>Changing Skin for OPPO F29</div>
+            <div style="font-size:11px;font-weight:500;opacity:0.85">Tap any skin design below to replace it in your order</div>
+          </div>
+        </div>
+        <a href="/checkout" style="background:#f59e0b;color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Keep Current</a>
+      `;
+      const mainContent = document.getElementById('main-content');
+      mainContent.insertBefore(replaceBanner, document.querySelector('.sort-wrapper'));
+    } else if (actionParam === 'add') {
+      const addBanner = document.createElement('div');
+      addBanner.style.cssText = 'background:var(--color-primary-light);border:1.5px solid var(--color-primary);border-radius:var(--radius-xl);padding:var(--space-3) var(--space-4);margin:var(--space-3) var(--space-4);display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);';
+      addBanner.innerHTML = `
+        <div style="display:flex;align-items:center;gap:var(--space-2);color:var(--color-primary);font-size:var(--text-xs);font-weight:700">
+          <span style="font-size:1.2rem">✨</span>
+          <div>
+            <div>Adding Another Skin for OPPO F29</div>
+            <div style="font-size:11px;font-weight:500;color:var(--color-text-secondary)">Choose any skin design below</div>
+          </div>
+        </div>
+        <a href="/checkout" style="background:var(--color-primary);color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Back to Order</a>
+      `;
+      const mainContent = document.getElementById('main-content');
+      mainContent.insertBefore(addBanner, document.querySelector('.sort-wrapper'));
+    }
+
+    // Render filter chips
+    const styleCategories = categories.filter(c => c.active);
+    const chips = createFilterChips(styleCategories, activeCategory, (catId) => {
+      activeCategory = catId;
+      renderFiltered();
+    });
+    filterContainer.appendChild(chips);
+
+    let sortBy = 'popular';
+    const sortBtn = document.getElementById('sort-btn');
+    sortBtn.addEventListener('click', () => {
+      const sortOptions = ['popular', 'price-low', 'price-high', 'newest'];
+      const labels = { 'popular': 'Popular', 'price-low': 'Price: Low to High', 'price-high': 'Price: High to Low', 'newest': 'Newest' };
+      const currentIdx = sortOptions.indexOf(sortBy);
+      sortBy = sortOptions[(currentIdx + 1) % sortOptions.length];
+      sortBtn.querySelector('span') || sortBtn.insertBefore(document.createElement('span'), sortBtn.querySelector('svg'));
+      sortBtn.childNodes[0].textContent = labels[sortBy] + ' ';
+      renderFiltered();
+    });
+
+    function renderFiltered() {
+      let products = [...allProducts];
+      if (activeCategory !== 'all') {
+        if (activeCategory === 'trending') {
+          products = products.filter(p => p.badges && p.badges.length > 0);
+        } else {
+          products = products.filter(p => p.category === activeCategory);
+        }
+      }
+
+      // Prioritize compatible products
+      const compatible = products.filter(p => p.compatibleDevices && p.compatibleDevices.includes(activeDeviceId));
+      if (compatible.length > 0) {
+        products = compatible;
+      }
+
+      switch (sortBy) {
+        case 'price-low': products.sort((a,b) => a.price - b.price); break;
+        case 'price-high': products.sort((a,b) => b.price - a.price); break;
+        case 'newest': products.reverse(); break;
+        default: break;
+      }
+
+      renderProductGrid(grid, products, {
+        device: activeDeviceId,
+        replace: replaceParam,
+        action: actionParam
+      });
+    }
+
+    renderFiltered();
+    Analytics.pageView();
+  </script>
+</body>
+</html>

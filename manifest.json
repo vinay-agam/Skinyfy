@@ -1,0 +1,21 @@
+{
+  "name": "Skinify — Style Your Tech",
+  "short_name": "Skinify",
+  "description": "Premium vinyl skins for phones & laptops. Order on WhatsApp.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#1B8C5C",
+  "icons": [
+    {
+      "src": "/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

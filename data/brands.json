@@ -1,0 +1,23 @@
+[
+  { "id": "apple", "name": "Apple", "slug": "apple", "deviceTypes": ["phone", "laptop"], "logo": "/images/brands/apple.webp", "order": 1, "active": true },
+  { "id": "samsung", "name": "Samsung", "slug": "samsung", "deviceTypes": ["phone"], "logo": "/images/brands/samsung.webp", "order": 2, "active": true },
+  { "id": "oneplus", "name": "OnePlus", "slug": "oneplus", "deviceTypes": ["phone"], "logo": "/images/brands/oneplus.webp", "order": 3, "active": true },
+  { "id": "xiaomi", "name": "Xiaomi", "slug": "xiaomi", "deviceTypes": ["phone"], "logo": "/images/brands/xiaomi.webp", "order": 4, "active": true },
+  { "id": "redmi", "name": "Redmi", "slug": "redmi", "deviceTypes": ["phone"], "logo": "/images/brands/redmi.webp", "order": 5, "active": true },
+  { "id": "realme", "name": "Realme", "slug": "realme", "deviceTypes": ["phone"], "logo": "/images/brands/realme.webp", "order": 6, "active": true },
+  { "id": "vivo", "name": "Vivo", "slug": "vivo", "deviceTypes": ["phone"], "logo": "/images/brands/vivo.webp", "order": 7, "active": true },
+  { "id": "oppo", "name": "Oppo", "slug": "oppo", "deviceTypes": ["phone"], "logo": "/images/brands/oppo.webp", "order": 8, "active": true },
+  { "id": "nothing", "name": "Nothing", "slug": "nothing", "deviceTypes": ["phone"], "logo": "/images/brands/nothing.webp", "order": 9, "active": true },
+  { "id": "motorola", "name": "Motorola", "slug": "motorola", "deviceTypes": ["phone"], "logo": "/images/brands/motorola.webp", "order": 10, "active": true },
+  { "id": "google", "name": "Google", "slug": "google", "deviceTypes": ["phone"], "logo": "/images/brands/google.webp", "order": 11, "active": true },
+  { "id": "asus", "name": "Asus", "slug": "asus", "deviceTypes": ["phone", "laptop"], "logo": "/images/brands/asus.webp", "order": 12, "active": true },
+  { "id": "infinix", "name": "Infinix", "slug": "infinix", "deviceTypes": ["phone"], "logo": "/images/brands/infinix.webp", "order": 13, "active": true },
+  { "id": "tecno", "name": "Tecno", "slug": "tecno", "deviceTypes": ["phone"], "logo": "/images/brands/tecno.webp", "order": 14, "active": true },
+  { "id": "iqoo", "name": "iQOO", "slug": "iqoo", "deviceTypes": ["phone"], "logo": "/images/brands/iqoo.webp", "order": 15, "active": true },
+  { "id": "poco", "name": "Poco", "slug": "poco", "deviceTypes": ["phone"], "logo": "/images/brands/poco.webp", "order": 16, "active": true },
+  { "id": "hp", "name": "HP", "slug": "hp", "deviceTypes": ["laptop"], "logo": "/images/brands/hp.webp", "order": 17, "active": true },
+  { "id": "dell", "name": "Dell", "slug": "dell", "deviceTypes": ["laptop"], "logo": "/images/brands/dell.webp", "order": 18, "active": true },
+  { "id": "lenovo", "name": "Lenovo", "slug": "lenovo", "deviceTypes": ["laptop"], "logo": "/images/brands/lenovo.webp", "order": 19, "active": true },
+  { "id": "acer", "name": "Acer", "slug": "acer", "deviceTypes": ["laptop"], "logo": "/images/brands/acer.webp", "order": 20, "active": true },
+  { "id": "msi", "name": "MSI", "slug": "msi", "deviceTypes": ["laptop"], "logo": "/images/brands/msi.webp", "order": 21, "active": true }
+]

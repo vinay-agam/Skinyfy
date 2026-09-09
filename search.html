@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Search Skins & Devices | Skinify</title>
+  <meta name="description" content="Search for phone skins, laptop skins, and device models. Find the perfect skin for your device.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <meta name="theme-color" content="#1B8C5C">
+</head>
+<body>
+
+  <main id="main-content">
+    <!-- Search is handled by the full-screen overlay -->
+    <div style="padding:var(--space-4)">
+      <h1 class="page-title-small">Search</h1>
+      <p class="page-subtitle-small" style="margin-bottom:var(--space-6)">Find phones, laptops, and skin designs.</p>
+
+      <!-- Search input on page -->
+      <div class="search-bar" id="page-search-bar" style="margin-bottom:var(--space-8)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" placeholder="Search for phone or laptop skins..." id="page-search-input">
+      </div>
+
+      <!-- Search results area -->
+      <div id="page-search-results"></div>
+
+      <!-- Popular searches -->
+      <div id="popular-searches">
+        <h3 style="font-size:var(--text-sm);font-weight:700;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:1px;margin-bottom:var(--space-3)">Popular Searches</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)" id="popular-search-chips"></div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p>© 2026 Skinify. All rights reserved.</p>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { dataService, Utils, Analytics, Icons } from '/assets/js/app.js';
+    import { initPage } from '/assets/js/components.js';
+
+    await initPage(dataService, { activePage: 'home', showBack: true });
+
+    const input = document.getElementById('page-search-input');
+    const resultsEl = document.getElementById('page-search-results');
+    const popularEl = document.getElementById('popular-search-chips');
+
+    // Populate popular searches
+    const popular = ['iPhone 16 Pro', 'Galaxy S25 Ultra', 'OnePlus 13', 'MacBook Air', 'Anime', 'Minimal', 'Carbon Fiber'];
+    popular.forEach(term => {
+      const chip = document.createElement('button');
+      chip.className = 'filter-chip';
+      chip.textContent = term;
+      chip.addEventListener('click', () => { input.value = term; doSearch(); });
+      popularEl.appendChild(chip);
+    });
+
+    // Check URL param
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('q')) {
+      input.value = params.get('q');
+      setTimeout(doSearch, 100);
+    }
+
+    const doSearch = Utils.debounce(async () => {
+      const q = input.value.trim();
+      if (q.length < 2) { resultsEl.innerHTML = ''; return; }
+      Analytics.search(q);
+
+      const results = await dataService.searchAll(q);
+      resultsEl.innerHTML = '';
+
+      if (!results.devices.length && !results.products.length && !results.categories.length) {
+        resultsEl.innerHTML = `
+          <div class="search-not-found" style="display:block">
+            <h3>No results for "${q}"</h3>
+            <p>Try a different search term, or request your device model.</p>
+            <a href="/checkout?requestModel=true" class="btn btn-primary" style="display:inline-flex">Request My Model</a>
+          </div>
+        `;
+        return;
+      }
+
+      const createGroup = (title, items) => {
+        const g = document.createElement('div');
+        g.className = 'search-result-group';
+        g.innerHTML = `<div class="search-result-group-title">${title}</div>`;
+        items.forEach(item => {
+          const row = document.createElement('a');
+          row.className = 'search-result-item';
+          row.href = item.href;
+          row.innerHTML = `
+            <div class="result-icon">${item.icon}</div>
+            <div><div class="result-text">${item.text}</div><div class="result-sub">${item.sub || ''}</div></div>
+          `;
+          g.appendChild(row);
+        });
+        return g;
+      };
+
+      if (results.devices.length) {
+        resultsEl.appendChild(createGroup('Devices', results.devices.map(d => ({
+          text: d.name, sub: d.brand.charAt(0).toUpperCase() + d.brand.slice(1),
+          icon: d.type === 'laptop' ? Icons.laptop : Icons.phone,
+          href: `/checkout?device=${d.id}`
+        }))));
+      }
+      if (results.products.length) {
+        resultsEl.appendChild(createGroup('Skins', results.products.map(p => ({
+          text: p.name, sub: `₹${p.price}`, icon: Icons.package,
+          href: `/checkout?product=${p.id}`
+        }))));
+      }
+      if (results.categories.length) {
+        resultsEl.appendChild(createGroup('Categories', results.categories.map(c => ({
+          text: c.name, sub: c.description, icon: Icons.grid,
+          href: `/phone-skins/?category=${c.id}`
+        }))));
+      }
+    }, 250);
+
+    input.addEventListener('input', doSearch);
+    Analytics.pageView();
+  </script>
+</body>
+</html>

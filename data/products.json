@@ -1,0 +1,297 @@
+[
+  {
+    "id": "black-marble",
+    "name": "Black Marble",
+    "slug": "black-marble",
+    "deviceType": "phone",
+    "category": "minimal",
+    "price": 299,
+    "currency": "INR",
+    "images": [
+      "/images/products/black-marble/main.webp",
+      "/images/products/black-marble/angle.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15",
+      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25", "galaxy-s24-ultra",
+      "oneplus-13", "oneplus-12", "pixel-9-pro"
+    ],
+    "badges": ["bestseller"],
+    "description": "Premium black marble vinyl skin with luxurious gold veins. A timeless, elegant look for your device.",
+    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Bubble-free application", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "good-vibes",
+    "name": "Good Vibes",
+    "slug": "good-vibes",
+    "deviceType": "phone",
+    "category": "quotes",
+    "price": 299,
+    "currency": "INR",
+    "images": [
+      "/images/products/good-vibes/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15",
+      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
+      "oneplus-13", "oneplus-12", "nothing-phone-2a"
+    ],
+    "badges": ["popular"],
+    "description": "Spread positivity with this fun sticker-bomb style skin featuring smiley faces and good vibes.",
+    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Bubble-free application", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "anime-pro",
+    "name": "Anime Pro",
+    "slug": "anime-pro",
+    "deviceType": "phone",
+    "category": "anime",
+    "price": 329,
+    "currency": "INR",
+    "images": [
+      "/images/products/anime-pro/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro", "iphone-15",
+      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25", "galaxy-s24-ultra",
+      "oneplus-13", "oneplus-12", "nothing-phone-2a", "pixel-9-pro"
+    ],
+    "badges": [],
+    "description": "Bold anime-inspired skin with striking character art and vibrant colours.",
+    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Vivid print quality", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "mountain-vibes",
+    "name": "Mountain Vibes",
+    "slug": "mountain-vibes",
+    "deviceType": "phone",
+    "category": "nature",
+    "price": 299,
+    "currency": "INR",
+    "images": [
+      "/images/products/mountain-vibes/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15",
+      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
+      "oneplus-13", "oneplus-12", "xiaomi-14-ultra", "vivo-x100-pro"
+    ],
+    "badges": [],
+    "description": "A serene mountain sunset landscape that brings the beauty of nature to your device.",
+    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Bubble-free application", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "discipline",
+    "name": "Discipline",
+    "slug": "discipline",
+    "deviceType": "phone",
+    "category": "minimal",
+    "price": 299,
+    "currency": "INR",
+    "images": [
+      "/images/products/discipline/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15",
+      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25", "galaxy-s24-ultra",
+      "oneplus-13", "oneplus-12", "nothing-phone-2", "nothing-phone-2a"
+    ],
+    "badges": [],
+    "description": "Minimalist dark skin with a bold red accent line and 'DISCIPLINE' typography.",
+    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Matte finish", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "astronaut",
+    "name": "Astronaut",
+    "slug": "astronaut",
+    "deviceType": "phone",
+    "category": "abstract",
+    "price": 329,
+    "currency": "INR",
+    "images": [
+      "/images/products/astronaut/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro", "iphone-15",
+      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
+      "oneplus-13", "oneplus-12", "pixel-9-pro", "realme-gt5-pro"
+    ],
+    "badges": ["new"],
+    "description": "An astronaut sitting on the moon with Earth in the background — for space lovers and dreamers.",
+    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Vivid print quality", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "carbon-fiber",
+    "name": "Carbon Fiber",
+    "slug": "carbon-fiber",
+    "deviceType": "phone",
+    "category": "minimal",
+    "price": 299,
+    "currency": "INR",
+    "images": [
+      "/images/products/carbon-fiber/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15", "iphone-14-pro", "iphone-14",
+      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25", "galaxy-s24-ultra", "galaxy-a55",
+      "oneplus-13", "oneplus-12", "oneplus-nord-4"
+    ],
+    "badges": [],
+    "description": "Classic carbon fiber texture — lightweight, modern and sporty.",
+    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Textured finish", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "spider-hero",
+    "name": "Spider Hero",
+    "slug": "spider-hero",
+    "deviceType": "phone",
+    "category": "anime",
+    "price": 349,
+    "currency": "INR",
+    "images": [
+      "/images/products/spider-hero/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro", "iphone-15",
+      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
+      "oneplus-13", "oneplus-12"
+    ],
+    "badges": ["popular"],
+    "description": "Superhero-inspired skin with dynamic comic art. Perfect for fans of the web-slinger.",
+    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Vivid print quality", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "sunset-waves",
+    "name": "Sunset Waves",
+    "slug": "sunset-waves",
+    "deviceType": "phone",
+    "category": "nature",
+    "price": 299,
+    "currency": "INR",
+    "images": [
+      "/images/products/sunset-waves/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15",
+      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
+      "oneplus-13", "xiaomi-14-ultra", "vivo-x100-pro"
+    ],
+    "badges": [],
+    "description": "Warm ocean sunset with gentle waves — calm and beautiful.",
+    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Glossy finish", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "neon-gamer",
+    "name": "Neon Gamer",
+    "slug": "neon-gamer",
+    "deviceType": "phone",
+    "category": "gaming",
+    "price": 349,
+    "currency": "INR",
+    "images": [
+      "/images/products/neon-gamer/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro", "iphone-15",
+      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
+      "oneplus-13", "oneplus-12", "iqoo-12", "poco-f6-pro"
+    ],
+    "badges": ["new"],
+    "description": "Neon-lit gaming aesthetic with glowing controller and circuit graphics.",
+    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Glow-effect print", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "black-marble-laptop",
+    "name": "Black Marble",
+    "slug": "black-marble-laptop",
+    "deviceType": "laptop",
+    "category": "minimal",
+    "price": 499,
+    "currency": "INR",
+    "images": [
+      "/images/products/black-marble-laptop/main.webp"
+    ],
+    "compatibleDevices": [
+      "macbook-air-m3-13", "macbook-air-m2", "macbook-pro-14-m3", "macbook-pro-16-m3",
+      "dell-xps-13", "dell-xps-15", "hp-pavilion-15", "hp-spectre-x360",
+      "lenovo-thinkpad-x1", "asus-rog-zephyrus-g14"
+    ],
+    "badges": ["bestseller"],
+    "description": "Premium black marble vinyl skin for laptops. Luxurious gold veins on a deep black base.",
+    "features": ["Premium vinyl", "Precision cut for lid", "Scratch resistant", "Bubble-free application", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "mountain-vibes-laptop",
+    "name": "Mountain Vibes",
+    "slug": "mountain-vibes-laptop",
+    "deviceType": "laptop",
+    "category": "nature",
+    "price": 499,
+    "currency": "INR",
+    "images": [
+      "/images/products/mountain-vibes-laptop/main.webp"
+    ],
+    "compatibleDevices": [
+      "macbook-air-m3-13", "macbook-air-m2", "macbook-pro-14-m3", "macbook-pro-16-m3",
+      "dell-xps-13", "dell-xps-15", "hp-pavilion-15",
+      "lenovo-thinkpad-x1"
+    ],
+    "badges": [],
+    "description": "A serene mountain sunset landscape for your laptop lid.",
+    "features": ["Premium vinyl", "Precision cut for lid", "Scratch resistant", "Bubble-free application", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "discipline-laptop",
+    "name": "Discipline",
+    "slug": "discipline-laptop",
+    "deviceType": "laptop",
+    "category": "minimal",
+    "price": 499,
+    "currency": "INR",
+    "images": [
+      "/images/products/discipline-laptop/main.webp"
+    ],
+    "compatibleDevices": [
+      "macbook-air-m3-13", "macbook-air-m2", "macbook-pro-14-m3", "macbook-pro-16-m3",
+      "dell-xps-13", "dell-xps-15", "hp-pavilion-15", "hp-spectre-x360",
+      "lenovo-thinkpad-x1", "asus-rog-zephyrus-g14"
+    ],
+    "badges": [],
+    "description": "Minimalist dark laptop skin with a bold red accent and 'DISCIPLINE CREATES FREEDOM' typography.",
+    "features": ["Premium vinyl", "Precision cut for lid", "Scratch resistant", "Matte finish", "Residue-free removal"],
+    "active": true
+  },
+  {
+    "id": "carbon-fiber-laptop",
+    "name": "Carbon Fiber",
+    "slug": "carbon-fiber-laptop",
+    "deviceType": "laptop",
+    "category": "minimal",
+    "price": 499,
+    "currency": "INR",
+    "images": [
+      "/images/products/carbon-fiber-laptop/main.webp"
+    ],
+    "compatibleDevices": [
+      "macbook-air-m3-13", "macbook-air-m2", "macbook-pro-14-m3", "macbook-pro-16-m3",
+      "dell-xps-13", "dell-xps-15", "hp-pavilion-15", "hp-spectre-x360",
+      "lenovo-thinkpad-x1", "asus-rog-zephyrus-g14"
+    ],
+    "badges": [],
+    "description": "Classic carbon fiber texture for laptops — the sporty, modern choice.",
+    "features": ["Premium vinyl", "Precision cut for lid", "Scratch resistant", "Textured finish", "Residue-free removal"],
+    "active": true
+  }
+]

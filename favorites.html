@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>My Favorites | Skinify</title>
+  <meta name="description" content="Your saved skin designs. Browse your favorites and order on WhatsApp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <meta name="theme-color" content="#1B8C5C">
+</head>
+<body>
+
+  <main id="main-content">
+    <div class="sort-wrapper">
+      <div>
+        <h1 class="page-title-small">My Favorites</h1>
+        <p class="page-subtitle-small" id="fav-count">Your saved designs</p>
+      </div>
+    </div>
+
+    <!-- Favorites Grid -->
+    <div class="product-grid" id="favorites-grid"></div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="empty-state" style="display:none">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+      <h2>No Favorites Yet</h2>
+      <p>Browse our skin collection and tap the heart icon to save designs you love.</p>
+      <a href="/phone-skins/" class="btn btn-primary">Browse Phone Skins</a>
+    </div>
+
+    <footer class="site-footer">
+      <p>© 2026 Skinify. All rights reserved.</p>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { dataService, Favorites, Analytics } from '/assets/js/app.js';
+    import { initPage, renderProductGrid } from '/assets/js/components.js';
+
+    await initPage(dataService, { activePage: 'favorites', showBack: true });
+
+    const grid = document.getElementById('favorites-grid');
+    const emptyState = document.getElementById('empty-state');
+    const favCount = document.getElementById('fav-count');
+
+    async function renderFavorites() {
+      const favIds = Favorites.getAll();
+      if (favIds.length === 0) {
+        grid.style.display = 'none';
+        emptyState.style.display = 'flex';
+        favCount.textContent = 'No saved designs';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      grid.style.display = 'grid';
+      favCount.textContent = `${favIds.length} saved design${favIds.length !== 1 ? 's' : ''}`;
+
+      const allProducts = await dataService.getActiveProducts();
+      const favProducts = allProducts.filter(p => favIds.includes(p.id));
+
+      renderProductGrid(grid, favProducts);
+    }
+
+    renderFavorites();
+
+    // Re-render when favorites change (via MutationObserver on grid interactions)
+    grid.addEventListener('click', () => {
+      setTimeout(renderFavorites, 700);
+    });
+
+    Analytics.pageView();
+  </script>
+</body>
+</html>

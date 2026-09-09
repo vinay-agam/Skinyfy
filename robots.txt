@@ -1,0 +1,7 @@
+# Skinify Robots.txt
+User-agent: *
+Allow: /
+Disallow: /data/
+Disallow: /assets/js/
+
+Sitemap: /sitemap.xml

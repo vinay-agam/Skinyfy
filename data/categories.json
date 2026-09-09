@@ -1,0 +1,82 @@
+[
+  {
+    "id": "minimal",
+    "name": "Minimal",
+    "slug": "minimal",
+    "description": "Clean, sleek and understated skins for a sophisticated look.",
+    "image": "/images/categories/minimal.webp",
+    "icon": "minimal",
+    "order": 1,
+    "active": true
+  },
+  {
+    "id": "anime",
+    "name": "Anime",
+    "slug": "anime",
+    "description": "Anime-inspired phone and laptop skins for true fans.",
+    "image": "/images/categories/anime.webp",
+    "icon": "anime",
+    "order": 2,
+    "active": true
+  },
+  {
+    "id": "nature",
+    "name": "Nature",
+    "slug": "nature",
+    "description": "Beautiful landscapes and nature-inspired skin designs.",
+    "image": "/images/categories/nature.webp",
+    "icon": "nature",
+    "order": 3,
+    "active": true
+  },
+  {
+    "id": "abstract",
+    "name": "Abstract",
+    "slug": "abstract",
+    "description": "Bold abstract patterns and artistic designs.",
+    "image": "/images/categories/abstract.webp",
+    "icon": "abstract",
+    "order": 4,
+    "active": true
+  },
+  {
+    "id": "quotes",
+    "name": "Quotes",
+    "slug": "quotes",
+    "description": "Motivational and fun quote skins that express your personality.",
+    "image": "/images/categories/quotes.webp",
+    "icon": "quotes",
+    "order": 5,
+    "active": true
+  },
+  {
+    "id": "gaming",
+    "name": "Gaming",
+    "slug": "gaming",
+    "description": "Level up your device with gaming-themed skins.",
+    "image": "/images/categories/gaming.webp",
+    "icon": "gaming",
+    "order": 6,
+    "active": true
+  },
+  {
+    "id": "cars",
+    "name": "Cars",
+    "slug": "cars",
+    "description": "Supercar and racing-inspired skin designs.",
+    "image": "/images/categories/cars.webp",
+    "icon": "cars",
+    "order": 7,
+    "active": true
+  },
+  {
+    "id": "trending",
+    "name": "Trending",
+    "slug": "trending",
+    "description": "The hottest and most popular skins right now.",
+    "image": "/images/categories/trending.webp",
+    "icon": "trending",
+    "order": 8,
+    "active": true
+  }
+]
