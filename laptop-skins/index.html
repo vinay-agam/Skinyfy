@@ -21,6 +21,9 @@
     <!-- Filter Chips -->
     <div id="filter-chips-container"></div>
 
+    <!-- Skin Type / Finish Filter Chips -->
+    <div id="skin-type-chips-container"></div>
+
     <!-- Page Title + Sort -->
     <div class="sort-wrapper">
       <div>
@@ -69,7 +72,7 @@
 
   <script type="module">
     import { dataService, Analytics } from '/assets/js/app.js';
-    import { initPage, createFilterChips, renderProductGrid } from '/assets/js/components.js';
+    import { initPage, createFilterChips, createSkinTypeChips, renderProductGrid } from '/assets/js/components.js';
 
     await initPage(dataService, { activePage: 'laptops', showBack: true });
 
@@ -80,9 +83,11 @@
 
     const grid = document.getElementById('product-grid');
     const filterContainer = document.getElementById('filter-chips-container');
+    const skinTypeContainer = document.getElementById('skin-type-chips-container');
 
     const params = new URLSearchParams(window.location.search);
     let activeCategory = params.get('category') || 'all';
+    let activeSkinType = params.get('type') || 'all';
     let sortBy = 'popular';
     const replaceParam = params.get('replace');
     const actionParam = params.get('action');
@@ -135,6 +140,17 @@
     });
     filterContainer.appendChild(chips);
 
+    // Skin type filter chips (laptop compatible)
+    const skinTypeChips = createSkinTypeChips(activeSkinType, (typeId) => {
+      activeSkinType = typeId;
+      renderFiltered();
+      const url = new URL(window.location);
+      if (typeId === 'all') url.searchParams.delete('type');
+      else url.searchParams.set('type', typeId);
+      window.history.replaceState({}, '', url);
+    }, 'laptop');
+    skinTypeContainer.appendChild(skinTypeChips);
+
     const sortBtn = document.getElementById('sort-btn');
     sortBtn.addEventListener('click', () => {
       const opts = ['popular', 'price-low', 'price-high'];
@@ -148,6 +164,12 @@
       let products = [...allProducts];
       if (activeCategory !== 'all') {
         products = products.filter(p => p.category === activeCategory);
+      }
+      if (activeSkinType !== 'all') {
+        products = products.filter(p => 
+          p.skinType === activeSkinType || 
+          (p.supportedSkinTypes && p.supportedSkinTypes.includes(activeSkinType))
+        );
       }
       switch (sortBy) {
         case 'price-low': products.sort((a,b) => a.price - b.price); break;

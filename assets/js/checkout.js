@@ -328,6 +328,37 @@ export class CheckoutFlow {
               ✓ <strong>${item.deviceName || 'Device'}</strong>: Precision cut skin available!
             </div>
           </div>
+
+          <!-- Skin Type / Finish Selector -->
+          <div class="cart-item-skin-type-box" style="margin-top:var(--space-3);padding-top:var(--space-2);border-top:1px dashed var(--color-border)">
+            <div style="font-size:var(--text-xs);font-weight:700;color:var(--color-text-secondary);margin-bottom:var(--space-2);display:flex;align-items:center;justify-content:space-between">
+              <span>Skin Type / Finish:</span>
+              <span class="active-type-badge" style="color:var(--color-primary);font-weight:700">${Utils.formatSkinType(item.skinType || (item.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'))}</span>
+            </div>
+            <div class="skin-type-pill-group" style="display:flex;flex-wrap:wrap;gap:6px">
+              ${(item.deviceType === 'laptop'
+                ? [
+                    { id: 'laptop-matt', name: 'Laptop Matte' },
+                    { id: 'embossed', name: 'Embossed' },
+                    { id: 'glitter', name: 'Glitter' },
+                    { id: 'leather', name: 'Leather' },
+                    { id: '8pa', name: '8PA Skin' }
+                  ]
+                : [
+                    { id: 'back-skin', name: 'Back Skin' },
+                    { id: 'front-skin', name: 'Front Skin' },
+                    { id: 'embossed', name: 'Embossed' },
+                    { id: 'glitter', name: 'Glitter' },
+                    { id: 'leather', name: 'Leather' },
+                    { id: '8pa', name: '8PA Skin' }
+                  ]
+              ).map(st => `
+                <button type="button" class="skin-type-select-btn ${st.id === (item.skinType || (item.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin')) ? 'active' : ''}" data-cart-id="${item.cartItemId}" data-skin-type="${st.id}">
+                  ${st.name}
+                </button>
+              `).join('')}
+            </div>
+          </div>
         </div>
       `;
 
@@ -355,6 +386,20 @@ export class CheckoutFlow {
         const item = this.items.find(i => i.cartItemId === id);
         if (item && item.qty > 1) {
           item.qty -= 1;
+          Cart.saveItems(this.items);
+          this.render();
+        }
+      });
+    });
+
+    // Skin Type Select Buttons
+    step.querySelectorAll('.skin-type-select-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cartId = btn.dataset.cartId;
+        const st = btn.dataset.skinType;
+        const item = this.items.find(i => i.cartItemId === cartId);
+        if (item) {
+          item.skinType = st;
           Cart.saveItems(this.items);
           this.render();
         }
@@ -643,6 +688,7 @@ export class CheckoutFlow {
                 <div style="font-weight:700;font-size:var(--text-sm)">${item.productName} × ${item.qty || 1}</div>
                 <div style="font-size:var(--text-xs);color:var(--color-text-secondary);margin-top:2px">
                   Model: <strong>${item.deviceName?.toLowerCase().startsWith(item.brandName?.toLowerCase()) ? item.deviceName : `${item.brandName || ''} ${item.deviceName || 'Selected Model'}`.trim()}</strong>
+                  · Type: <strong style="color:var(--color-primary)">${Utils.formatSkinType(item.skinType || (item.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'))}</strong>
                 </div>
               </div>
               <div style="font-weight:800;font-size:var(--text-sm)">₹${(Number(item.productPrice) || 0) * (item.qty || 1)}</div>
@@ -795,6 +841,7 @@ export class CheckoutFlow {
       const fullModel = modelName.toLowerCase().startsWith(brandName.toLowerCase()) ? modelName : `${brandName} ${modelName}`.trim();
       message += `${idx + 1}. *${item.productName}*\n`;
       message += `   • Device: ${fullModel}\n`;
+      message += `   • Type / Finish: ${Utils.formatSkinType(item.skinType || (item.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'))}\n`;
       message += `   • Qty: ${item.qty || 1} × ₹${item.productPrice} = ₹${(Number(item.productPrice) || 0) * (item.qty || 1)}\n`;
     });
     message += `━━━━━━━━━━━━━━━━━━━━\n`;

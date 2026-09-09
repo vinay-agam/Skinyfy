@@ -1,0 +1,65 @@
+[
+  {
+    "id": "glitter",
+    "name": "Glitter",
+    "slug": "glitter",
+    "description": "Shimmering light-reflective glitter texture with anti-scratch coating.",
+    "deviceTypes": ["phone", "laptop"],
+    "badgeColor": "#ec4899",
+    "priceModifier": 49
+  },
+  {
+    "id": "8pa",
+    "name": "8PA Skin",
+    "slug": "8pa",
+    "description": "Ultra-tough 8PA anti-slip textured armor skin for maximum protection and grip.",
+    "deviceTypes": ["phone", "laptop"],
+    "badgeColor": "#f59e0b",
+    "priceModifier": 49
+  },
+  {
+    "id": "embossed",
+    "name": "Embossed",
+    "slug": "embossed",
+    "description": "3D embossed tactile relief texture that you can feel with your fingertips.",
+    "deviceTypes": ["phone", "laptop"],
+    "badgeColor": "#8b5cf6",
+    "priceModifier": 49
+  },
+  {
+    "id": "leather",
+    "name": "Leather",
+    "slug": "leather",
+    "description": "Luxurious vegan leather grain texture with a warm, premium tactile feel.",
+    "deviceTypes": ["phone", "laptop"],
+    "badgeColor": "#d97706",
+    "priceModifier": 49
+  },
+  {
+    "id": "back-skin",
+    "name": "Back Skin",
+    "slug": "back-skin",
+    "description": "Classic precision-cut rear panel skin protecting back glass and camera visor.",
+    "deviceTypes": ["phone"],
+    "badgeColor": "#10b981",
+    "priceModifier": 0
+  },
+  {
+    "id": "front-skin",
+    "name": "Front Skin",
+    "slug": "front-skin",
+    "description": "Precision front screen bezel and edge wrap protection.",
+    "deviceTypes": ["phone"],
+    "badgeColor": "#3b82f6",
+    "priceModifier": 99
+  },
+  {
+    "id": "laptop-matt",
+    "name": "Laptop Matte",
+    "slug": "laptop-matt",
+    "description": "Smooth anti-glare, anti-fingerprint matte laptop lid and trackpad skin.",
+    "deviceTypes": ["laptop"],
+    "badgeColor": "#64748b",
+    "priceModifier": 0
+  }
+]

@@ -12,14 +12,40 @@
       "/images/products/black-marble/angle.webp"
     ],
     "compatibleDevices": [
-      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15",
-      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25", "galaxy-s24-ultra",
-      "oneplus-13", "oneplus-12", "pixel-9-pro"
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-16",
+      "iphone-15-pro-max",
+      "iphone-15-pro",
+      "iphone-15",
+      "galaxy-s25-ultra",
+      "galaxy-s25-plus",
+      "galaxy-s25",
+      "galaxy-s24-ultra",
+      "oneplus-13",
+      "oneplus-12",
+      "pixel-9-pro"
     ],
-    "badges": ["bestseller"],
+    "badges": [
+      "bestseller"
+    ],
     "description": "Premium black marble vinyl skin with luxurious gold veins. A timeless, elegant look for your device.",
-    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Bubble-free application", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut",
+      "Scratch resistant",
+      "Bubble-free application",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "embossed",
+    "supportedSkinTypes": [
+      "back-skin",
+      "embossed",
+      "glitter",
+      "leather",
+      "front-skin"
+    ]
   },
   {
     "id": "good-vibes",
@@ -33,14 +59,38 @@
       "/images/products/good-vibes/main.webp"
     ],
     "compatibleDevices": [
-      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15",
-      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
-      "oneplus-13", "oneplus-12", "nothing-phone-2a"
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-16",
+      "iphone-15-pro-max",
+      "iphone-15-pro",
+      "iphone-15",
+      "galaxy-s25-ultra",
+      "galaxy-s25-plus",
+      "galaxy-s25",
+      "oneplus-13",
+      "oneplus-12",
+      "nothing-phone-2a"
     ],
-    "badges": ["popular"],
+    "badges": [
+      "popular"
+    ],
     "description": "Spread positivity with this fun sticker-bomb style skin featuring smiley faces and good vibes.",
-    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Bubble-free application", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut",
+      "Scratch resistant",
+      "Bubble-free application",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "glitter",
+    "supportedSkinTypes": [
+      "back-skin",
+      "glitter",
+      "8pa",
+      "embossed"
+    ]
   },
   {
     "id": "anime-pro",
@@ -54,14 +104,37 @@
       "/images/products/anime-pro/main.webp"
     ],
     "compatibleDevices": [
-      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro", "iphone-15",
-      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25", "galaxy-s24-ultra",
-      "oneplus-13", "oneplus-12", "nothing-phone-2a", "pixel-9-pro"
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-16",
+      "iphone-15-pro",
+      "iphone-15",
+      "galaxy-s25-ultra",
+      "galaxy-s25-plus",
+      "galaxy-s25",
+      "galaxy-s24-ultra",
+      "oneplus-13",
+      "oneplus-12",
+      "nothing-phone-2a",
+      "pixel-9-pro"
     ],
     "badges": [],
     "description": "Bold anime-inspired skin with striking character art and vibrant colours.",
-    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Vivid print quality", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut",
+      "Scratch resistant",
+      "Vivid print quality",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "8pa",
+    "supportedSkinTypes": [
+      "back-skin",
+      "8pa",
+      "embossed",
+      "glitter"
+    ]
   },
   {
     "id": "mountain-vibes",
@@ -75,14 +148,37 @@
       "/images/products/mountain-vibes/main.webp"
     ],
     "compatibleDevices": [
-      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15",
-      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
-      "oneplus-13", "oneplus-12", "xiaomi-14-ultra", "vivo-x100-pro"
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-16",
+      "iphone-15-pro-max",
+      "iphone-15-pro",
+      "iphone-15",
+      "galaxy-s25-ultra",
+      "galaxy-s25-plus",
+      "galaxy-s25",
+      "oneplus-13",
+      "oneplus-12",
+      "xiaomi-14-ultra",
+      "vivo-x100-pro"
     ],
     "badges": [],
     "description": "A serene mountain sunset landscape that brings the beauty of nature to your device.",
-    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Bubble-free application", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut",
+      "Scratch resistant",
+      "Bubble-free application",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "back-skin",
+    "supportedSkinTypes": [
+      "back-skin",
+      "embossed",
+      "glitter",
+      "leather"
+    ]
   },
   {
     "id": "discipline",
@@ -96,14 +192,38 @@
       "/images/products/discipline/main.webp"
     ],
     "compatibleDevices": [
-      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15",
-      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25", "galaxy-s24-ultra",
-      "oneplus-13", "oneplus-12", "nothing-phone-2", "nothing-phone-2a"
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-16",
+      "iphone-15-pro-max",
+      "iphone-15-pro",
+      "iphone-15",
+      "galaxy-s25-ultra",
+      "galaxy-s25-plus",
+      "galaxy-s25",
+      "galaxy-s24-ultra",
+      "oneplus-13",
+      "oneplus-12",
+      "nothing-phone-2",
+      "nothing-phone-2a"
     ],
     "badges": [],
     "description": "Minimalist dark skin with a bold red accent line and 'DISCIPLINE' typography.",
-    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Matte finish", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut",
+      "Scratch resistant",
+      "Matte finish",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "leather",
+    "supportedSkinTypes": [
+      "back-skin",
+      "leather",
+      "8pa",
+      "embossed"
+    ]
   },
   {
     "id": "astronaut",
@@ -117,14 +237,38 @@
       "/images/products/astronaut/main.webp"
     ],
     "compatibleDevices": [
-      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro", "iphone-15",
-      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
-      "oneplus-13", "oneplus-12", "pixel-9-pro", "realme-gt5-pro"
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-16",
+      "iphone-15-pro",
+      "iphone-15",
+      "galaxy-s25-ultra",
+      "galaxy-s25-plus",
+      "galaxy-s25",
+      "oneplus-13",
+      "oneplus-12",
+      "pixel-9-pro",
+      "realme-gt5-pro"
     ],
-    "badges": ["new"],
+    "badges": [
+      "new"
+    ],
     "description": "An astronaut sitting on the moon with Earth in the background — for space lovers and dreamers.",
-    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Vivid print quality", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut",
+      "Scratch resistant",
+      "Vivid print quality",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "glitter",
+    "supportedSkinTypes": [
+      "back-skin",
+      "glitter",
+      "8pa",
+      "embossed"
+    ]
   },
   {
     "id": "carbon-fiber",
@@ -138,14 +282,40 @@
       "/images/products/carbon-fiber/main.webp"
     ],
     "compatibleDevices": [
-      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15", "iphone-14-pro", "iphone-14",
-      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25", "galaxy-s24-ultra", "galaxy-a55",
-      "oneplus-13", "oneplus-12", "oneplus-nord-4"
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-16",
+      "iphone-15-pro-max",
+      "iphone-15-pro",
+      "iphone-15",
+      "iphone-14-pro",
+      "iphone-14",
+      "galaxy-s25-ultra",
+      "galaxy-s25-plus",
+      "galaxy-s25",
+      "galaxy-s24-ultra",
+      "galaxy-a55",
+      "oneplus-13",
+      "oneplus-12",
+      "oneplus-nord-4"
     ],
     "badges": [],
     "description": "Classic carbon fiber texture — lightweight, modern and sporty.",
-    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Textured finish", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut",
+      "Scratch resistant",
+      "Textured finish",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "8pa",
+    "supportedSkinTypes": [
+      "back-skin",
+      "8pa",
+      "embossed",
+      "leather"
+    ]
   },
   {
     "id": "spider-hero",
@@ -159,14 +329,36 @@
       "/images/products/spider-hero/main.webp"
     ],
     "compatibleDevices": [
-      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro", "iphone-15",
-      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
-      "oneplus-13", "oneplus-12"
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-16",
+      "iphone-15-pro",
+      "iphone-15",
+      "galaxy-s25-ultra",
+      "galaxy-s25-plus",
+      "galaxy-s25",
+      "oneplus-13",
+      "oneplus-12"
     ],
-    "badges": ["popular"],
+    "badges": [
+      "popular"
+    ],
     "description": "Superhero-inspired skin with dynamic comic art. Perfect for fans of the web-slinger.",
-    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Vivid print quality", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut",
+      "Scratch resistant",
+      "Vivid print quality",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "embossed",
+    "supportedSkinTypes": [
+      "back-skin",
+      "embossed",
+      "glitter",
+      "8pa"
+    ]
   },
   {
     "id": "sunset-waves",
@@ -180,14 +372,36 @@
       "/images/products/sunset-waves/main.webp"
     ],
     "compatibleDevices": [
-      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15",
-      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
-      "oneplus-13", "xiaomi-14-ultra", "vivo-x100-pro"
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-16",
+      "iphone-15-pro-max",
+      "iphone-15-pro",
+      "iphone-15",
+      "galaxy-s25-ultra",
+      "galaxy-s25-plus",
+      "galaxy-s25",
+      "oneplus-13",
+      "xiaomi-14-ultra",
+      "vivo-x100-pro"
     ],
     "badges": [],
     "description": "Warm ocean sunset with gentle waves — calm and beautiful.",
-    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Glossy finish", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut",
+      "Scratch resistant",
+      "Glossy finish",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "back-skin",
+    "supportedSkinTypes": [
+      "back-skin",
+      "glitter",
+      "embossed",
+      "front-skin"
+    ]
   },
   {
     "id": "neon-gamer",
@@ -201,14 +415,38 @@
       "/images/products/neon-gamer/main.webp"
     ],
     "compatibleDevices": [
-      "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro", "iphone-15",
-      "galaxy-s25-ultra", "galaxy-s25-plus", "galaxy-s25",
-      "oneplus-13", "oneplus-12", "iqoo-12", "poco-f6-pro"
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-16",
+      "iphone-15-pro",
+      "iphone-15",
+      "galaxy-s25-ultra",
+      "galaxy-s25-plus",
+      "galaxy-s25",
+      "oneplus-13",
+      "oneplus-12",
+      "iqoo-12",
+      "poco-f6-pro"
     ],
-    "badges": ["new"],
+    "badges": [
+      "new"
+    ],
     "description": "Neon-lit gaming aesthetic with glowing controller and circuit graphics.",
-    "features": ["Premium vinyl", "Precision cut", "Scratch resistant", "Glow-effect print", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut",
+      "Scratch resistant",
+      "Glow-effect print",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "8pa",
+    "supportedSkinTypes": [
+      "back-skin",
+      "8pa",
+      "embossed",
+      "glitter"
+    ]
   },
   {
     "id": "black-marble-laptop",
@@ -222,14 +460,35 @@
       "/images/products/black-marble-laptop/main.webp"
     ],
     "compatibleDevices": [
-      "macbook-air-m3-13", "macbook-air-m2", "macbook-pro-14-m3", "macbook-pro-16-m3",
-      "dell-xps-13", "dell-xps-15", "hp-pavilion-15", "hp-spectre-x360",
-      "lenovo-thinkpad-x1", "asus-rog-zephyrus-g14"
+      "macbook-air-m3-13",
+      "macbook-air-m2",
+      "macbook-pro-14-m3",
+      "macbook-pro-16-m3",
+      "dell-xps-13",
+      "dell-xps-15",
+      "hp-pavilion-15",
+      "hp-spectre-x360",
+      "lenovo-thinkpad-x1",
+      "asus-rog-zephyrus-g14"
     ],
-    "badges": ["bestseller"],
+    "badges": [
+      "bestseller"
+    ],
     "description": "Premium black marble vinyl skin for laptops. Luxurious gold veins on a deep black base.",
-    "features": ["Premium vinyl", "Precision cut for lid", "Scratch resistant", "Bubble-free application", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut for lid",
+      "Scratch resistant",
+      "Bubble-free application",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "laptop-matt",
+    "supportedSkinTypes": [
+      "laptop-matt",
+      "embossed",
+      "leather"
+    ]
   },
   {
     "id": "mountain-vibes-laptop",
@@ -243,14 +502,30 @@
       "/images/products/mountain-vibes-laptop/main.webp"
     ],
     "compatibleDevices": [
-      "macbook-air-m3-13", "macbook-air-m2", "macbook-pro-14-m3", "macbook-pro-16-m3",
-      "dell-xps-13", "dell-xps-15", "hp-pavilion-15",
+      "macbook-air-m3-13",
+      "macbook-air-m2",
+      "macbook-pro-14-m3",
+      "macbook-pro-16-m3",
+      "dell-xps-13",
+      "dell-xps-15",
+      "hp-pavilion-15",
       "lenovo-thinkpad-x1"
     ],
     "badges": [],
     "description": "A serene mountain sunset landscape for your laptop lid.",
-    "features": ["Premium vinyl", "Precision cut for lid", "Scratch resistant", "Bubble-free application", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut for lid",
+      "Scratch resistant",
+      "Bubble-free application",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "laptop-matt",
+    "supportedSkinTypes": [
+      "laptop-matt",
+      "glitter"
+    ]
   },
   {
     "id": "discipline-laptop",
@@ -264,14 +539,33 @@
       "/images/products/discipline-laptop/main.webp"
     ],
     "compatibleDevices": [
-      "macbook-air-m3-13", "macbook-air-m2", "macbook-pro-14-m3", "macbook-pro-16-m3",
-      "dell-xps-13", "dell-xps-15", "hp-pavilion-15", "hp-spectre-x360",
-      "lenovo-thinkpad-x1", "asus-rog-zephyrus-g14"
+      "macbook-air-m3-13",
+      "macbook-air-m2",
+      "macbook-pro-14-m3",
+      "macbook-pro-16-m3",
+      "dell-xps-13",
+      "dell-xps-15",
+      "hp-pavilion-15",
+      "hp-spectre-x360",
+      "lenovo-thinkpad-x1",
+      "asus-rog-zephyrus-g14"
     ],
     "badges": [],
     "description": "Minimalist dark laptop skin with a bold red accent and 'DISCIPLINE CREATES FREEDOM' typography.",
-    "features": ["Premium vinyl", "Precision cut for lid", "Scratch resistant", "Matte finish", "Residue-free removal"],
-    "active": true
+    "features": [
+      "Premium vinyl",
+      "Precision cut for lid",
+      "Scratch resistant",
+      "Matte finish",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "leather",
+    "supportedSkinTypes": [
+      "laptop-matt",
+      "leather",
+      "8pa"
+    ]
   },
   {
     "id": "carbon-fiber-laptop",
@@ -285,13 +579,306 @@
       "/images/products/carbon-fiber-laptop/main.webp"
     ],
     "compatibleDevices": [
-      "macbook-air-m3-13", "macbook-air-m2", "macbook-pro-14-m3", "macbook-pro-16-m3",
-      "dell-xps-13", "dell-xps-15", "hp-pavilion-15", "hp-spectre-x360",
-      "lenovo-thinkpad-x1", "asus-rog-zephyrus-g14"
+      "macbook-air-m3-13",
+      "macbook-air-m2",
+      "macbook-pro-14-m3",
+      "macbook-pro-16-m3",
+      "dell-xps-13",
+      "dell-xps-15",
+      "hp-pavilion-15",
+      "hp-spectre-x360",
+      "lenovo-thinkpad-x1",
+      "asus-rog-zephyrus-g14"
     ],
     "badges": [],
     "description": "Classic carbon fiber texture for laptops — the sporty, modern choice.",
-    "features": ["Premium vinyl", "Precision cut for lid", "Scratch resistant", "Textured finish", "Residue-free removal"],
+    "features": [
+      "Premium vinyl",
+      "Precision cut for lid",
+      "Scratch resistant",
+      "Textured finish",
+      "Residue-free removal"
+    ],
+    "active": true,
+    "skinType": "8pa",
+    "supportedSkinTypes": [
+      "laptop-matt",
+      "8pa",
+      "embossed"
+    ]
+  },
+  {
+    "id": "vintage-leather",
+    "name": "Vintage Leather",
+    "slug": "vintage-leather",
+    "deviceType": "phone",
+    "category": "minimal",
+    "skinType": "leather",
+    "supportedSkinTypes": [
+      "leather",
+      "back-skin",
+      "embossed"
+    ],
+    "price": 349,
+    "currency": "INR",
+    "images": [
+      "/images/products/vintage-leather/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-15-pro-max",
+      "iphone-15-pro",
+      "oneplus-13",
+      "oneplus-12",
+      "galaxy-s25-ultra",
+      "galaxy-s24-ultra"
+    ],
+    "badges": [
+      "new"
+    ],
+    "description": "Ultra-luxurious textured leather grain skin. Warm, tactile, and provides exceptional hand grip.",
+    "features": [
+      "Real leather grain feel",
+      "Precision cut",
+      "Scratch resistant",
+      "Fingerprint immune",
+      "Residue-free removal"
+    ],
+    "active": true
+  },
+  {
+    "id": "diamond-glitter",
+    "name": "Diamond Glitter",
+    "slug": "diamond-glitter",
+    "deviceType": "phone",
+    "category": "abstract",
+    "skinType": "glitter",
+    "supportedSkinTypes": [
+      "glitter",
+      "back-skin",
+      "embossed"
+    ],
+    "price": 349,
+    "currency": "INR",
+    "images": [
+      "/images/products/diamond-glitter/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-15-pro",
+      "galaxy-s25-ultra",
+      "oneplus-13",
+      "oneplus-12"
+    ],
+    "badges": [
+      "popular"
+    ],
+    "description": "Dazzling multi-spectral glitter skin that sparkles under sunlight without any rough flaking.",
+    "features": [
+      "Smooth shimmer coating",
+      "Non-shedding glitter",
+      "Precision cut",
+      "Scratch resistant",
+      "Residue-free removal"
+    ],
+    "active": true
+  },
+  {
+    "id": "armor-matrix-8pa",
+    "name": "Armor Matrix 8PA",
+    "slug": "armor-matrix-8pa",
+    "deviceType": "phone",
+    "category": "gaming",
+    "skinType": "8pa",
+    "supportedSkinTypes": [
+      "8pa",
+      "back-skin",
+      "embossed"
+    ],
+    "price": 349,
+    "currency": "INR",
+    "images": [
+      "/images/products/armor-matrix-8pa/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "oneplus-13",
+      "oneplus-12",
+      "galaxy-s25-ultra",
+      "iqoo-12",
+      "poco-f6-pro"
+    ],
+    "badges": [
+      "bestseller"
+    ],
+    "description": "Heavy-duty 8PA textured armor skin. Engineered for military-grade grip and drop scratch resistance.",
+    "features": [
+      "8PA textured grip",
+      "Anti-sweat coating",
+      "Precision cut",
+      "Drop scratch guard",
+      "Residue-free removal"
+    ],
+    "active": true
+  },
+  {
+    "id": "dragon-3d-embossed",
+    "name": "Dragon 3D Embossed",
+    "slug": "dragon-3d-embossed",
+    "deviceType": "phone",
+    "category": "anime",
+    "skinType": "embossed",
+    "supportedSkinTypes": [
+      "embossed",
+      "8pa",
+      "back-skin",
+      "glitter"
+    ],
+    "price": 379,
+    "currency": "INR",
+    "images": [
+      "/images/products/dragon-3d-embossed/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-15-pro-max",
+      "oneplus-13",
+      "oneplus-12",
+      "galaxy-s25-ultra"
+    ],
+    "badges": [
+      "new"
+    ],
+    "description": "Intricate 3D embossed dragon relief that rises off the surface for a truly sensational tactile experience.",
+    "features": [
+      "3D tactile relief",
+      "Deep textured feel",
+      "Precision cut",
+      "Scratch resistant",
+      "Residue-free removal"
+    ],
+    "active": true
+  },
+  {
+    "id": "front-back-full-shield",
+    "name": "Front + Back Full Shield",
+    "slug": "front-back-full-shield",
+    "deviceType": "phone",
+    "category": "minimal",
+    "skinType": "front-skin",
+    "supportedSkinTypes": [
+      "front-skin",
+      "back-skin",
+      "embossed"
+    ],
+    "price": 399,
+    "currency": "INR",
+    "images": [
+      "/images/products/front-back-full-shield/main.webp"
+    ],
+    "compatibleDevices": [
+      "iphone-16-pro-max",
+      "iphone-16-pro",
+      "iphone-15-pro-max",
+      "iphone-15-pro",
+      "oneplus-13",
+      "oneplus-12",
+      "galaxy-s25-ultra"
+    ],
+    "badges": [],
+    "description": "Complete 360-degree protection with precision cut front screen surround and full back skin wrap.",
+    "features": [
+      "Front & back coverage",
+      "Bezel protection",
+      "Precision cut",
+      "Scratch resistant",
+      "Residue-free removal"
+    ],
+    "active": true
+  },
+  {
+    "id": "galaxy-glitter-laptop",
+    "name": "Galaxy Glitter Laptop",
+    "slug": "galaxy-glitter-laptop",
+    "deviceType": "laptop",
+    "category": "abstract",
+    "skinType": "glitter",
+    "supportedSkinTypes": [
+      "glitter",
+      "laptop-matt",
+      "embossed"
+    ],
+    "price": 549,
+    "currency": "INR",
+    "images": [
+      "/images/products/galaxy-glitter-laptop/main.webp"
+    ],
+    "compatibleDevices": [
+      "macbook-air-m3-13",
+      "macbook-air-m2",
+      "macbook-pro-14-m3",
+      "macbook-pro-16-m3",
+      "dell-xps-13",
+      "dell-xps-15",
+      "hp-spectre-x360",
+      "lenovo-thinkpad-x1"
+    ],
+    "badges": [
+      "new"
+    ],
+    "description": "Stunning cosmic galaxy glitter laptop skin with a protective smooth outer finish.",
+    "features": [
+      "Smooth shimmer coating",
+      "Precision lid cut",
+      "Scratch resistant",
+      "Bubble-free application",
+      "Residue-free removal"
+    ],
+    "active": true
+  },
+  {
+    "id": "stealth-matte-laptop",
+    "name": "Stealth Matte Laptop",
+    "slug": "stealth-matte-laptop",
+    "deviceType": "laptop",
+    "category": "minimal",
+    "skinType": "laptop-matt",
+    "supportedSkinTypes": [
+      "laptop-matt",
+      "leather",
+      "8pa"
+    ],
+    "price": 499,
+    "currency": "INR",
+    "images": [
+      "/images/products/stealth-matte-laptop/main.webp"
+    ],
+    "compatibleDevices": [
+      "macbook-air-m3-13",
+      "macbook-air-m2",
+      "macbook-pro-14-m3",
+      "macbook-pro-16-m3",
+      "dell-xps-13",
+      "dell-xps-15",
+      "hp-pavilion-15",
+      "lenovo-thinkpad-x1",
+      "asus-rog-zephyrus-g14"
+    ],
+    "badges": [
+      "bestseller"
+    ],
+    "description": "Sleek, velvety smooth anti-glare, anti-fingerprint matte laptop wrap.",
+    "features": [
+      "Anti-fingerprint matte",
+      "Zero glare",
+      "Precision lid cut",
+      "Bubble-free application",
+      "Residue-free removal"
+    ],
     "active": true
   }
 ]

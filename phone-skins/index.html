@@ -18,8 +18,11 @@
 <body>
 
   <main id="main-content">
-    <!-- Filter Chips -->
+    <!-- Filter Chips (Design Category) -->
     <div id="filter-chips-container"></div>
+
+    <!-- Skin Type / Finish Filter Chips -->
+    <div id="skin-type-chips-container"></div>
 
     <!-- Page Title + Sort -->
     <div class="sort-wrapper">
@@ -44,15 +47,15 @@
       <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.7;margin-bottom:var(--space-4)">
         Transform the look of your phone with Skinify's premium vinyl skins. Our skins are precision-cut for a perfect fit,
         scratch resistant, and bubble-free for easy application. Choose from Minimal, Anime, Nature, Abstract, Quotes, and
-        Gaming categories. Compatible with iPhone, Samsung Galaxy, OnePlus, Xiaomi, Nothing, Google Pixel, and many more brands.
+        Gaming categories with finishes in Glitter, 8PA Armor, 3D Embossed, Leather, Front and Back skins.
       </p>
       <h3 style="font-size:var(--text-base);font-weight:700;margin-bottom:var(--space-2)">Why Choose Skinify?</h3>
       <ul style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.8;padding-left:var(--space-5);">
-        <li style="list-style:disc">Premium vinyl material with vivid print quality</li>
-        <li style="list-style:disc">Precision cut for 50+ phone models</li>
+        <li style="list-style:disc">Premium materials: Glitter, 8PA Skin, 3D Embossed, Vegan Leather & Matte finishes</li>
+        <li style="list-style:disc">Precision cut for 1,100+ phone models</li>
+        <li style="list-style:disc">Front and back precision skin protection</li>
         <li style="list-style:disc">Scratch resistant & residue-free removal</li>
         <li style="list-style:disc">Easy WhatsApp ordering, Cash on Delivery</li>
-        <li style="list-style:disc">Custom model requests available</li>
       </ul>
     </section>
 
@@ -80,7 +83,7 @@
 
   <script type="module">
     import { dataService, Analytics } from '/assets/js/app.js';
-    import { initPage, createFilterChips, renderProductGrid } from '/assets/js/components.js';
+    import { initPage, createFilterChips, createSkinTypeChips, renderProductGrid } from '/assets/js/components.js';
 
     await initPage(dataService, { activePage: 'categories', showBack: true });
 
@@ -92,10 +95,12 @@
 
     const grid = document.getElementById('product-grid');
     const filterContainer = document.getElementById('filter-chips-container');
+    const skinTypeContainer = document.getElementById('skin-type-chips-container');
 
-    // Get initial category and device from URL params
+    // Get initial category, skinType, and device from URL params
     const params = new URLSearchParams(window.location.search);
     let activeCategory = params.get('category') || 'all';
+    let activeSkinType = params.get('type') || params.get('skinType') || 'all';
     const deviceParam = params.get('device') || params.get('model') || params.get('phone') || params.get('slug');
     const activeDevice = deviceParam ? allDevices.find(d => 
       d.id.toLowerCase() === deviceParam.toLowerCase() ||
@@ -160,18 +165,28 @@
       mainContent.insertBefore(banner, document.querySelector('.sort-wrapper'));
     }
 
-    // Render filter chips
+    // Render category filter chips
     const styleCategories = categories.filter(c => c.active);
-    const chips = createFilterChips(styleCategories, activeCategory, (catId) => {
+    const categoryChips = createFilterChips(styleCategories, activeCategory, (catId) => {
       activeCategory = catId;
       renderFiltered();
-      // Update URL without reload
       const url = new URL(window.location);
       if (catId === 'all') url.searchParams.delete('category');
       else url.searchParams.set('category', catId);
       window.history.replaceState({}, '', url);
     });
-    filterContainer.appendChild(chips);
+    filterContainer.appendChild(categoryChips);
+
+    // Render skin type filter chips
+    const skinTypeChips = createSkinTypeChips(activeSkinType, (typeId) => {
+      activeSkinType = typeId;
+      renderFiltered();
+      const url = new URL(window.location);
+      if (typeId === 'all') url.searchParams.delete('type');
+      else url.searchParams.set('type', typeId);
+      window.history.replaceState({}, '', url);
+    }, 'phone');
+    skinTypeContainer.appendChild(skinTypeChips);
 
     // Sort state
     let sortBy = 'popular';
@@ -196,6 +211,14 @@
         } else {
           products = products.filter(p => p.category === activeCategory);
         }
+      }
+
+      // Filter by skin type
+      if (activeSkinType !== 'all') {
+        products = products.filter(p => 
+          p.skinType === activeSkinType || 
+          (p.supportedSkinTypes && p.supportedSkinTypes.includes(activeSkinType))
+        );
       }
 
       // If active device, prioritize compatible products

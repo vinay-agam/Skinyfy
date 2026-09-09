@@ -31,6 +31,7 @@ export class DataService {
   getCategories() { return this._fetch('categories', '/data/categories.json'); }
   getBrands()     { return this._fetch('brands',     '/data/brands.json'); }
   getDevices()    { return this._fetch('devices',    '/data/devices.json'); }
+  getSkinTypes()  { return this._fetch('skinTypes',  '/data/skin-types.json'); }
 
   // Filtered helpers
   async getActiveProducts() {
@@ -177,6 +178,8 @@ export class DataService {
         if (pCat.includes(token)) score += 20;
         if (pDesc.includes(token)) score += 10;
         if (badges.some(b => b.includes(token))) score += 15;
+        if (p.skinType && p.skinType.toLowerCase().includes(token)) score += 40;
+        if (p.supportedSkinTypes && p.supportedSkinTypes.some(st => st.toLowerCase().includes(token))) score += 25;
       }
 
       if (score > 0) {
@@ -263,6 +266,20 @@ export const Utils = {
     return `https://wa.me/${phoneNumber}?text=${encoded}`;
   },
 
+  // Format skin type label
+  formatSkinType(typeId) {
+    const map = {
+      'glitter': 'Glitter',
+      '8pa': '8PA Skin',
+      'embossed': 'Embossed',
+      'leather': 'Leather',
+      'front-skin': 'Front Skin',
+      'back-skin': 'Back Skin',
+      'laptop-matt': 'Laptop Matte'
+    };
+    return map[typeId] || (typeId ? typeId.charAt(0).toUpperCase() + typeId.slice(1) : '');
+  },
+
   // Indian states list
   indianStates: [
     'Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat',
@@ -338,20 +355,16 @@ export const Cart = {
 
   addItem(item) {
     const items = this.getItems();
-    // item: { productId, productName, productPrice, productImage, deviceType, deviceId, deviceName, brandId, brandName, cutterStatus }
-    const existingIndex = items.findIndex(i => i.productId === item.productId && (!item.deviceId || i.deviceId === item.deviceId));
-    if (existingIndex > -1 && (!item.deviceId || items[existingIndex].deviceId === item.deviceId)) {
-      items[existingIndex].qty = (items[existingIndex].qty || 1) + 1;
-      if (item.deviceId && !items[existingIndex].deviceId) {
-        items[existingIndex].deviceId = item.deviceId;
-        items[existingIndex].deviceName = item.deviceName;
-        items[existingIndex].brandId = item.brandId;
-        items[existingIndex].brandName = item.brandName;
+    const existingIndex = items.findIndex(i => i.productId === item.productId && i.deviceId === item.deviceId && (i.skinType || '') === (item.skinType || ''));
+    if (existingIndex > -1) {
+      items[existingIndex].qty = (items[existingIndex].qty || 1) + (item.qty || 1);
+      if (item.cutterStatus) {
         items[existingIndex].cutterStatus = item.cutterStatus;
       }
     } else {
       items.push({
         ...item,
+        skinType: item.skinType || (item.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'),
         qty: item.qty || 1,
         cartItemId: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
       });

@@ -21,7 +21,7 @@ export function createProductCard(product, options = {}) {
     ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="placeholder-icon"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`
     : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="placeholder-icon"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>`;
 
-  card.innerHTML = `
+    card.innerHTML = `
     <div class="card-image-wrap">
       <img src="${product.images[0]}" alt="${product.name} skin" loading="lazy"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -29,7 +29,10 @@ export function createProductCard(product, options = {}) {
         ${deviceIcon}
         <span class="placeholder-name">${product.name}</span>
       </div>
-      ${badge ? `<span class="card-badge ${badge}">${badge.charAt(0).toUpperCase() + badge.slice(1)}</span>` : ''}
+      <div class="card-badges-row">
+        ${badge ? `<span class="card-badge ${badge}">${badge.charAt(0).toUpperCase() + badge.slice(1)}</span>` : ''}
+        ${product.skinType ? `<span class="card-skin-type-tag ${product.skinType}">${Utils.formatSkinType(product.skinType)}</span>` : ''}
+      </div>
       <button class="card-fav-btn ${isFav ? 'active' : ''}" aria-label="Add to favorites" data-product-id="${product.id}">
         ${isFav ? Icons.heartFilled : Icons.heart}
       </button>
@@ -91,7 +94,8 @@ export function createProductCard(product, options = {}) {
         productName: product.name,
         productPrice: product.price,
         productImage: (product.images && product.images[0]) || '',
-        deviceType: product.deviceType || 'phone'
+        deviceType: product.deviceType || 'phone',
+        skinType: product.skinType || (product.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin')
       });
       window.location.href = `/checkout`;
       return;
@@ -104,6 +108,7 @@ export function createProductCard(product, options = {}) {
       productPrice: product.price,
       productImage: (product.images && product.images[0]) || '',
       deviceType: product.deviceType || 'phone',
+      skinType: product.skinType || (product.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'),
       deviceId: activeDevice || null,
       deviceName: activeDevice || '',
       brandId: null,
@@ -276,6 +281,47 @@ export function createFilterChips(categories, activeId, onSelect) {
   return wrapper;
 }
 
+// ─── Skin Type Filter Chips ─────────────────────────────────────
+export function createSkinTypeChips(activeId = 'all', onSelect, deviceType = 'phone') {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'skin-types-wrapper';
+
+  const types = [
+    { id: 'all', name: 'All Finishes' },
+    { id: 'glitter', name: '✨ Glitter' },
+    { id: '8pa', name: '🛡️ 8PA Skin' },
+    { id: 'embossed', name: '⚡ Embossed' },
+    { id: 'leather', name: '👔 Leather' },
+    ...(deviceType === 'laptop'
+      ? [{ id: 'laptop-matt', name: '💻 Laptop Matte' }]
+      : [
+          { id: 'back-skin', name: '📱 Back Skin' },
+          { id: 'front-skin', name: '🔲 Front Skin' }
+        ]
+    )
+  ];
+
+  const chips = document.createElement('div');
+  chips.className = 'skin-type-chips';
+
+  types.forEach(t => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = `skin-type-chip ${activeId === t.id ? 'active' : ''} type-${t.id}`;
+    chip.textContent = t.name;
+    chip.dataset.id = t.id;
+    chip.addEventListener('click', () => {
+      chips.querySelectorAll('.skin-type-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      onSelect(t.id);
+    });
+    chips.appendChild(chip);
+  });
+
+  wrapper.appendChild(chips);
+  return wrapper;
+}
+
 
 // ─── Brand Pills Scroll ─────────────────────────────────────────
 export function createBrandScroll(brands, onSelect) {
@@ -408,7 +454,6 @@ export function createHeader(options = {}) {
         </a>
         <a href="#" class="header-action-btn whatsapp-btn" id="header-whatsapp-btn" aria-label="WhatsApp Support" title="Chat on WhatsApp">
           ${Icons.whatsapp}
-          <span class="badge-dot"></span>
         </a>
       </div>
     </div>
@@ -544,7 +589,7 @@ export function createSearchOverlay(dataService) {
         text: p.name,
         sub: `₹${p.price} · ${p.category}`,
         icon: Icons.package,
-        href: `/checkout.html?product=${p.id}`
+        href: `/checkout?product=${p.id}`
       })));
       resultsEl.insertBefore(group, notFound);
     }
