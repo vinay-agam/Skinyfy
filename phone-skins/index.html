@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    (function() {
+      const isGh = location.hostname.endsWith('github.io');
+      const base = isGh ? '/' + (location.pathname.split('/').filter(Boolean)[0] || '') + '/' : '/';
+      document.write('<base href="' + base + '">');
+    })();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Phone Skins | Premium Mobile Back Skins | Skinify</title>
   <meta name="description" content="Shop premium phone skins in Minimal, Anime, Nature, Abstract and Gaming designs. Compatible with iPhone, Samsung, OnePlus, Xiaomi and more. Order on WhatsApp.">
-  <link rel="canonical" href="/phone-skins/">
+  <link rel="canonical" href="phone-skins/">
   <meta property="og:title" content="Phone Skins | Skinify">
   <meta property="og:description" content="Premium vinyl phone skins. Choose your design, order on WhatsApp.">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
   <meta name="theme-color" content="#1B8C5C">
 </head>
 <body>
@@ -43,20 +50,11 @@
 
     <!-- SEO Content -->
     <section style="padding: var(--space-8) var(--space-4);">
-      <h2 style="font-size:var(--text-lg);font-weight:800;margin-bottom:var(--space-3)">Premium Phone Skins Online</h2>
+      <h2 style="font-size:var(--text-lg);font-weight:800;margin-bottom:var(--space-3)">Custom Phone Skins Online</h2>
       <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.7;margin-bottom:var(--space-4)">
-        Transform the look of your phone with Skinify's premium vinyl skins. Our skins are precision-cut for a perfect fit,
-        scratch resistant, and bubble-free for easy application. Choose from Minimal, Anime, Nature, Abstract, Quotes, and
-        Gaming categories with finishes in Glitter, 8PA Armor, 3D Embossed, Leather, Front and Back skins.
+        Give your phone a fresh look and protection with Skinify's premium vinyl wraps. Precision-cut for iPhone, Samsung Galaxy,
+        OnePlus, Xiaomi, Pixel, Vivo, Oppo, Realme and 40+ brands. Ultra-thin 0.2mm 3M vinyl, bubble-free application, zero residue.
       </p>
-      <h3 style="font-size:var(--text-base);font-weight:700;margin-bottom:var(--space-2)">Why Choose Skinify?</h3>
-      <ul style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.8;padding-left:var(--space-5);">
-        <li style="list-style:disc">Premium materials: Glitter, 8PA Skin, 3D Embossed, Vegan Leather & Matte finishes</li>
-        <li style="list-style:disc">Precision cut for 1,100+ phone models</li>
-        <li style="list-style:disc">Front and back precision skin protection</li>
-        <li style="list-style:disc">Scratch resistant & residue-free removal</li>
-        <li style="list-style:disc">Easy WhatsApp ordering, Cash on Delivery</li>
-      </ul>
     </section>
 
     <footer class="site-footer">
@@ -70,20 +68,20 @@
     "@type": "CollectionPage",
     "name": "Phone Skins",
     "description": "Premium vinyl phone skins in various designs.",
-    "url": "/phone-skins/",
+    "url": "phone-skins/",
     "breadcrumb": {
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "/" },
-        { "@type": "ListItem", "position": 2, "name": "Phone Skins", "item": "/phone-skins/" }
+        { "@type": "ListItem", "position": 2, "name": "Phone Skins", "item": "phone-skins/" }
       ]
     }
   }
   </script>
 
   <script type="module">
-    import { dataService, Analytics } from '/assets/js/app.js';
-    import { initPage, createFilterChips, createSkinTypeChips, renderProductGrid } from '/assets/js/components.js';
+    import { dataService, Utils, Analytics } from './assets/js/app.js';
+    import { initPage, createFilterChips, createSkinTypeChips, renderProductGrid } from './assets/js/components.js';
 
     await initPage(dataService, { activePage: 'categories', showBack: true });
 
@@ -123,7 +121,7 @@
             <div style="font-size:11px;font-weight:500;opacity:0.85">Tap any skin design below to replace it in your order</div>
           </div>
         </div>
-        <a href="/checkout" style="background:#f59e0b;color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Keep Current</a>
+        <a href="${Utils.resolveUrl('checkout.html')}" style="background:#f59e0b;color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Keep Current</a>
       `;
       const mainContent = document.getElementById('main-content');
       mainContent.insertBefore(replaceBanner, document.querySelector('.sort-wrapper'));
@@ -138,7 +136,7 @@
             <div style="font-size:11px;font-weight:500;color:var(--color-text-secondary)">Choose any skin design below</div>
           </div>
         </div>
-        <a href="/checkout" style="background:var(--color-primary);color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Back to Order</a>
+        <a href="${Utils.resolveUrl('checkout.html')}" style="background:var(--color-primary);color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Back to Order</a>
       `;
       const mainContent = document.getElementById('main-content');
       mainContent.insertBefore(addBanner, document.querySelector('.sort-wrapper'));
@@ -159,7 +157,7 @@
           <span>✓</span>
           <span>Selected Device: <strong>${activeDevice.name}</strong></span>
         </div>
-        <a href="/phone-skins/" style="color:var(--color-text-secondary);text-decoration:underline;font-size:var(--text-xs)">Change</a>
+        <a href="${Utils.resolveUrl('phone-skins/')}" style="color:var(--color-text-secondary);text-decoration:underline;font-size:var(--text-xs)">Change</a>
       `;
       const mainContent = document.getElementById('main-content');
       mainContent.insertBefore(banner, document.querySelector('.sort-wrapper'));

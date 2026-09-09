@@ -15,8 +15,9 @@ export class DataService {
   async _fetch(key, path) {
     if (this._cache[key]) return this._cache[key];
     try {
-      const res = await fetch(path);
-      if (!res.ok) throw new Error(`Failed to load ${path}`);
+      const resolvedPath = Utils.resolveUrl(path);
+      const res = await fetch(resolvedPath);
+      if (!res.ok) throw new Error(`Failed to load ${resolvedPath} (${res.status})`);
       const data = await res.json();
       this._cache[key] = data;
       return data;
@@ -26,12 +27,12 @@ export class DataService {
     }
   }
 
-  getSettings()   { return this._fetch('settings',   '/data/settings.json'); }
-  getProducts()   { return this._fetch('products',   '/data/products.json'); }
-  getCategories() { return this._fetch('categories', '/data/categories.json'); }
-  getBrands()     { return this._fetch('brands',     '/data/brands.json'); }
-  getDevices()    { return this._fetch('devices',    '/data/devices.json'); }
-  getSkinTypes()  { return this._fetch('skinTypes',  '/data/skin-types.json'); }
+  getSettings()   { return this._fetch('settings',   'data/settings.json'); }
+  getProducts()   { return this._fetch('products',   'data/products.json'); }
+  getCategories() { return this._fetch('categories', 'data/categories.json'); }
+  getBrands()     { return this._fetch('brands',     'data/brands.json'); }
+  getDevices()    { return this._fetch('devices',    'data/devices.json'); }
+  getSkinTypes()  { return this._fetch('skinTypes',  'data/skin-types.json'); }
 
   // Filtered helpers
   async getActiveProducts() {
@@ -212,6 +213,26 @@ export const dataService = new DataService();
 
 // ─── Utilities ──────────────────────────────────────────────────
 export const Utils = {
+  getBasePath() {
+    if (typeof window === 'undefined') return '/';
+    const isGh = window.location.hostname.endsWith('github.io');
+    if (isGh) {
+      const repo = window.location.pathname.split('/').filter(Boolean)[0];
+      return repo ? '/' + repo + '/' : '/';
+    }
+    return '/';
+  },
+
+  resolveUrl(path) {
+    if (!path) return this.getBasePath();
+    if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('//') || path.startsWith('data:') || path.startsWith('blob:') || path.startsWith('#') || path.startsWith('mailto:') || path.startsWith('tel:')) {
+      return path;
+    }
+    const base = this.getBasePath();
+    const clean = path.replace(/^\/+/, '');
+    return `${base}${clean}`;
+  },
+
   formatPrice(amount, symbol = '₹') {
     return `${symbol}${amount.toLocaleString('en-IN')}`;
   },

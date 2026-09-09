@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    (function() {
+      const isGh = location.hostname.endsWith('github.io');
+      const base = isGh ? '/' + (location.pathname.split('/').filter(Boolean)[0] || '') + '/' : '/';
+      document.write('<base href="' + base + '">');
+    })();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Order Your Skin | Skinify</title>
   <meta name="description" content="Select your device, choose a skin design, enter your details and place your order on WhatsApp. Quick and easy checkout.">
-  <link rel="canonical" href="/checkout">
+  <link rel="canonical" href="checkout.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
   <meta name="theme-color" content="#1B8C5C">
   <style>
     /* Checkout-specific: hide bottom nav, adjust padding */
@@ -26,9 +33,9 @@
   </main>
 
   <script type="module">
-    import { dataService } from '/assets/js/app.js';
-    import { createHeader, createSearchOverlay } from '/assets/js/components.js';
-    import { CheckoutFlow } from '/assets/js/checkout.js';
+    import { dataService } from './assets/js/app.js';
+    import { createHeader, createSearchOverlay } from './assets/js/components.js';
+    import { CheckoutFlow } from './assets/js/checkout.js';
 
     // Insert header
     const header = createHeader({ showBack: true, showSearch: false, showCart: true });

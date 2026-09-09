@@ -23,7 +23,7 @@ export function createProductCard(product, options = {}) {
 
     card.innerHTML = `
     <div class="card-image-wrap">
-      <img src="${product.images[0]}" alt="${product.name} skin" loading="lazy"
+      <img src="${Utils.resolveUrl(product.images[0])}" alt="${product.name} skin" loading="lazy"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="product-placeholder" style="display:none;background:${gradient}">
         ${deviceIcon}
@@ -79,7 +79,7 @@ export function createProductCard(product, options = {}) {
   const replaceId = options.replace || urlParams.get('replace');
   const actionParam = options.action || urlParams.get('action');
 
-  let checkoutUrl = `/checkout?product=${encodeURIComponent(product.id)}`;
+  let checkoutUrl = `${Utils.resolveUrl('checkout.html')}?product=${encodeURIComponent(product.id)}`;
   if (activeDevice) checkoutUrl += `&device=${encodeURIComponent(activeDevice)}`;
   if (replaceId) checkoutUrl += `&replace=${encodeURIComponent(replaceId)}`;
   if (actionParam) checkoutUrl += `&action=${encodeURIComponent(actionParam)}`;
@@ -97,7 +97,7 @@ export function createProductCard(product, options = {}) {
         deviceType: product.deviceType || 'phone',
         skinType: product.skinType || (product.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin')
       });
-      window.location.href = `/checkout`;
+      window.location.href = Utils.resolveUrl('checkout.html');
       return;
     }
 
@@ -175,7 +175,7 @@ export function renderFloatingCartBanner() {
           <div class="cart-banner-sub">₹${subtotal} • Precision cuts selected at checkout</div>
         </div>
       </div>
-      <a href="/checkout" class="cart-banner-btn">
+      <a href="${Utils.resolveUrl('checkout.html')}" class="cart-banner-btn">
         <span>View Order</span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </a>
@@ -221,9 +221,9 @@ export function createCategoryCircle(category, isActive = false) {
 
 function getCategoryLink(cat) {
   if (['minimal','anime','nature','abstract','quotes','gaming','cars','trending'].includes(cat.id)) {
-    return `/phone-skins/?category=${cat.id}`;
+    return Utils.resolveUrl(`phone-skins/?category=${cat.id}`);
   }
-  return `/${cat.slug || cat.id}/`;
+  return Utils.resolveUrl(`${cat.slug || cat.id}/`);
 }
 
 function getCategoryIcon(iconId) {
@@ -404,11 +404,11 @@ export function createBottomNav(activePage = 'home') {
   nav.className = 'bottom-nav';
 
   const items = [
-    { id: 'home', label: 'Home', icon: Icons.home, href: '/' },
-    { id: 'categories', label: 'Categories', icon: Icons.grid, href: '/phone-skins/' },
-    { id: 'favorites', label: 'Favorites', icon: Icons.heart, href: '/favorites.html' },
-    { id: 'laptops', label: 'Laptops', icon: Icons.laptop, href: '/laptop-skins/' },
-    { id: 'order', label: 'Order', icon: Icons.cart, href: '/checkout' }
+    { id: 'home', label: 'Home', icon: Icons.home, href: Utils.resolveUrl('') },
+    { id: 'categories', label: 'Categories', icon: Icons.grid, href: Utils.resolveUrl('phone-skins/') },
+    { id: 'favorites', label: 'Favorites', icon: Icons.heart, href: Utils.resolveUrl('favorites.html') },
+    { id: 'laptops', label: 'Laptops', icon: Icons.laptop, href: Utils.resolveUrl('laptop-skins/') },
+    { id: 'order', label: 'Order', icon: Icons.cart, href: Utils.resolveUrl('checkout.html') }
   ];
 
   items.forEach(item => {
@@ -433,7 +433,7 @@ export function createHeader(options = {}) {
     <div class="header-inner">
       <div class="header-left">
         ${showBack ? `<button class="header-back-btn" onclick="history.back()" aria-label="Go back">${Icons.arrowLeft}</button>` : ''}
-        <a href="/" class="header-logo">
+        <a href="${Utils.resolveUrl('')}" class="header-logo">
           <span class="logo-text">Skinify</span>
           <span class="logo-tagline">Style Your Tech</span>
         </a>
@@ -441,14 +441,14 @@ export function createHeader(options = {}) {
 
       <!-- Meaningful Desktop & Tablet Navigation -->
       <nav class="header-nav-links">
-        <a href="/phone-skins/" class="header-nav-link ${activePage === 'categories' ? 'active' : ''}">Phone Skins</a>
-        <a href="/laptop-skins/" class="header-nav-link ${activePage === 'laptops' ? 'active' : ''}">Laptop Skins</a>
-        <a href="/favorites.html" class="header-nav-link ${activePage === 'favorites' ? 'active' : ''}">Favorites</a>
+        <a href="${Utils.resolveUrl('phone-skins/')}" class="header-nav-link ${activePage === 'categories' ? 'active' : ''}">Phone Skins</a>
+        <a href="${Utils.resolveUrl('laptop-skins/')}" class="header-nav-link ${activePage === 'laptops' ? 'active' : ''}">Laptop Skins</a>
+        <a href="${Utils.resolveUrl('favorites.html')}" class="header-nav-link ${activePage === 'favorites' ? 'active' : ''}">Favorites</a>
       </nav>
 
       <div class="header-actions">
         ${showSearch ? `<button class="header-action-btn" id="header-search-btn" aria-label="Search" title="Search Skins & Models">${Icons.search}</button>` : ''}
-        <a href="/checkout" class="header-action-btn header-cart-btn" id="header-cart-btn" aria-label="View Order" title="View Order">
+        <a href="${Utils.resolveUrl('checkout.html')}" class="header-action-btn header-cart-btn" id="header-cart-btn" aria-label="View Order" title="View Order">
           ${Icons.cart}
           <span class="header-cart-badge" id="header-cart-badge" style="display:none">0</span>
         </a>
@@ -535,7 +535,7 @@ export function createSearchOverlay(dataService) {
       <div class="search-not-found" style="display:none" id="search-not-found">
         <h3>No results found</h3>
         <p>Can't find your model? We can precision-cut custom skins on request!</p>
-        <a href="/checkout?requestModel=true" class="btn btn-primary">Request My Model</a>
+        <a href="${Utils.resolveUrl('checkout.html?requestModel=true')}" class="btn btn-primary">Request My Model</a>
       </div>
     </div>
   `;
@@ -579,7 +579,7 @@ export function createSearchOverlay(dataService) {
         text: d.name,
         sub: `${d.brand ? d.brand.charAt(0).toUpperCase() + d.brand.slice(1) : ''} · ${d.cutterStatus === 'available' ? 'Precision Cut Ready' : 'Template Available'}`,
         icon: d.type === 'laptop' ? Icons.laptop : Icons.phone,
-        href: d.type === 'phone' ? `/phone-skins/${d.id}/` : `/laptop-skins/?device=${d.id}`
+        href: d.type === 'phone' ? Utils.resolveUrl(`phone-skins/${d.id}/`) : Utils.resolveUrl(`laptop-skins/?device=${d.id}`)
       })));
       resultsEl.insertBefore(group, notFound);
     }
@@ -589,7 +589,7 @@ export function createSearchOverlay(dataService) {
         text: p.name,
         sub: `₹${p.price} · ${p.category}`,
         icon: Icons.package,
-        href: `/checkout?product=${p.id}`
+        href: `${Utils.resolveUrl('checkout.html')}?product=${p.id}`
       })));
       resultsEl.insertBefore(group, notFound);
     }
@@ -599,7 +599,7 @@ export function createSearchOverlay(dataService) {
         text: c.name,
         sub: c.description,
         icon: Icons.grid,
-        href: `/phone-skins/?category=${c.id}`
+        href: Utils.resolveUrl(`phone-skins/?category=${c.id}`)
       })));
       resultsEl.insertBefore(group, notFound);
     }

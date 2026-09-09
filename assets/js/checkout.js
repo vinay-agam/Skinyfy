@@ -208,7 +208,7 @@ export class CheckoutFlow {
           </div>
           <h2 class="checkout-section-title">Your Order is Empty</h2>
           <p class="checkout-section-subtitle" style="margin-bottom:var(--space-6)">Select a skin design to get started!</p>
-          <a href="/phone-skins/" class="btn btn-primary btn-lg" style="display:inline-flex">
+          <a href="${Utils.resolveUrl('phone-skins/')}" class="btn btn-primary btn-lg" style="display:inline-flex">
             Browse Phone Skins
           </a>
         </div>
@@ -231,7 +231,7 @@ export class CheckoutFlow {
       <div class="checkout-items-list" id="checkout-items-list"></div>
 
       <!-- Add Another Skin Button -->
-      <a href="/phone-skins/?action=add" class="add-more-skins-btn" id="add-more-skins-btn">
+      <a href="${Utils.resolveUrl('phone-skins/?action=add')}" class="add-more-skins-btn" id="add-more-skins-btn">
         ${Icons.plus}
         <span>Add Another Skin Design</span>
       </a>
@@ -265,12 +265,12 @@ export class CheckoutFlow {
         <div class="cart-item-header">
           <div class="cart-item-main">
             <div class="cart-item-thumb" style="background:${gradient}">
-              ${item.productImage ? `<img src="${item.productImage}" alt="${item.productName}" onerror="this.style.display='none'">` : `<span style="font-size:0.6rem;font-weight:800;color:var(--color-primary)">${item.productName.slice(0,6)}</span>`}
+              ${item.productImage ? `<img src="${Utils.resolveUrl(item.productImage)}" alt="${item.productName}" onerror="this.style.display='none'">` : `<span style="font-size:0.6rem;font-weight:800;color:var(--color-primary)">${item.productName.slice(0,6)}</span>`}
             </div>
             <div class="cart-item-info">
               <div class="cart-item-title">${item.productName}</div>
               <div class="cart-item-price">₹${item.productPrice} each</div>
-              <a href="${item.deviceType === 'laptop' ? '/laptop-skins/' : '/phone-skins/'}?replace=${item.cartItemId}${item.deviceId ? `&device=${encodeURIComponent(item.deviceId)}` : ''}" class="item-change-skin-link" style="font-size:var(--text-xs);color:var(--color-primary);background:var(--color-primary-light);padding:3px 10px;border-radius:var(--radius-full);text-decoration:none;margin-top:4px;display:inline-flex;align-items:center;gap:4px;font-weight:700">
+              <a href="${Utils.resolveUrl((item.deviceType === 'laptop' ? 'laptop-skins/' : 'phone-skins/') + '?replace=' + item.cartItemId + (item.deviceId ? '&device=' + encodeURIComponent(item.deviceId) : ''))}" class="item-change-skin-link" style="font-size:var(--text-xs);color:var(--color-primary);background:var(--color-primary-light);padding:3px 10px;border-radius:var(--radius-full);text-decoration:none;margin-top:4px;display:inline-flex;align-items:center;gap:4px;font-weight:700">
                 <span>🔄</span> Change Skin
               </a>
             </div>
@@ -753,7 +753,7 @@ export class CheckoutFlow {
     if (this.currentStep === 1) {
       if (this.items.length === 0) {
         alert('Please add at least one skin to your order.');
-        window.location.href = '/phone-skins/';
+        window.location.href = Utils.resolveUrl('phone-skins/');
         return;
       }
 

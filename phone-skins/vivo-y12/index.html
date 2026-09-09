@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    (function() {
+      const isGh = location.hostname.endsWith('github.io');
+      const base = isGh ? '/' + (location.pathname.split('/').filter(Boolean)[0] || '') + '/' : '/';
+      document.write('<base href="' + base + '">');
+    })();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>vivo Y12 Skins | Premium Vinyl Wraps | Skinify</title>
   <meta name="description" content="Precision-cut skins for vivo Y12. Bubble-free application, scratch resistant, ultra thin. Choose design and order on WhatsApp.">
-  <link rel="canonical" href="/phone-skins/vivo-y12/">
+  <link rel="canonical" href="phone-skins/vivo-y12/">
   <meta property="og:title" content="vivo Y12 Skins | Skinify">
   <meta property="og:description" content="Custom vinyl skins for vivo Y12. Order on WhatsApp.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
   <meta name="theme-color" content="#1B8C5C">
 </head>
 <body>
@@ -23,7 +30,7 @@
         <span>✓</span>
         <span>Selected Model: <strong>vivo Y12</strong> (Cut Ready)</span>
       </div>
-      <a href="/phone-skins/" style="color:var(--color-text-secondary);text-decoration:underline;font-size:var(--text-xs)">All Models</a>
+      <a href="phone-skins/" style="color:var(--color-text-secondary);text-decoration:underline;font-size:var(--text-xs)">All Models</a>
     </div>
 
     <!-- Filter Chips -->
@@ -65,13 +72,13 @@
     "@type": "CollectionPage",
     "name": "vivo Y12 Skins",
     "description": "Precision vinyl skins for vivo Y12.",
-    "url": "/phone-skins/vivo-y12/"
+    "url": "phone-skins/vivo-y12/"
   }
   </script>
 
   <script type="module">
-    import { dataService, Analytics } from '/assets/js/app.js';
-    import { initPage, createFilterChips, renderProductGrid } from '/assets/js/components.js';
+    import { dataService, Utils, Analytics } from './assets/js/app.js';
+    import { initPage, createFilterChips, renderProductGrid } from './assets/js/components.js';
 
     await initPage(dataService, { activePage: 'categories', showBack: true });
 
@@ -101,7 +108,7 @@
             <div style="font-size:11px;font-weight:500;opacity:0.85">Tap any skin design below to replace it in your order</div>
           </div>
         </div>
-        <a href="/checkout" style="background:#f59e0b;color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Keep Current</a>
+        <a href="${Utils.resolveUrl('checkout.html')}" style="background:#f59e0b;color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Keep Current</a>
       `;
       const mainContent = document.getElementById('main-content');
       mainContent.insertBefore(replaceBanner, document.querySelector('.sort-wrapper'));
@@ -116,7 +123,7 @@
             <div style="font-size:11px;font-weight:500;color:var(--color-text-secondary)">Choose any skin design below</div>
           </div>
         </div>
-        <a href="/checkout" style="background:var(--color-primary);color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Back to Order</a>
+        <a href="${Utils.resolveUrl('checkout.html')}" style="background:var(--color-primary);color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Back to Order</a>
       `;
       const mainContent = document.getElementById('main-content');
       mainContent.insertBefore(addBanner, document.querySelector('.sort-wrapper'));

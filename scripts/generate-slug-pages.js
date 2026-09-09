@@ -11,17 +11,24 @@ function createDevicePageHTML(device) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    (function() {
+      const isGh = location.hostname.endsWith('github.io');
+      const base = isGh ? '/' + (location.pathname.split('/').filter(Boolean)[0] || '') + '/' : '/';
+      document.write('<base href="' + base + '">');
+    })();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>${device.name} Skins | Premium Vinyl Wraps | Skinify</title>
   <meta name="description" content="Precision-cut skins for ${device.name}. Bubble-free application, scratch resistant, ultra thin. Choose design and order on WhatsApp.">
-  <link rel="canonical" href="/phone-skins/${device.id}/">
+  <link rel="canonical" href="phone-skins/${device.id}/">
   <meta property="og:title" content="${device.name} Skins | Skinify">
   <meta property="og:description" content="Custom vinyl skins for ${device.name}. Order on WhatsApp.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
   <meta name="theme-color" content="#1B8C5C">
 </head>
 <body>
@@ -33,7 +40,7 @@ function createDevicePageHTML(device) {
         <span>✓</span>
         <span>Selected Model: <strong>${device.name}</strong> (${device.cutterStatus === 'available' ? 'Cut Ready' : 'Template Verification'})</span>
       </div>
-      <a href="/phone-skins/" style="color:var(--color-text-secondary);text-decoration:underline;font-size:var(--text-xs)">All Models</a>
+      <a href="phone-skins/" style="color:var(--color-text-secondary);text-decoration:underline;font-size:var(--text-xs)">All Models</a>
     </div>
 
     <!-- Filter Chips -->
@@ -75,13 +82,13 @@ function createDevicePageHTML(device) {
     "@type": "CollectionPage",
     "name": "${device.name} Skins",
     "description": "Precision vinyl skins for ${device.name}.",
-    "url": "/phone-skins/${device.id}/"
+    "url": "phone-skins/${device.id}/"
   }
   </script>
 
   <script type="module">
-    import { dataService, Analytics } from '/assets/js/app.js';
-    import { initPage, createFilterChips, renderProductGrid } from '/assets/js/components.js';
+    import { dataService, Utils, Analytics } from './assets/js/app.js';
+    import { initPage, createFilterChips, renderProductGrid } from './assets/js/components.js';
 
     await initPage(dataService, { activePage: 'categories', showBack: true });
 
@@ -111,7 +118,7 @@ function createDevicePageHTML(device) {
             <div style="font-size:11px;font-weight:500;opacity:0.85">Tap any skin design below to replace it in your order</div>
           </div>
         </div>
-        <a href="/checkout" style="background:#f59e0b;color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Keep Current</a>
+        <a href="\${Utils.resolveUrl('checkout.html')}" style="background:#f59e0b;color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Keep Current</a>
       \`;
       const mainContent = document.getElementById('main-content');
       mainContent.insertBefore(replaceBanner, document.querySelector('.sort-wrapper'));
@@ -126,7 +133,7 @@ function createDevicePageHTML(device) {
             <div style="font-size:11px;font-weight:500;color:var(--color-text-secondary)">Choose any skin design below</div>
           </div>
         </div>
-        <a href="/checkout" style="background:var(--color-primary);color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Back to Order</a>
+        <a href="\${Utils.resolveUrl('checkout.html')}" style="background:var(--color-primary);color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Back to Order</a>
       \`;
       const mainContent = document.getElementById('main-content');
       mainContent.insertBefore(addBanner, document.querySelector('.sort-wrapper'));
