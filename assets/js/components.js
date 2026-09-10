@@ -16,6 +16,9 @@ export function createProductCard(product, options = {}) {
   const badge = product.badges && product.badges[0];
   const gradient = Utils.getPlaceholderGradient(product.id);
 
+  const multipleFinishes = product.supportedSkinTypes && product.supportedSkinTypes.length > 1;
+  const variantCount = multipleFinishes ? product.supportedSkinTypes.length : 0;
+
   // Device type icon for placeholder
   const deviceIcon = product.deviceType === 'laptop'
     ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="placeholder-icon"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`
@@ -30,8 +33,12 @@ export function createProductCard(product, options = {}) {
         <span class="placeholder-name">${product.name}</span>
       </div>
       <div class="card-badges-row">
-        ${badge ? `<span class="card-badge ${badge}">${badge.charAt(0).toUpperCase() + badge.slice(1)}</span>` : ''}
-        ${product.skinType ? `<span class="card-skin-type-tag ${product.skinType}">${Utils.formatSkinType(product.skinType)}</span>` : ''}
+        ${variantCount > 1 ? `
+          <span class="card-variant-badge">
+            <span class="variant-dot"></span>
+            <span>${variantCount} Variants</span>
+          </span>
+        ` : ''}
       </div>
       <button class="card-fav-btn ${isFav ? 'active' : ''}" aria-label="Add to favorites" data-product-id="${product.id}">
         ${isFav ? Icons.heartFilled : Icons.heart}
@@ -79,11 +86,6 @@ export function createProductCard(product, options = {}) {
   const replaceId = options.replace || urlParams.get('replace');
   const actionParam = options.action || urlParams.get('action');
 
-  let checkoutUrl = `${Utils.resolveUrl('checkout.html')}?product=${encodeURIComponent(product.id)}`;
-  if (activeDevice) checkoutUrl += `&device=${encodeURIComponent(activeDevice)}`;
-  if (replaceId) checkoutUrl += `&replace=${encodeURIComponent(replaceId)}`;
-  if (actionParam) checkoutUrl += `&action=${encodeURIComponent(actionParam)}`;
-
   const selectThisSkin = (e) => {
     if (e) e.stopPropagation();
 
@@ -95,7 +97,8 @@ export function createProductCard(product, options = {}) {
         productPrice: product.price,
         productImage: (product.images && product.images[0]) || '',
         deviceType: product.deviceType || 'phone',
-        skinType: product.skinType || (product.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin')
+        skinType: product.skinType || (product.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'),
+        supportedSkinTypes: product.supportedSkinTypes || (product.skinType ? [product.skinType] : [])
       });
       window.location.href = Utils.resolveUrl('checkout.html');
       return;
@@ -109,15 +112,19 @@ export function createProductCard(product, options = {}) {
       productImage: (product.images && product.images[0]) || '',
       deviceType: product.deviceType || 'phone',
       skinType: product.skinType || (product.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'),
+      supportedSkinTypes: product.supportedSkinTypes || (product.skinType ? [product.skinType] : []),
       deviceId: activeDevice || null,
       deviceName: activeDevice || '',
       brandId: null,
       brandName: '',
       cutterStatus: 'available',
       qty: 1
-    });
+    }, actionParam === 'add');
 
-    window.location.href = checkoutUrl;
+    const dest = activeDevice 
+      ? `checkout.html?device=${encodeURIComponent(activeDevice)}` 
+      : 'checkout.html';
+    window.location.href = Utils.resolveUrl(dest);
   };
 
   const waBtn = card.querySelector('.card-whatsapp-btn');

@@ -85,14 +85,30 @@ export class CheckoutFlow {
     else if (productParam) {
       const product = this.allProducts.find(p => p.id === productParam || p.slug === productParam);
       if (product) {
-        if (params.get('action') === 'add') {
-          // Explicitly add another item to order
+        const prodSkinType = product.skinType || (product.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin');
+        const isActionAdd = params.get('action') === 'add';
+
+        // Check if an item for this product already exists in cart with same product and skinType
+        const existing = this.items.find(i => i.productId === product.id && (!matchedDevice || i.deviceId === matchedDevice.id) && (i.skinType === prodSkinType));
+
+        if (existing && !isActionAdd) {
+          if (matchedDevice && !existing.deviceId) {
+            existing.deviceId = matchedDevice.id;
+            existing.deviceName = matchedDevice.name;
+            existing.brandId = matchedDevice.brand;
+            existing.brandName = this.allBrands.find(b => b.id === matchedDevice.brand)?.name || '';
+            existing.cutterStatus = matchedDevice.cutterStatus || 'available';
+            Cart.saveItems(this.items);
+          }
+        } else if (!existing) {
           Cart.addItem({
             productId: product.id,
             productName: product.name,
             productPrice: product.price,
             productImage: product.images[0] || '',
             deviceType: product.deviceType || 'phone',
+            skinType: prodSkinType,
+            supportedSkinTypes: product.supportedSkinTypes || (prodSkinType ? [prodSkinType] : []),
             deviceId: matchedDevice ? matchedDevice.id : null,
             deviceName: matchedDevice ? matchedDevice.name : '',
             brandId: matchedDevice ? matchedDevice.brand : null,
@@ -103,45 +119,28 @@ export class CheckoutFlow {
             unknownModel: '',
             unknownModelNumber: '',
             qty: 1
-          });
+          }, isActionAdd);
           this.items = Cart.getItems();
-        } else {
-          // Standard check if already in cart
-          const existing = this.items.find(i => i.productId === product.id && (!matchedDevice || i.deviceId === matchedDevice.id));
-          if (existing) {
-            if (matchedDevice && !existing.deviceId) {
-              existing.deviceId = matchedDevice.id;
-              existing.deviceName = matchedDevice.name;
-              existing.brandId = matchedDevice.brand;
-              existing.brandName = this.allBrands.find(b => b.id === matchedDevice.brand)?.name || '';
-              existing.cutterStatus = matchedDevice.cutterStatus || 'available';
-              Cart.saveItems(this.items);
-            }
-          } else {
-            Cart.addItem({
-              productId: product.id,
-              productName: product.name,
-              productPrice: product.price,
-              productImage: product.images[0] || '',
-              deviceType: product.deviceType || 'phone',
-              deviceId: matchedDevice ? matchedDevice.id : null,
-              deviceName: matchedDevice ? matchedDevice.name : '',
-              brandId: matchedDevice ? matchedDevice.brand : null,
-              brandName: matchedDevice ? (this.allBrands.find(b => b.id === matchedDevice.brand)?.name || '') : '',
-              cutterStatus: matchedDevice ? (matchedDevice.cutterStatus || 'available') : 'available',
-              isUnknownModel: false,
-              unknownBrand: '',
-              unknownModel: '',
-              unknownModelNumber: '',
-              qty: 1
-            });
-            this.items = Cart.getItems();
-          }
         }
       }
     }
 
-    // 3. If matchedDevice is available, assign it to any item missing device or the last item
+    // 3. If any item has deviceId, ensure full device/brand info is populated
+    this.items.forEach(item => {
+      if (item.deviceId && (!item.brandId || !item.brandName || !item.deviceName || item.deviceName === item.deviceId)) {
+        const dev = this.allDevices.find(d => d.id.toLowerCase() === item.deviceId.toLowerCase());
+        if (dev) {
+          item.deviceId = dev.id;
+          item.deviceName = dev.name;
+          item.brandId = dev.brand;
+          const brandObj = this.allBrands.find(b => b.id === dev.brand);
+          item.brandName = brandObj ? brandObj.name : dev.brand;
+          item.cutterStatus = dev.cutterStatus || 'available';
+        }
+      }
+    });
+
+    // If matchedDevice is available from URL, assign it to any item missing device or the last item
     if (matchedDevice && this.items.length > 0) {
       const itemToUpdate = this.items.find(i => !i.deviceId) || this.items[this.items.length - 1];
       if (itemToUpdate) {
@@ -151,9 +150,9 @@ export class CheckoutFlow {
         const brandObj = this.allBrands.find(b => b.id === matchedDevice.brand);
         itemToUpdate.brandName = brandObj ? brandObj.name : matchedDevice.brand;
         itemToUpdate.cutterStatus = matchedDevice.cutterStatus || 'available';
-        Cart.saveItems(this.items);
       }
     }
+    Cart.saveItems(this.items);
 
     // Clean URL without reload if query had replace or add or product
     if (replaceCartItemId || params.get('action') || productParam) {
@@ -221,6 +220,9 @@ export class CheckoutFlow {
     const isFreeDelivery = subtotal >= freeDeliveryThreshold;
     const deliveryCharge = isFreeDelivery ? 0 : (this.settings?.defaultDeliveryCharge || 50);
 
+    const hasOnlyLaptops = this.items.length > 0 && this.items.every(i => i.deviceType === 'laptop');
+    const addMoreUrl = hasOnlyLaptops ? 'laptop-skins/?action=add' : 'phone-skins/?action=add';
+
     step.innerHTML = `
       <div style="margin-bottom:var(--space-4)">
         <h2 class="checkout-section-title">Select Device Model</h2>
@@ -231,7 +233,7 @@ export class CheckoutFlow {
       <div class="checkout-items-list" id="checkout-items-list"></div>
 
       <!-- Add Another Skin Button -->
-      <a href="${Utils.resolveUrl('phone-skins/?action=add')}" class="add-more-skins-btn" id="add-more-skins-btn">
+      <a href="${Utils.resolveUrl(addMoreUrl)}" class="add-more-skins-btn" id="add-more-skins-btn">
         ${Icons.plus}
         <span>Add Another Skin Design</span>
       </a>
@@ -255,6 +257,34 @@ export class CheckoutFlow {
       const gradient = Utils.getPlaceholderGradient(item.productId);
       const brandsForType = this.allBrands.filter(b => b.active && b.deviceTypes.includes(item.deviceType || 'phone')).sort((a,b) => a.order - b.order);
       const devicesForBrand = item.brandId ? this.allDevices.filter(d => d.brand === item.brandId) : [];
+
+      // Determine the supported skin types for this specific product (2 or 3 configured types)
+      const prod = this.allProducts.find(p => p.id === item.productId || p.slug === item.productId);
+      const supportedList = (prod && Array.isArray(prod.supportedSkinTypes) && prod.supportedSkinTypes.length > 0)
+        ? prod.supportedSkinTypes
+        : (item.supportedSkinTypes && Array.isArray(item.supportedSkinTypes) && item.supportedSkinTypes.length > 0)
+          ? item.supportedSkinTypes
+          : (prod && prod.skinType ? [prod.skinType] : [item.skinType || (item.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin')]);
+
+      // If current item.skinType is not in the supported list, auto-select the first supported type
+      if (!supportedList.includes(item.skinType)) {
+        item.skinType = supportedList[0];
+        Cart.saveItems(this.items);
+      }
+
+      const allSkinTypesMap = {
+        'back-skin': { id: 'back-skin', name: '📱 Back Skin' },
+        'front-skin': { id: 'front-skin', name: '🔲 Front Skin' },
+        'glitter': { id: 'glitter', name: '✨ Glitter' },
+        '8pa': { id: '8pa', name: '🛡️ 8PA Skin' },
+        'embossed': { id: 'embossed', name: '⚡ Embossed' },
+        'leather': { id: 'leather', name: '👔 Leather' },
+        'laptop-matt': { id: 'laptop-matt', name: '💻 Laptop Matte' }
+      };
+
+      const availableSkinTypes = supportedList.map(typeId => {
+        return allSkinTypesMap[typeId] || { id: typeId, name: Utils.formatSkinType(typeId) };
+      });
 
       const itemCard = document.createElement('div');
       itemCard.className = 'checkout-cart-item';
@@ -332,32 +362,22 @@ export class CheckoutFlow {
           <!-- Skin Type / Finish Selector -->
           <div class="cart-item-skin-type-box" style="margin-top:var(--space-3);padding-top:var(--space-2);border-top:1px dashed var(--color-border)">
             <div style="font-size:var(--text-xs);font-weight:700;color:var(--color-text-secondary);margin-bottom:var(--space-2);display:flex;align-items:center;justify-content:space-between">
-              <span>Skin Type / Finish:</span>
-              <span class="active-type-badge" style="color:var(--color-primary);font-weight:700">${Utils.formatSkinType(item.skinType || (item.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'))}</span>
+              <span>Finish / Skin Type:</span>
+              <span class="active-type-badge" style="color:var(--color-primary);font-weight:700">${Utils.formatSkinType(item.skinType)}</span>
             </div>
-            <div class="skin-type-pill-group" style="display:flex;flex-wrap:wrap;gap:6px">
-              ${(item.deviceType === 'laptop'
-                ? [
-                    { id: 'laptop-matt', name: 'Laptop Matte' },
-                    { id: 'embossed', name: 'Embossed' },
-                    { id: 'glitter', name: 'Glitter' },
-                    { id: 'leather', name: 'Leather' },
-                    { id: '8pa', name: '8PA Skin' }
-                  ]
-                : [
-                    { id: 'back-skin', name: 'Back Skin' },
-                    { id: 'front-skin', name: 'Front Skin' },
-                    { id: 'embossed', name: 'Embossed' },
-                    { id: 'glitter', name: 'Glitter' },
-                    { id: 'leather', name: 'Leather' },
-                    { id: '8pa', name: '8PA Skin' }
-                  ]
-              ).map(st => `
-                <button type="button" class="skin-type-select-btn ${st.id === (item.skinType || (item.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin')) ? 'active' : ''}" data-cart-id="${item.cartItemId}" data-skin-type="${st.id}">
-                  ${st.name}
-                </button>
-              `).join('')}
-            </div>
+            ${availableSkinTypes.length > 1 ? `
+              <div class="skin-type-pill-group" style="display:flex;flex-wrap:wrap;gap:6px">
+                ${availableSkinTypes.map(st => `
+                  <button type="button" class="skin-type-select-btn ${st.id === item.skinType ? 'active' : ''}" data-cart-id="${item.cartItemId}" data-skin-type="${st.id}">
+                    ${st.name}
+                  </button>
+                `).join('')}
+              </div>
+            ` : `
+              <div style="font-size:var(--text-xs);color:var(--color-text-secondary);padding:2px 0">
+                Exclusive finish available in <strong>${availableSkinTypes[0]?.name || Utils.formatSkinType(item.skinType)}</strong>
+              </div>
+            `}
           </div>
         </div>
       `;

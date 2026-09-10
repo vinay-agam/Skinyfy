@@ -40,11 +40,9 @@
     "active": true,
     "skinType": "embossed",
     "supportedSkinTypes": [
-      "back-skin",
       "embossed",
       "glitter",
-      "leather",
-      "front-skin"
+      "back-skin"
     ]
   },
   {
@@ -86,10 +84,9 @@
     "active": true,
     "skinType": "glitter",
     "supportedSkinTypes": [
-      "back-skin",
       "glitter",
-      "8pa",
-      "embossed"
+      "embossed",
+      "back-skin"
     ]
   },
   {
@@ -130,10 +127,9 @@
     "active": true,
     "skinType": "8pa",
     "supportedSkinTypes": [
-      "back-skin",
       "8pa",
       "embossed",
-      "glitter"
+      "back-skin"
     ]
   },
   {
@@ -175,9 +171,7 @@
     "skinType": "back-skin",
     "supportedSkinTypes": [
       "back-skin",
-      "embossed",
-      "glitter",
-      "leather"
+      "glitter"
     ]
   },
   {
@@ -219,10 +213,8 @@
     "active": true,
     "skinType": "leather",
     "supportedSkinTypes": [
-      "back-skin",
       "leather",
-      "8pa",
-      "embossed"
+      "8pa"
     ]
   },
   {
@@ -264,10 +256,9 @@
     "active": true,
     "skinType": "glitter",
     "supportedSkinTypes": [
-      "back-skin",
       "glitter",
       "8pa",
-      "embossed"
+      "back-skin"
     ]
   },
   {
@@ -311,10 +302,8 @@
     "active": true,
     "skinType": "8pa",
     "supportedSkinTypes": [
-      "back-skin",
       "8pa",
-      "embossed",
-      "leather"
+      "back-skin"
     ]
   },
   {
@@ -354,10 +343,9 @@
     "active": true,
     "skinType": "embossed",
     "supportedSkinTypes": [
-      "back-skin",
       "embossed",
-      "glitter",
-      "8pa"
+      "8pa",
+      "glitter"
     ]
   },
   {
@@ -398,9 +386,7 @@
     "skinType": "back-skin",
     "supportedSkinTypes": [
       "back-skin",
-      "glitter",
-      "embossed",
-      "front-skin"
+      "glitter"
     ]
   },
   {
@@ -442,9 +428,7 @@
     "active": true,
     "skinType": "8pa",
     "supportedSkinTypes": [
-      "back-skin",
       "8pa",
-      "embossed",
       "glitter"
     ]
   },
@@ -734,7 +718,6 @@
     "supportedSkinTypes": [
       "embossed",
       "8pa",
-      "back-skin",
       "glitter"
     ],
     "price": 379,

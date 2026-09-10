@@ -722,89 +722,263 @@ ol {
 
 .card-badges-row {
   position: absolute;
-  top: var(--space-2);
-  left: var(--space-2);
+  top: 9px;
+  left: 9px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 5px;
   z-index: 2;
   pointer-events: none;
-  max-width: calc(100% - 44px);
+  max-width: calc(100% - 46px);
 }
 
-.product-card .card-badge {
-  display: inline-flex;
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
-  font-size: 0.625rem;
-  font-weight: 700;
-  color: #fff;
-  z-index: 2;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-.card-badge.bestseller {
-  background: var(--color-badge-bestseller);
-}
-
-.card-badge.new {
-  background: var(--color-badge-new);
-}
-
-.card-badge.popular {
-  background: var(--color-badge-popular);
-}
-
-.card-skin-type-tag {
+/* ─── Modern Minimalist Variant Badge ────────────────────────────── */
+.card-variant-badge {
   display: inline-flex;
   align-items: center;
-  padding: 2px 7px;
-  border-radius: var(--radius-sm);
-  font-size: 0.625rem;
+  gap: 5px;
+  padding: 3.5px 8.5px;
+  border-radius: 9999px;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.2px;
-  color: #fff;
-  background: rgba(26, 26, 46, 0.85);
-  backdrop-filter: blur(4px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
   white-space: nowrap;
 }
 
-.card-skin-type-tag.glitter {
-  background: linear-gradient(135deg, #ec4899, #8b5cf6);
-  color: #fff;
+.card-variant-badge .variant-dot {
+  width: 5.5px;
+  height: 5.5px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 7px #10b981;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
+.product-card:hover .card-variant-badge {
+  transform: translateY(-1px);
+  background: rgba(15, 23, 42, 0.85);
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+/* ─── Premium Pill Badges ───────────────────────────────────────── */
+.card-badge-pill,
+.card-finish-pill,
+.product-card .card-badge,
+.card-skin-type-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3.5px 8.5px;
+  border-radius: 9999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22), 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+
+.product-card:hover .card-badge-pill,
+.product-card:hover .card-finish-pill,
+.product-card:hover .card-badge,
+.product-card:hover .card-skin-type-tag {
+  transform: translateY(-1px);
+}
+
+/* ── Marketing Badges ── */
+.card-badge-pill.bestseller,
+.card-badge.bestseller {
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.38);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.card-badge-pill.popular,
+.card-badge-pill.trending,
+.card-badge.popular {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.38);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.card-badge-pill.new,
+.card-badge.new {
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.38);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.card-badge-pill .badge-icon {
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.card-badge-pill .badge-text {
+  text-transform: uppercase;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* ── Finish / Skin Type Capsule ── */
+.card-finish-pill,
+.card-skin-type-tag {
+  background: rgba(15, 23, 42, 0.82);
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.card-finish-pill .finish-icon {
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.card-finish-pill .finish-name {
+  font-weight: 700;
+  font-size: 0.62rem;
+  letter-spacing: 0.2px;
+}
+
+.card-finish-pill .finish-count-tag {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  font-size: 0.55rem;
+  font-weight: 800;
+  padding: 1px 5.5px;
+  border-radius: 9999px;
+  margin-left: 3px;
+  letter-spacing: 0.2px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+/* Finish-Specific Ambient Glow Borders & Tints */
+.card-finish-pill.glitter,
+.card-skin-type-tag.glitter {
+  border-color: rgba(236, 72, 153, 0.55);
+  background: linear-gradient(135deg, rgba(28, 14, 40, 0.88), rgba(15, 23, 42, 0.88));
+  box-shadow: 0 3px 12px rgba(236, 72, 153, 0.25), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.card-finish-pill.glitter .finish-name {
+  color: #fbcfe8;
+}
+.card-finish-pill.glitter .finish-count-tag {
+  background: rgba(236, 72, 153, 0.25);
+  color: #fdf2f8;
+  border-color: rgba(236, 72, 153, 0.4);
+}
+
+.card-finish-pill.embossed,
+.card-skin-type-tag.embossed {
+  border-color: rgba(99, 102, 241, 0.55);
+  background: linear-gradient(135deg, rgba(20, 24, 58, 0.88), rgba(15, 23, 42, 0.88));
+  box-shadow: 0 3px 12px rgba(99, 102, 241, 0.25), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.card-finish-pill.embossed .finish-name {
+  color: #c7d2fe;
+}
+.card-finish-pill.embossed .finish-count-tag {
+  background: rgba(99, 102, 241, 0.25);
+  color: #eef2ff;
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.card-finish-pill.8pa,
+.card-finish-pill[class*="8pa"],
 .card-skin-type-tag.8pa,
 .card-skin-type-tag[class*="8pa"] {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #fff;
+  border-color: rgba(245, 158, 11, 0.55);
+  background: linear-gradient(135deg, rgba(42, 28, 10, 0.88), rgba(15, 23, 42, 0.88));
+  box-shadow: 0 3px 12px rgba(245, 158, 11, 0.25), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.card-finish-pill.8pa .finish-name,
+.card-finish-pill[class*="8pa"] .finish-name {
+  color: #fde68a;
+}
+.card-finish-pill.8pa .finish-count-tag,
+.card-finish-pill[class*="8pa"] .finish-count-tag {
+  background: rgba(245, 158, 11, 0.25);
+  color: #fffbeb;
+  border-color: rgba(245, 158, 11, 0.4);
 }
 
-.card-skin-type-tag.embossed {
-  background: linear-gradient(135deg, #6366f1, #4338ca);
-  color: #fff;
-}
-
+.card-finish-pill.leather,
 .card-skin-type-tag.leather {
-  background: linear-gradient(135deg, #92400e, #78350f);
-  color: #fef3c7;
+  border-color: rgba(217, 119, 6, 0.55);
+  background: linear-gradient(135deg, rgba(45, 24, 10, 0.88), rgba(15, 23, 42, 0.88));
+  box-shadow: 0 3px 12px rgba(217, 119, 6, 0.22), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.card-finish-pill.leather .finish-name {
+  color: #fed7aa;
+}
+.card-finish-pill.leather .finish-count-tag {
+  background: rgba(217, 119, 6, 0.25);
+  color: #fff7ed;
+  border-color: rgba(217, 119, 6, 0.4);
 }
 
+.card-finish-pill.back-skin,
 .card-skin-type-tag.back-skin {
-  background: rgba(27, 140, 92, 0.88);
-  color: #fff;
+  border-color: rgba(16, 185, 129, 0.55);
+  background: linear-gradient(135deg, rgba(10, 40, 28, 0.88), rgba(15, 23, 42, 0.88));
+  box-shadow: 0 3px 12px rgba(16, 185, 129, 0.22), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.card-finish-pill.back-skin .finish-name {
+  color: #a7f3d0;
+}
+.card-finish-pill.back-skin .finish-count-tag {
+  background: rgba(16, 185, 129, 0.25);
+  color: #ecfdf5;
+  border-color: rgba(16, 185, 129, 0.4);
 }
 
+.card-finish-pill.front-skin,
 .card-skin-type-tag.front-skin {
-  background: linear-gradient(135deg, #0284c7, #0369a1);
-  color: #fff;
+  border-color: rgba(14, 165, 233, 0.55);
+  background: linear-gradient(135deg, rgba(12, 36, 54, 0.88), rgba(15, 23, 42, 0.88));
+  box-shadow: 0 3px 12px rgba(14, 165, 233, 0.22), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.card-finish-pill.front-skin .finish-name {
+  color: #bae6fd;
+}
+.card-finish-pill.front-skin .finish-count-tag {
+  background: rgba(14, 165, 233, 0.25);
+  color: #f0f9ff;
+  border-color: rgba(14, 165, 233, 0.4);
 }
 
+.card-finish-pill.laptop-matt,
 .card-skin-type-tag.laptop-matt {
-  background: linear-gradient(135deg, #475569, #334155);
+  border-color: rgba(148, 163, 184, 0.5);
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.88), rgba(15, 23, 42, 0.88));
+  box-shadow: 0 3px 12px rgba(148, 163, 184, 0.18), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.card-finish-pill.laptop-matt .finish-name {
+  color: #e2e8f0;
+}
+.card-finish-pill.laptop-matt .finish-count-tag {
+  background: rgba(148, 163, 184, 0.25);
   color: #f8fafc;
+  border-color: rgba(148, 163, 184, 0.4);
 }
 
 .product-card .card-fav-btn {
@@ -1858,9 +2032,25 @@ ol {
 
 @media (min-width: 768px) {
   .floating-cart-banner {
-    bottom: var(--space-6);
+    bottom: calc(var(--bottom-nav-height) + var(--space-3));
     max-width: 500px;
     padding: 10px 14px 10px 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .floating-cart-banner {
+    bottom: var(--space-6);
+  }
+}
+
+body:has(#floating-cart-banner) {
+  padding-bottom: calc(var(--bottom-nav-height) + 76px);
+}
+
+@media (min-width: 1024px) {
+  body:has(#floating-cart-banner) {
+    padding-bottom: 90px;
   }
 }
 

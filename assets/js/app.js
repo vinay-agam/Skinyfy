@@ -374,9 +374,9 @@ export const Cart = {
     window.dispatchEvent(new CustomEvent('cart-updated', { detail: items }));
   },
 
-  addItem(item) {
+  addItem(item, forceNewItem = false) {
     const items = this.getItems();
-    const existingIndex = items.findIndex(i => i.productId === item.productId && i.deviceId === item.deviceId && (i.skinType || '') === (item.skinType || ''));
+    const existingIndex = forceNewItem ? -1 : items.findIndex(i => i.productId === item.productId && i.deviceId === item.deviceId && (i.skinType || '') === (item.skinType || ''));
     if (existingIndex > -1) {
       items[existingIndex].qty = (items[existingIndex].qty || 1) + (item.qty || 1);
       if (item.cutterStatus) {
