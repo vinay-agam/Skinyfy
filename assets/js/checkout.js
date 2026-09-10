@@ -9,6 +9,15 @@
 import { dataService, Utils, Analytics, Icons, Cart } from './app.js';
 import { createStepper } from './components.js';
 
+function escapeHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export class CheckoutFlow {
   constructor(containerEl) {
     this.container = containerEl;
@@ -257,6 +266,8 @@ export class CheckoutFlow {
       const gradient = Utils.getPlaceholderGradient(item.productId);
       const brandsForType = this.allBrands.filter(b => b.active && b.deviceTypes.includes(item.deviceType || 'phone')).sort((a,b) => a.order - b.order);
       const devicesForBrand = item.brandId ? this.allDevices.filter(d => d.brand === item.brandId) : [];
+      const selectedBrand = this.allBrands.find(b => b.id === item.brandId);
+      const selectedDevice = this.allDevices.find(d => d.id === item.deviceId);
 
       // Determine the supported skin types for this specific product (2 or 3 configured types)
       const prod = this.allProducts.find(p => p.id === item.productId || p.slug === item.productId);
@@ -336,20 +347,114 @@ export class CheckoutFlow {
             </button>
           </div>
 
-          <!-- Brand Select -->
-          <div class="form-group" style="margin-bottom:var(--space-2)">
-            <select class="form-input form-select brand-select-item" data-id="${item.cartItemId}" style="font-size:var(--text-xs);padding:var(--space-2)">
-              <option value="">Choose Brand</option>
-              ${brandsForType.map(b => `<option value="${b.id}" ${b.id === item.brandId ? 'selected' : ''}>${b.name}</option>`).join('')}
-            </select>
+          <!-- Brand Searchable Select -->
+          <div class="searchable-select" data-select-type="brand" data-cart-id="${item.cartItemId}" id="brand-select-wrapper-${item.cartItemId}">
+            <button type="button" 
+                    class="searchable-select-trigger brand-trigger ${item.brandId ? 'has-value' : ''}" 
+                    id="brand-trigger-${item.cartItemId}" 
+                    aria-haspopup="listbox" 
+                    aria-expanded="false">
+              <div class="searchable-select-trigger-content">
+                <span class="searchable-select-label">Brand</span>
+                <span class="searchable-select-value" id="brand-val-${item.cartItemId}">
+                  ${selectedBrand ? selectedBrand.name : (item.brandName || 'Choose Brand')}
+                </span>
+              </div>
+              <span class="searchable-select-icons">
+                ${item.brandId ? `<span class="searchable-select-clear" data-action="clear-brand" data-cart-id="${item.cartItemId}" title="Clear Brand">✕</span>` : ''}
+                <svg class="searchable-select-chevron" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+              </span>
+            </button>
+            <input type="hidden" class="brand-select-item" data-id="${item.cartItemId}" value="${item.brandId || ''}">
+            <div class="searchable-select-menu" id="brand-menu-${item.cartItemId}" role="listbox">
+              <div class="searchable-select-search-wrap">
+                <svg class="searchable-select-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" 
+                       class="searchable-select-input brand-search-input" 
+                       placeholder="Search brand (e.g. Apple, Vivo, Samsung)..." 
+                       autocomplete="off" 
+                       spellcheck="false">
+                <button type="button" class="searchable-select-clear-search" style="display:none" title="Clear search">✕</button>
+              </div>
+              <div class="searchable-select-meta">
+                <span class="searchable-count">${brandsForType.length} brands available</span>
+              </div>
+              <div class="searchable-select-options" tabindex="-1">
+                ${brandsForType.map(b => `
+                  <div class="searchable-option ${b.id === item.brandId ? 'selected' : ''}" data-value="${b.id}" data-label="${b.name}" data-search="${(b.name + ' ' + b.id).toLowerCase()}">
+                    <span class="searchable-option-text">${b.name}</span>
+                    ${b.id === item.brandId ? `<span class="searchable-option-check">✓</span>` : ''}
+                  </div>
+                `).join('')}
+              </div>
+              <div class="searchable-select-empty" style="display:none">
+                <span class="searchable-empty-icon">🔍</span>
+                <div class="searchable-empty-title">No brands found</div>
+                <div class="searchable-empty-desc">Check your spelling</div>
+              </div>
+            </div>
           </div>
 
-          <!-- Model Select -->
-          <div class="form-group" style="margin-bottom:var(--space-2);display:${item.brandId ? 'block' : 'none'}" id="model-group-${item.cartItemId}">
-            <select class="form-input form-select model-select-item" data-id="${item.cartItemId}" style="font-size:var(--text-xs);padding:var(--space-2);${item.deviceId ? 'border-color:var(--color-primary);' : ''}">
-              <option value="">Choose Model</option>
-              ${devicesForBrand.map(d => `<option value="${d.id}" ${d.id === item.deviceId ? 'selected' : ''}>${d.name}</option>`).join('')}
-            </select>
+          <!-- Model Searchable Select -->
+          <div class="searchable-select" data-select-type="model" data-cart-id="${item.cartItemId}" id="model-group-${item.cartItemId}" style="display:${item.brandId ? 'block' : 'none'}">
+            <button type="button" 
+                    class="searchable-select-trigger model-trigger ${item.deviceId ? 'has-value' : ''}" 
+                    id="model-trigger-${item.cartItemId}" 
+                    aria-haspopup="listbox" 
+                    aria-expanded="false"
+                    ${!item.brandId ? 'disabled' : ''}>
+              <div class="searchable-select-trigger-content">
+                <span class="searchable-select-label">Model</span>
+                <span class="searchable-select-value" id="model-val-${item.cartItemId}">
+                  ${selectedDevice ? selectedDevice.name : (item.deviceName || 'Choose Model')}
+                </span>
+              </div>
+              <span class="searchable-select-icons">
+                ${item.deviceId ? `<span class="searchable-select-clear" data-action="clear-model" data-cart-id="${item.cartItemId}" title="Clear Model">✕</span>` : ''}
+                <svg class="searchable-select-chevron" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+              </span>
+            </button>
+            <input type="hidden" class="model-select-item" data-id="${item.cartItemId}" value="${item.deviceId || ''}">
+            <div class="searchable-select-menu" id="model-menu-${item.cartItemId}" role="listbox">
+              <div class="searchable-select-search-wrap">
+                <svg class="searchable-select-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" 
+                       class="searchable-select-input model-search-input" 
+                       placeholder="Search model (e.g. V29, 15 Pro, S24)..." 
+                       autocomplete="off" 
+                       spellcheck="false">
+                <button type="button" class="searchable-select-clear-search" style="display:none" title="Clear search">✕</button>
+              </div>
+              <div class="searchable-select-meta">
+                <span class="searchable-count">${devicesForBrand.length} models available</span>
+              </div>
+              <div class="searchable-select-options" tabindex="-1">
+                ${devicesForBrand.map(d => `
+                  <div class="searchable-option ${d.id === item.deviceId ? 'selected' : ''}" data-value="${d.id}" data-label="${d.name}" data-search="${(d.name + ' ' + (d.aliases || []).join(' ')).toLowerCase()}">
+                    <div class="searchable-option-content">
+                      <span class="searchable-option-text">${d.name}</span>
+                      <span class="searchable-option-sub">${d.cutterStatus === 'available' ? '✓ Precision Cut' : 'Template Available'}</span>
+                    </div>
+                    ${d.id === item.deviceId ? `<span class="searchable-option-check">✓</span>` : ''}
+                  </div>
+                `).join('')}
+              </div>
+              <div class="searchable-select-empty" style="display:none">
+                <span class="searchable-empty-icon">🔍</span>
+                <div class="searchable-empty-title">No models found</div>
+                <div class="searchable-empty-desc">Check your search query</div>
+              </div>
+            </div>
           </div>
 
           <!-- Cutter Status -->
@@ -454,71 +559,494 @@ export class CheckoutFlow {
       });
     });
 
-    // Brand Select
-    step.querySelectorAll('.brand-select-item').forEach(select => {
-      select.addEventListener('change', () => {
-        const id = select.dataset.id;
-        const item = this.items.find(i => i.cartItemId === id);
-        if (item) {
-          item.brandId = select.value;
-          const brand = this.allBrands.find(b => b.id === select.value);
-          item.brandName = brand ? brand.name : '';
-          item.deviceId = null;
-          item.deviceName = '';
-          Cart.saveItems(this.items);
-
-          // Update Model Select in place
-          const modelGroup = step.querySelector(`#model-group-${id}`);
-          const modelSelect = modelGroup?.querySelector('.model-select-item');
-          const cutterBox = step.querySelector(`#cutter-${id}`);
-          if (cutterBox) cutterBox.style.display = 'none';
-
-          if (select.value && modelSelect) {
-            const devices = this.allDevices.filter(d => d.brand === select.value);
-            modelSelect.innerHTML = '<option value="">Choose Model</option>' + devices.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
-            modelSelect.style.borderColor = 'var(--color-border)';
-            modelGroup.style.display = 'block';
-          } else if (modelGroup) {
-            modelGroup.style.display = 'none';
-          }
-        }
-      });
-    });
-
-    // Model Select
-    step.querySelectorAll('.model-select-item').forEach(select => {
-      select.addEventListener('change', () => {
-        const id = select.dataset.id;
-        const item = this.items.find(i => i.cartItemId === id);
-        if (item) {
-          const device = this.allDevices.find(d => d.id === select.value);
-          if (device) {
-            item.deviceId = device.id;
-            item.deviceName = device.name;
-            item.cutterStatus = device.cutterStatus || 'available';
-            select.style.borderColor = 'var(--color-primary)';
-            const cutterBox = step.querySelector(`#cutter-${id}`);
-            if (cutterBox) {
-              cutterBox.style.display = 'block';
-              cutterBox.innerHTML = `
-                <div style="padding:6px 10px;border-radius:var(--radius-lg);font-size:var(--text-xs);background:var(--color-primary-light);color:var(--color-primary);font-weight:600">
-                  ✓ <strong>${device.name}</strong>: Precision cut skin available!
-                </div>
-              `;
-            }
-          } else {
-            item.deviceId = null;
-            item.deviceName = '';
-            select.style.borderColor = 'var(--color-border)';
-            const cutterBox = step.querySelector(`#cutter-${id}`);
-            if (cutterBox) cutterBox.style.display = 'none';
-          }
-          Cart.saveItems(this.items);
-        }
-      });
-    });
+    // Brand and Model Searchable Selects
+    this.setupSearchableSelects(step);
 
     return step;
+  }
+
+  // ─── Searchable Dropdown Helper Methods ─────────────────────────
+  setupSearchableSelects(step) {
+    const closeAllSelects = (exceptEl = null) => {
+      step.querySelectorAll('.searchable-select.is-open').forEach(sel => {
+        if (sel !== exceptEl) {
+          sel.classList.remove('is-open');
+          sel.closest('.checkout-cart-item')?.classList.remove('has-open-select');
+          const trigger = sel.querySelector('.searchable-select-trigger');
+          if (trigger) trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    };
+
+    // Global click listener to close selects when clicking outside
+    if (!this._hasBoundSelectGlobalClick) {
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.searchable-select')) {
+          document.querySelectorAll('.searchable-select.is-open').forEach(sel => {
+            sel.classList.remove('is-open');
+            sel.closest('.checkout-cart-item')?.classList.remove('has-open-select');
+            const trigger = sel.querySelector('.searchable-select-trigger');
+            if (trigger) trigger.setAttribute('aria-expanded', 'false');
+          });
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          const open = document.querySelector('.searchable-select.is-open');
+          if (open) {
+            open.classList.remove('is-open');
+            open.closest('.checkout-cart-item')?.classList.remove('has-open-select');
+            open.querySelector('.searchable-select-trigger')?.focus();
+          }
+        }
+      });
+      this._hasBoundSelectGlobalClick = true;
+    }
+
+    step.querySelectorAll('.searchable-select').forEach(wrapper => {
+      const selectType = wrapper.dataset.selectType; // 'brand' or 'model'
+      const cartId = wrapper.dataset.cartId;
+      const trigger = wrapper.querySelector('.searchable-select-trigger');
+      const input = wrapper.querySelector('.searchable-select-input');
+      const clearSearchBtn = wrapper.querySelector('.searchable-select-clear-search');
+      const optionsContainer = wrapper.querySelector('.searchable-select-options');
+      const parentCard = wrapper.closest('.checkout-cart-item');
+
+      if (!trigger) return;
+
+      // Trigger click
+      trigger.addEventListener('click', (e) => {
+        // If clear button on trigger was clicked
+        if (e.target.closest('.searchable-select-clear')) {
+          e.stopPropagation();
+          this.handleClearSelect(cartId, selectType, step);
+          return;
+        }
+
+        if (trigger.disabled) return;
+
+        const isOpen = wrapper.classList.contains('is-open');
+        closeAllSelects(wrapper);
+
+        if (!isOpen) {
+          wrapper.classList.add('is-open');
+          parentCard?.classList.add('has-open-select');
+          trigger.setAttribute('aria-expanded', 'true');
+          trigger.classList.remove('select-error');
+
+          if (input) {
+            input.value = '';
+            this.filterSearchableOptions(wrapper, '');
+            setTimeout(() => {
+              input.focus();
+              const rect = wrapper.getBoundingClientRect();
+              if (rect.bottom > window.innerHeight - 80) {
+                wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+            }, 50);
+          }
+        } else {
+          wrapper.classList.remove('is-open');
+          parentCard?.classList.remove('has-open-select');
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Clear search button inside dropdown
+      if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (input) {
+            input.value = '';
+            this.filterSearchableOptions(wrapper, '');
+            input.focus();
+          }
+        });
+      }
+
+      // Search typing filter
+      if (input) {
+        input.addEventListener('input', () => {
+          this.filterSearchableOptions(wrapper, input.value);
+        });
+
+        // Keyboard navigation (ArrowDown, ArrowUp, Enter)
+        input.addEventListener('keydown', (e) => {
+          const visibleOptions = Array.from(optionsContainer.querySelectorAll('.searchable-option')).filter(
+            opt => opt.style.display !== 'none'
+          );
+          if (visibleOptions.length === 0) return;
+
+          let currentHighlighted = optionsContainer.querySelector('.searchable-option.is-highlighted');
+          let currentIndex = visibleOptions.indexOf(currentHighlighted);
+
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (currentHighlighted) currentHighlighted.classList.remove('is-highlighted');
+            currentIndex = (currentIndex + 1) % visibleOptions.length;
+            visibleOptions[currentIndex].classList.add('is-highlighted');
+            visibleOptions[currentIndex].scrollIntoView({ block: 'nearest' });
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (currentHighlighted) currentHighlighted.classList.remove('is-highlighted');
+            currentIndex = (currentIndex - 1 + visibleOptions.length) % visibleOptions.length;
+            visibleOptions[currentIndex].classList.add('is-highlighted');
+            visibleOptions[currentIndex].scrollIntoView({ block: 'nearest' });
+          } else if (e.key === 'Enter') {
+            e.preventDefault();
+            const targetOpt = currentHighlighted || visibleOptions[0];
+            if (targetOpt) {
+              const val = targetOpt.dataset.value;
+              const lbl = targetOpt.dataset.label;
+              this.handleSelectOption(cartId, selectType, val, lbl, step);
+              wrapper.classList.remove('is-open');
+              parentCard?.classList.remove('has-open-select');
+              trigger.setAttribute('aria-expanded', 'false');
+              trigger.focus();
+            }
+          }
+        });
+      }
+
+      // Option click delegation
+      if (optionsContainer) {
+        optionsContainer.addEventListener('click', (e) => {
+          const option = e.target.closest('.searchable-option');
+          if (!option) return;
+          const value = option.dataset.value;
+          const label = option.dataset.label;
+
+          this.handleSelectOption(cartId, selectType, value, label, step);
+          wrapper.classList.remove('is-open');
+          parentCard?.classList.remove('has-open-select');
+          trigger.setAttribute('aria-expanded', 'false');
+          trigger.focus();
+        });
+      }
+    });
+  }
+
+  filterSearchableOptions(wrapper, query) {
+    const q = (query || '').trim().toLowerCase();
+    const selectType = wrapper.dataset.selectType;
+    const optionsContainer = wrapper.querySelector('.searchable-select-options');
+    if (!optionsContainer) return;
+
+    const options = Array.from(optionsContainer.querySelectorAll('.searchable-option'));
+    const emptyEl = wrapper.querySelector('.searchable-select-empty');
+    const countEl = wrapper.querySelector('.searchable-count');
+    const clearSearchBtn = wrapper.querySelector('.searchable-select-clear-search');
+
+    if (clearSearchBtn) {
+      clearSearchBtn.style.display = q ? 'flex' : 'none';
+    }
+
+    let visibleCount = 0;
+    options.forEach(opt => {
+      const searchTarget = (opt.dataset.search || opt.dataset.label || '').toLowerCase();
+      const label = opt.dataset.label || '';
+      const textSpan = opt.querySelector('.searchable-option-text') || opt;
+
+      if (!q || searchTarget.includes(q)) {
+        opt.style.display = 'flex';
+        visibleCount++;
+
+        if (q && textSpan) {
+          const matchIdx = label.toLowerCase().indexOf(q);
+          if (matchIdx !== -1) {
+            const before = label.slice(0, matchIdx);
+            const matched = label.slice(matchIdx, matchIdx + q.length);
+            const after = label.slice(matchIdx + q.length);
+            textSpan.innerHTML = `${escapeHtml(before)}<mark>${escapeHtml(matched)}</mark>${escapeHtml(after)}`;
+          } else {
+            textSpan.textContent = label;
+          }
+        } else if (textSpan) {
+          textSpan.textContent = label;
+        }
+      } else {
+        opt.style.display = 'none';
+      }
+      opt.classList.remove('is-highlighted');
+    });
+
+    if (emptyEl) {
+      emptyEl.style.display = visibleCount === 0 ? 'block' : 'none';
+      if (visibleCount === 0 && q) {
+        const desc = emptyEl.querySelector('.searchable-empty-desc');
+        if (desc) desc.textContent = `No results found for "${query}"`;
+      }
+    }
+
+    if (countEl) {
+      if (visibleCount === 0) {
+        countEl.textContent = '0 matching results';
+      } else if (q) {
+        countEl.textContent = `Showing ${visibleCount} of ${options.length} ${selectType}s`;
+      } else {
+        countEl.textContent = `${options.length} ${selectType}s available`;
+      }
+    }
+  }
+
+  handleSelectOption(cartId, selectType, value, label, step) {
+    const item = this.items.find(i => i.cartItemId === cartId);
+    if (!item) return;
+
+    if (selectType === 'brand') {
+      if (item.brandId === value) return; // already selected
+      item.brandId = value;
+      const brand = this.allBrands.find(b => b.id === value);
+      item.brandName = brand ? brand.name : label;
+      item.deviceId = null;
+      item.deviceName = '';
+      Cart.saveItems(this.items);
+
+      // 1. Update Brand trigger UI
+      const brandWrapper = step.querySelector(`#brand-select-wrapper-${cartId}`);
+      if (brandWrapper) {
+        const trigger = brandWrapper.querySelector('.searchable-select-trigger');
+        const valSpan = brandWrapper.querySelector('.searchable-select-value');
+        const hidden = brandWrapper.querySelector('.brand-select-item');
+        if (valSpan) valSpan.textContent = item.brandName;
+        if (hidden) hidden.value = value;
+        trigger.classList.add('has-value');
+        trigger.classList.remove('select-error');
+
+        // Add clear button if missing
+        let icons = trigger.querySelector('.searchable-select-icons');
+        if (icons && !icons.querySelector('.searchable-select-clear')) {
+          const clearBtn = document.createElement('span');
+          clearBtn.className = 'searchable-select-clear';
+          clearBtn.dataset.action = 'clear-brand';
+          clearBtn.dataset.cartId = cartId;
+          clearBtn.title = 'Clear Brand';
+          clearBtn.textContent = '✕';
+          icons.insertBefore(clearBtn, icons.firstChild);
+        }
+
+        // Update selected state in options
+        brandWrapper.querySelectorAll('.searchable-option').forEach(opt => {
+          const isSel = opt.dataset.value === value;
+          opt.classList.toggle('selected', isSel);
+          let check = opt.querySelector('.searchable-option-check');
+          if (isSel && !check) {
+            opt.insertAdjacentHTML('beforeend', '<span class="searchable-option-check">✓</span>');
+          } else if (!isSel && check) {
+            check.remove();
+          }
+        });
+      }
+
+      // 2. Populate & Show Model dropdown
+      const modelGroup = step.querySelector(`#model-group-${cartId}`);
+      if (modelGroup) {
+        modelGroup.style.display = 'block';
+        const modelTrigger = modelGroup.querySelector('.searchable-select-trigger');
+        const modelValSpan = modelGroup.querySelector('.searchable-select-value');
+        const modelHidden = modelGroup.querySelector('.model-select-item');
+        const modelClear = modelTrigger?.querySelector('.searchable-select-clear');
+        if (modelClear) modelClear.remove();
+        if (modelValSpan) modelValSpan.textContent = 'Choose Model';
+        if (modelHidden) modelHidden.value = '';
+        if (modelTrigger) {
+          modelTrigger.classList.remove('has-value', 'select-error');
+          modelTrigger.disabled = false;
+        }
+
+        // Filter and render devices for this brand
+        const devices = this.allDevices.filter(d => d.brand === value);
+        const optionsCont = modelGroup.querySelector('.searchable-select-options');
+        const metaCount = modelGroup.querySelector('.searchable-count');
+        if (metaCount) metaCount.textContent = `${devices.length} models available`;
+
+        if (optionsCont) {
+          optionsCont.innerHTML = devices.map(d => `
+            <div class="searchable-option" data-value="${d.id}" data-label="${d.name}" data-search="${(d.name + ' ' + (d.aliases || []).join(' ')).toLowerCase()}">
+              <div class="searchable-option-content">
+                <span class="searchable-option-text">${d.name}</span>
+                <span class="searchable-option-sub">${d.cutterStatus === 'available' ? '✓ Precision Cut' : 'Template Available'}</span>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        // Reset search filter input
+        const modelInput = modelGroup.querySelector('.searchable-select-input');
+        if (modelInput) modelInput.value = '';
+        const emptyEl = modelGroup.querySelector('.searchable-select-empty');
+        if (emptyEl) emptyEl.style.display = 'none';
+
+        // Update item header status
+        const itemCard = step.querySelector(`#cart-item-${cartId}`);
+        const statusSpan = itemCard?.querySelector('.cart-item-model-header span:last-child');
+        if (statusSpan) {
+          statusSpan.style.color = 'var(--color-danger)';
+          statusSpan.textContent = '* Select Model Below';
+        }
+
+        // Hide cutter box
+        const cutterBox = step.querySelector(`#cutter-${cartId}`);
+        if (cutterBox) cutterBox.style.display = 'none';
+
+        // Seamless auto-open of the Model dropdown so user immediately can search model
+        setTimeout(() => {
+          modelGroup.classList.add('is-open');
+          itemCard?.classList.add('has-open-select');
+          modelTrigger?.setAttribute('aria-expanded', 'true');
+          if (modelInput) {
+            modelInput.focus();
+            modelGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 120);
+      }
+    } else if (selectType === 'model') {
+      const device = this.allDevices.find(d => d.id === value);
+      if (!device) return;
+
+      item.deviceId = device.id;
+      item.deviceName = device.name;
+      item.cutterStatus = device.cutterStatus || 'available';
+      Cart.saveItems(this.items);
+
+      // Update Model Trigger UI
+      const modelWrapper = step.querySelector(`#model-group-${cartId}`);
+      if (modelWrapper) {
+        const trigger = modelWrapper.querySelector('.searchable-select-trigger');
+        const valSpan = modelWrapper.querySelector('.searchable-select-value');
+        const hidden = modelWrapper.querySelector('.model-select-item');
+        if (valSpan) valSpan.textContent = device.name;
+        if (hidden) hidden.value = device.id;
+        trigger.classList.add('has-value');
+        trigger.classList.remove('select-error');
+
+        // Add clear button if missing
+        let icons = trigger.querySelector('.searchable-select-icons');
+        if (icons && !icons.querySelector('.searchable-select-clear')) {
+          const clearBtn = document.createElement('span');
+          clearBtn.className = 'searchable-select-clear';
+          clearBtn.dataset.action = 'clear-model';
+          clearBtn.dataset.cartId = cartId;
+          clearBtn.title = 'Clear Model';
+          clearBtn.textContent = '✕';
+          icons.insertBefore(clearBtn, icons.firstChild);
+        }
+
+        // Update checkmark in options
+        modelWrapper.querySelectorAll('.searchable-option').forEach(opt => {
+          const isSel = opt.dataset.value === value;
+          opt.classList.toggle('selected', isSel);
+          let check = opt.querySelector('.searchable-option-check');
+          if (isSel && !check) {
+            opt.insertAdjacentHTML('beforeend', '<span class="searchable-option-check">✓</span>');
+          } else if (!isSel && check) {
+            check.remove();
+          }
+        });
+      }
+
+      // Update item header status
+      const itemCard = step.querySelector(`#cart-item-${cartId}`);
+      const statusSpan = itemCard?.querySelector('.cart-item-model-header span:last-child');
+      if (statusSpan) {
+        statusSpan.style.color = 'var(--color-primary)';
+        statusSpan.textContent = '✓ Model Selected';
+      }
+
+      // Show cutter alert box
+      const cutterBox = step.querySelector(`#cutter-${cartId}`);
+      if (cutterBox) {
+        cutterBox.style.display = 'block';
+        cutterBox.innerHTML = `
+          <div style="padding:6px 10px;border-radius:var(--radius-lg);font-size:var(--text-xs);background:var(--color-primary-light);color:var(--color-primary);font-weight:600">
+            ✓ <strong>${device.name}</strong>: Precision cut skin available!
+          </div>
+        `;
+      }
+    }
+  }
+
+  handleClearSelect(cartId, selectType, step) {
+    const item = this.items.find(i => i.cartItemId === cartId);
+    if (!item) return;
+
+    if (selectType === 'brand') {
+      item.brandId = null;
+      item.brandName = '';
+      item.deviceId = null;
+      item.deviceName = '';
+      Cart.saveItems(this.items);
+
+      const brandWrapper = step.querySelector(`#brand-select-wrapper-${cartId}`);
+      if (brandWrapper) {
+        const trigger = brandWrapper.querySelector('.searchable-select-trigger');
+        const valSpan = brandWrapper.querySelector('.searchable-select-value');
+        const hidden = brandWrapper.querySelector('.brand-select-item');
+        const clearBtn = trigger.querySelector('.searchable-select-clear');
+        if (clearBtn) clearBtn.remove();
+        if (valSpan) valSpan.textContent = 'Choose Brand';
+        if (hidden) hidden.value = '';
+        trigger.classList.remove('has-value');
+        brandWrapper.querySelectorAll('.searchable-option').forEach(opt => {
+          opt.classList.remove('selected');
+          opt.querySelector('.searchable-option-check')?.remove();
+        });
+      }
+
+      const modelGroup = step.querySelector(`#model-group-${cartId}`);
+      if (modelGroup) {
+        modelGroup.style.display = 'none';
+        const modelTrigger = modelGroup.querySelector('.searchable-select-trigger');
+        const modelValSpan = modelGroup.querySelector('.searchable-select-value');
+        const modelHidden = modelGroup.querySelector('.model-select-item');
+        const modelClear = modelTrigger?.querySelector('.searchable-select-clear');
+        if (modelClear) modelClear.remove();
+        if (modelValSpan) modelValSpan.textContent = 'Choose Model';
+        if (modelHidden) modelHidden.value = '';
+        modelTrigger?.classList.remove('has-value');
+      }
+
+      const itemCard = step.querySelector(`#cart-item-${cartId}`);
+      const statusSpan = itemCard?.querySelector('.cart-item-model-header span:last-child');
+      if (statusSpan) {
+        statusSpan.style.color = 'var(--color-danger)';
+        statusSpan.textContent = '* Select Model Below';
+      }
+
+      const cutterBox = step.querySelector(`#cutter-${cartId}`);
+      if (cutterBox) cutterBox.style.display = 'none';
+
+    } else if (selectType === 'model') {
+      item.deviceId = null;
+      item.deviceName = '';
+      Cart.saveItems(this.items);
+
+      const modelGroup = step.querySelector(`#model-group-${cartId}`);
+      if (modelGroup) {
+        const trigger = modelGroup.querySelector('.searchable-select-trigger');
+        const valSpan = modelGroup.querySelector('.searchable-select-value');
+        const hidden = modelGroup.querySelector('.model-select-item');
+        const clearBtn = trigger.querySelector('.searchable-select-clear');
+        if (clearBtn) clearBtn.remove();
+        if (valSpan) valSpan.textContent = 'Choose Model';
+        if (hidden) hidden.value = '';
+        trigger.classList.remove('has-value');
+        modelGroup.querySelectorAll('.searchable-option').forEach(opt => {
+          opt.classList.remove('selected');
+          opt.querySelector('.searchable-option-check')?.remove();
+        });
+      }
+
+      const itemCard = step.querySelector(`#cart-item-${cartId}`);
+      const statusSpan = itemCard?.querySelector('.cart-item-model-header span:last-child');
+      if (statusSpan) {
+        statusSpan.style.color = 'var(--color-danger)';
+        statusSpan.textContent = '* Select Model Below';
+      }
+
+      const cutterBox = step.querySelector(`#cutter-${cartId}`);
+      if (cutterBox) cutterBox.style.display = 'none';
+    }
   }
 
   // ─── STEP 2: Delivery Address ─────────────────────────────────
@@ -783,11 +1311,12 @@ export class CheckoutFlow {
           alert(`Please select the device model for "${item.productName}".`);
           const card = document.getElementById(`cart-item-${item.cartItemId}`);
           if (card) {
-            card.scrollIntoView({ behavior: 'smooth' });
-            const sel = card.querySelector('.model-select-item') || card.querySelector('.brand-select-item');
-            if (sel) {
-              sel.focus();
-              sel.style.borderColor = 'var(--color-danger)';
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const trigger = card.querySelector(`#model-trigger-${item.cartItemId}`) || card.querySelector(`#brand-trigger-${item.cartItemId}`);
+            if (trigger) {
+              trigger.focus();
+              trigger.classList.add('select-error');
+              setTimeout(() => trigger.classList.remove('select-error'), 2500);
             }
           }
           return;
