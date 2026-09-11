@@ -193,11 +193,25 @@ export class CheckoutFlow {
     step2.classList.toggle('active', this.currentStep === 2);
     step3.classList.toggle('active', this.currentStep === 3);
 
-    this.container.appendChild(step1);
-    this.container.appendChild(step2);
-    this.container.appendChild(step3);
+    // Layout Wrapper for Desktop & Tablet
+    const layout = document.createElement('div');
+    layout.className = 'checkout-layout';
 
-    // Bottom bar
+    const mainCol = document.createElement('div');
+    mainCol.className = 'checkout-main-col';
+    mainCol.appendChild(step1);
+    mainCol.appendChild(step2);
+    mainCol.appendChild(step3);
+    layout.appendChild(mainCol);
+
+    if (this.items.length > 0) {
+      const sidebarCol = this.createDesktopSidebar();
+      layout.appendChild(sidebarCol);
+    }
+
+    this.container.appendChild(layout);
+
+    // Bottom bar (mobile/tablet)
     this.renderBottomBar();
   }
 
@@ -347,112 +361,115 @@ export class CheckoutFlow {
             </button>
           </div>
 
-          <!-- Brand Searchable Select -->
-          <div class="searchable-select" data-select-type="brand" data-cart-id="${item.cartItemId}" id="brand-select-wrapper-${item.cartItemId}">
-            <button type="button" 
-                    class="searchable-select-trigger brand-trigger ${item.brandId ? 'has-value' : ''}" 
-                    id="brand-trigger-${item.cartItemId}" 
-                    aria-haspopup="listbox" 
-                    aria-expanded="false">
-              <div class="searchable-select-trigger-content">
-                <span class="searchable-select-label">Brand</span>
-                <span class="searchable-select-value" id="brand-val-${item.cartItemId}">
-                  ${selectedBrand ? selectedBrand.name : (item.brandName || 'Choose Brand')}
+          <!-- Brand & Model Select Grid (Side-by-Side on Tablet/Desktop, Stacked on Mobile) -->
+          <div class="cart-item-device-grid">
+            <!-- Brand Searchable Select -->
+            <div class="searchable-select" data-select-type="brand" data-cart-id="${item.cartItemId}" id="brand-select-wrapper-${item.cartItemId}">
+              <button type="button" 
+                      class="searchable-select-trigger brand-trigger ${item.brandId ? 'has-value' : ''}" 
+                      id="brand-trigger-${item.cartItemId}" 
+                      aria-haspopup="listbox" 
+                      aria-expanded="false">
+                <div class="searchable-select-trigger-content">
+                  <span class="searchable-select-label">Brand</span>
+                  <span class="searchable-select-value" id="brand-val-${item.cartItemId}">
+                    ${selectedBrand ? selectedBrand.name : (item.brandName || 'Choose Brand')}
+                  </span>
+                </div>
+                <span class="searchable-select-icons">
+                  ${item.brandId ? `<span class="searchable-select-clear" data-action="clear-brand" data-cart-id="${item.cartItemId}" title="Clear Brand">✕</span>` : ''}
+                  <svg class="searchable-select-chevron" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                  </svg>
                 </span>
-              </div>
-              <span class="searchable-select-icons">
-                ${item.brandId ? `<span class="searchable-select-clear" data-action="clear-brand" data-cart-id="${item.cartItemId}" title="Clear Brand">✕</span>` : ''}
-                <svg class="searchable-select-chevron" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                </svg>
-              </span>
-            </button>
-            <input type="hidden" class="brand-select-item" data-id="${item.cartItemId}" value="${item.brandId || ''}">
-            <div class="searchable-select-menu" id="brand-menu-${item.cartItemId}" role="listbox">
-              <div class="searchable-select-search-wrap">
-                <svg class="searchable-select-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <circle cx="11" cy="11" r="8" stroke-width="2"/>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                <input type="text" 
-                       class="searchable-select-input brand-search-input" 
-                       placeholder="Search brand (e.g. Apple, Vivo, Samsung)..." 
-                       autocomplete="off" 
-                       spellcheck="false">
-                <button type="button" class="searchable-select-clear-search" style="display:none" title="Clear search">✕</button>
-              </div>
-              <div class="searchable-select-meta">
-                <span class="searchable-count">${brandsForType.length} brands available</span>
-              </div>
-              <div class="searchable-select-options" tabindex="-1">
-                ${brandsForType.map(b => `
-                  <div class="searchable-option ${b.id === item.brandId ? 'selected' : ''}" data-value="${b.id}" data-label="${b.name}" data-search="${(b.name + ' ' + b.id).toLowerCase()}">
-                    <span class="searchable-option-text">${b.name}</span>
-                    ${b.id === item.brandId ? `<span class="searchable-option-check">✓</span>` : ''}
-                  </div>
-                `).join('')}
-              </div>
-              <div class="searchable-select-empty" style="display:none">
-                <span class="searchable-empty-icon">🔍</span>
-                <div class="searchable-empty-title">No brands found</div>
-                <div class="searchable-empty-desc">Check your spelling</div>
+              </button>
+              <input type="hidden" class="brand-select-item" data-id="${item.cartItemId}" value="${item.brandId || ''}">
+              <div class="searchable-select-menu" id="brand-menu-${item.cartItemId}" role="listbox">
+                <div class="searchable-select-search-wrap">
+                  <svg class="searchable-select-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  <input type="text" 
+                         class="searchable-select-input brand-search-input" 
+                         placeholder="Search brand (e.g. Apple, Vivo, Samsung)..." 
+                         autocomplete="off" 
+                         spellcheck="false">
+                  <button type="button" class="searchable-select-clear-search" style="display:none" title="Clear search">✕</button>
+                </div>
+                <div class="searchable-select-meta">
+                  <span class="searchable-count">${brandsForType.length} brands available</span>
+                </div>
+                <div class="searchable-select-options" tabindex="-1">
+                  ${brandsForType.map(b => `
+                    <div class="searchable-option ${b.id === item.brandId ? 'selected' : ''}" data-value="${b.id}" data-label="${b.name}" data-search="${(b.name + ' ' + b.id).toLowerCase()}">
+                      <span class="searchable-option-text">${b.name}</span>
+                      ${b.id === item.brandId ? `<span class="searchable-option-check">✓</span>` : ''}
+                    </div>
+                  `).join('')}
+                </div>
+                <div class="searchable-select-empty" style="display:none">
+                  <span class="searchable-empty-icon">🔍</span>
+                  <div class="searchable-empty-title">No brands found</div>
+                  <div class="searchable-empty-desc">Check your spelling</div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Model Searchable Select -->
-          <div class="searchable-select" data-select-type="model" data-cart-id="${item.cartItemId}" id="model-group-${item.cartItemId}" style="display:${item.brandId ? 'block' : 'none'}">
-            <button type="button" 
-                    class="searchable-select-trigger model-trigger ${item.deviceId ? 'has-value' : ''}" 
-                    id="model-trigger-${item.cartItemId}" 
-                    aria-haspopup="listbox" 
-                    aria-expanded="false"
-                    ${!item.brandId ? 'disabled' : ''}>
-              <div class="searchable-select-trigger-content">
-                <span class="searchable-select-label">Model</span>
-                <span class="searchable-select-value" id="model-val-${item.cartItemId}">
-                  ${selectedDevice ? selectedDevice.name : (item.deviceName || 'Choose Model')}
+            <!-- Model Searchable Select -->
+            <div class="searchable-select ${item.brandId ? '' : 'is-empty-brand'}" data-select-type="model" data-cart-id="${item.cartItemId}" id="model-group-${item.cartItemId}">
+              <button type="button" 
+                      class="searchable-select-trigger model-trigger ${item.deviceId ? 'has-value' : ''}" 
+                      id="model-trigger-${item.cartItemId}" 
+                      aria-haspopup="listbox" 
+                      aria-expanded="false"
+                      ${!item.brandId ? 'disabled' : ''}>
+                <div class="searchable-select-trigger-content">
+                  <span class="searchable-select-label">Model</span>
+                  <span class="searchable-select-value" id="model-val-${item.cartItemId}">
+                    ${selectedDevice ? selectedDevice.name : (item.brandId ? (item.deviceName || 'Choose Model') : 'Select Brand First')}
+                  </span>
+                </div>
+                <span class="searchable-select-icons">
+                  ${item.deviceId ? `<span class="searchable-select-clear" data-action="clear-model" data-cart-id="${item.cartItemId}" title="Clear Model">✕</span>` : ''}
+                  <svg class="searchable-select-chevron" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                  </svg>
                 </span>
-              </div>
-              <span class="searchable-select-icons">
-                ${item.deviceId ? `<span class="searchable-select-clear" data-action="clear-model" data-cart-id="${item.cartItemId}" title="Clear Model">✕</span>` : ''}
-                <svg class="searchable-select-chevron" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                </svg>
-              </span>
-            </button>
-            <input type="hidden" class="model-select-item" data-id="${item.cartItemId}" value="${item.deviceId || ''}">
-            <div class="searchable-select-menu" id="model-menu-${item.cartItemId}" role="listbox">
-              <div class="searchable-select-search-wrap">
-                <svg class="searchable-select-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <circle cx="11" cy="11" r="8" stroke-width="2"/>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                <input type="text" 
-                       class="searchable-select-input model-search-input" 
-                       placeholder="Search model (e.g. V29, 15 Pro, S24)..." 
-                       autocomplete="off" 
-                       spellcheck="false">
-                <button type="button" class="searchable-select-clear-search" style="display:none" title="Clear search">✕</button>
-              </div>
-              <div class="searchable-select-meta">
-                <span class="searchable-count">${devicesForBrand.length} models available</span>
-              </div>
-              <div class="searchable-select-options" tabindex="-1">
-                ${devicesForBrand.map(d => `
-                  <div class="searchable-option ${d.id === item.deviceId ? 'selected' : ''}" data-value="${d.id}" data-label="${d.name}" data-search="${(d.name + ' ' + (d.aliases || []).join(' ')).toLowerCase()}">
-                    <div class="searchable-option-content">
-                      <span class="searchable-option-text">${d.name}</span>
-                      <span class="searchable-option-sub">${d.cutterStatus === 'available' ? '✓ Precision Cut' : 'Template Available'}</span>
+              </button>
+              <input type="hidden" class="model-select-item" data-id="${item.cartItemId}" value="${item.deviceId || ''}">
+              <div class="searchable-select-menu" id="model-menu-${item.cartItemId}" role="listbox">
+                <div class="searchable-select-search-wrap">
+                  <svg class="searchable-select-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  <input type="text" 
+                         class="searchable-select-input model-search-input" 
+                         placeholder="Search model (e.g. V29, 15 Pro, S24)..." 
+                         autocomplete="off" 
+                         spellcheck="false">
+                  <button type="button" class="searchable-select-clear-search" style="display:none" title="Clear search">✕</button>
+                </div>
+                <div class="searchable-select-meta">
+                  <span class="searchable-count">${devicesForBrand.length} models available</span>
+                </div>
+                <div class="searchable-select-options" tabindex="-1">
+                  ${devicesForBrand.map(d => `
+                    <div class="searchable-option ${d.id === item.deviceId ? 'selected' : ''}" data-value="${d.id}" data-label="${d.name}" data-search="${(d.name + ' ' + (d.aliases || []).join(' ')).toLowerCase()}">
+                      <div class="searchable-option-content">
+                        <span class="searchable-option-text">${d.name}</span>
+                        <span class="searchable-option-sub">${d.cutterStatus === 'available' ? '✓ Precision Cut' : 'Template Available'}</span>
+                      </div>
+                      ${d.id === item.deviceId ? `<span class="searchable-option-check">✓</span>` : ''}
                     </div>
-                    ${d.id === item.deviceId ? `<span class="searchable-option-check">✓</span>` : ''}
-                  </div>
-                `).join('')}
-              </div>
-              <div class="searchable-select-empty" style="display:none">
-                <span class="searchable-empty-icon">🔍</span>
-                <div class="searchable-empty-title">No models found</div>
-                <div class="searchable-empty-desc">Check your search query</div>
+                  `).join('')}
+                </div>
+                <div class="searchable-select-empty" style="display:none">
+                  <span class="searchable-empty-icon">🔍</span>
+                  <div class="searchable-empty-title">No models found</div>
+                  <div class="searchable-empty-desc">Check your search query</div>
+                </div>
               </div>
             </div>
           </div>
@@ -841,6 +858,7 @@ export class CheckoutFlow {
       // 2. Populate & Show Model dropdown
       const modelGroup = step.querySelector(`#model-group-${cartId}`);
       if (modelGroup) {
+        modelGroup.classList.remove('is-empty-brand');
         modelGroup.style.display = 'block';
         const modelTrigger = modelGroup.querySelector('.searchable-select-trigger');
         const modelValSpan = modelGroup.querySelector('.searchable-select-value');
@@ -995,15 +1013,21 @@ export class CheckoutFlow {
 
       const modelGroup = step.querySelector(`#model-group-${cartId}`);
       if (modelGroup) {
-        modelGroup.style.display = 'none';
+        modelGroup.classList.add('is-empty-brand');
+        if (window.innerWidth < 768) {
+          modelGroup.style.display = 'none';
+        }
         const modelTrigger = modelGroup.querySelector('.searchable-select-trigger');
         const modelValSpan = modelGroup.querySelector('.searchable-select-value');
         const modelHidden = modelGroup.querySelector('.model-select-item');
         const modelClear = modelTrigger?.querySelector('.searchable-select-clear');
         if (modelClear) modelClear.remove();
-        if (modelValSpan) modelValSpan.textContent = 'Choose Model';
+        if (modelValSpan) modelValSpan.textContent = 'Select Brand First';
         if (modelHidden) modelHidden.value = '';
-        modelTrigger?.classList.remove('has-value');
+        if (modelTrigger) {
+          modelTrigger.classList.remove('has-value', 'select-error');
+          modelTrigger.disabled = true;
+        }
       }
 
       const itemCard = step.querySelector(`#cart-item-${cartId}`);
@@ -1061,76 +1085,82 @@ export class CheckoutFlow {
       <h2 class="checkout-section-title">Fill Delivery Address</h2>
       <p class="checkout-section-subtitle">We'll deliver all ${Cart.count()} skins to this address.</p>
 
-      <div class="form-group">
-        <label class="form-label">Full Name <span class="required">*</span></label>
-        <div class="form-input-icon">
-          ${Icons.user}
-          <input type="text" class="form-input" id="customer-name" placeholder="Ramesh Kumar" value="${this.customer.name}" required>
+      <div class="address-form-grid">
+        <div class="form-group col-span-1">
+          <label class="form-label">Full Name <span class="required">*</span></label>
+          <div class="form-input-icon">
+            ${Icons.user}
+            <input type="text" class="form-input" id="customer-name" placeholder="Ramesh Kumar" value="${this.customer.name}" required>
+          </div>
+          <div class="form-error" id="name-error"></div>
         </div>
-        <div class="form-error" id="name-error"></div>
-      </div>
 
-      <div class="form-group">
-        <label class="form-label">WhatsApp Number <span class="required">*</span></label>
-        <div class="form-input-icon">
-          ${Icons.phone}
-          <input type="tel" class="form-input" id="customer-phone" placeholder="9876543210" value="${this.customer.phone}" required>
+        <div class="form-group col-span-1">
+          <label class="form-label">WhatsApp Number <span class="required">*</span></label>
+          <div class="form-input-icon">
+            ${Icons.phone}
+            <input type="tel" class="form-input" id="customer-phone" placeholder="9876543210" value="${this.customer.phone}" required>
+          </div>
+          <div class="form-error" id="phone-error"></div>
         </div>
-        <div class="form-error" id="phone-error"></div>
-      </div>
 
-      <div class="form-group">
-        <label class="form-label">Email <span style="color:var(--color-text-tertiary)">(Optional)</span></label>
-        <div class="form-input-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          <input type="email" class="form-input" id="customer-email" placeholder="ramesh@gmail.com" value="${this.customer.email}">
+        <div class="form-group col-span-2">
+          <label class="form-label">Email <span style="color:var(--color-text-tertiary)">(Optional)</span></label>
+          <div class="form-input-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <input type="email" class="form-input" id="customer-email" placeholder="ramesh@gmail.com" value="${this.customer.email}">
+          </div>
         </div>
-      </div>
 
-      <h3 class="checkout-section-heading">
-        ${Icons.mapPin} Delivery Address
-      </h3>
-
-      <div class="form-group">
-        <label class="form-label">Flat / House No. / Street Address <span class="required">*</span></label>
-        <textarea class="form-input form-textarea" id="customer-address" rows="2" placeholder="123, Anna Nagar 2nd Street" required>${this.customer.address}</textarea>
-        <div class="form-error" id="address-error"></div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Landmark</label>
-        <input type="text" class="form-input" id="customer-landmark" placeholder="Near Metro Station" value="${this.customer.landmark}">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Pincode <span class="required">*</span></label>
-        <div class="form-input-icon">
-          ${Icons.mapPin}
-          <input type="text" class="form-input" id="customer-pincode" placeholder="400001" maxlength="6" value="${this.customer.pincode}" required>
+        <div class="col-span-2">
+          <h3 class="checkout-section-heading" style="margin-top:var(--space-2)">
+            ${Icons.mapPin} Delivery Address
+          </h3>
         </div>
-        <div class="form-error" id="pincode-error"></div>
-      </div>
 
-      <div class="form-group">
-        <label class="form-label">City <span class="required">*</span></label>
-        <input type="text" class="form-input" id="customer-city" placeholder="Mumbai" value="${this.customer.city}" required>
-        <div class="form-error" id="city-error"></div>
-      </div>
+        <div class="form-group col-span-2">
+          <label class="form-label">Flat / House No. / Street Address <span class="required">*</span></label>
+          <textarea class="form-input form-textarea" id="customer-address" rows="2" placeholder="123, Anna Nagar 2nd Street" required>${this.customer.address}</textarea>
+          <div class="form-error" id="address-error"></div>
+        </div>
 
-      <div class="form-group">
-        <label class="form-label">State <span class="required">*</span></label>
-        <select class="form-input form-select" id="customer-state" required>
-          <option value="">Select State</option>
-          ${stateOptions}
-        </select>
-        <div class="form-error" id="state-error"></div>
-      </div>
+        <div class="form-group col-span-1">
+          <label class="form-label">Landmark</label>
+          <input type="text" class="form-input" id="customer-landmark" placeholder="Near Metro Station" value="${this.customer.landmark}">
+        </div>
 
-      <div class="payment-badge">
-        ${Icons.coins}
-        <div>
-          <div class="payment-title">Cash on Delivery Available</div>
-          <div class="payment-desc">Pay directly when your parcel is delivered.</div>
+        <div class="form-group col-span-1">
+          <label class="form-label">Pincode <span class="required">*</span></label>
+          <div class="form-input-icon">
+            ${Icons.mapPin}
+            <input type="text" class="form-input" id="customer-pincode" placeholder="400001" maxlength="6" value="${this.customer.pincode}" required>
+          </div>
+          <div class="form-error" id="pincode-error"></div>
+        </div>
+
+        <div class="form-group col-span-1">
+          <label class="form-label">City <span class="required">*</span></label>
+          <input type="text" class="form-input" id="customer-city" placeholder="Mumbai" value="${this.customer.city}" required>
+          <div class="form-error" id="city-error"></div>
+        </div>
+
+        <div class="form-group col-span-1">
+          <label class="form-label">State <span class="required">*</span></label>
+          <select class="form-input form-select" id="customer-state" required>
+            <option value="">Select State</option>
+            ${stateOptions}
+          </select>
+          <div class="form-error" id="state-error"></div>
+        </div>
+
+        <div class="col-span-2">
+          <div class="payment-badge">
+            ${Icons.coins}
+            <div>
+              <div class="payment-title">Cash on Delivery Available</div>
+              <div class="payment-desc">Pay directly when your parcel is delivered.</div>
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -1329,6 +1359,128 @@ export class CheckoutFlow {
       this.goToStep(3);
       this.renderStep3();
     }
+  }
+
+  // ─── Desktop Sticky Order Summary Sidebar ─────────────────────
+  createDesktopSidebar() {
+    const sidebarCol = document.createElement('div');
+    sidebarCol.className = 'checkout-sidebar-col';
+
+    const subtotal = Cart.subtotal();
+    const freeDeliveryThreshold = this.settings?.freeDeliveryAbove || 999;
+    const isFreeDelivery = subtotal >= freeDeliveryThreshold;
+    const deliveryCharge = isFreeDelivery ? 0 : (this.settings?.defaultDeliveryCharge || 50);
+    const total = subtotal + deliveryCharge;
+
+    sidebarCol.innerHTML = `
+      <div class="checkout-sticky-sidebar">
+        <div class="desktop-order-summary-card">
+          <div class="sidebar-summary-header">
+            <h3 class="sidebar-summary-title">Order Summary</h3>
+            <span class="sidebar-item-count">${this.items.length} ${this.items.length === 1 ? 'skin' : 'skins'}</span>
+          </div>
+
+          <!-- Mini Item Previews -->
+          <div class="sidebar-items-mini-list">
+            ${this.items.map(item => `
+              <div class="sidebar-mini-item">
+                <div class="mini-item-thumb">
+                  ${item.productImage 
+                    ? `<img src="${Utils.resolveUrl(item.productImage)}" alt="${item.productName}" onerror="this.style.display='none'">` 
+                    : `<div class="mini-item-placeholder" style="background:${Utils.getPlaceholderGradient(item.productId)}">${item.productName.slice(0,2)}</div>`}
+                  <span class="mini-item-qty">${item.qty || 1}</span>
+                </div>
+                <div class="mini-item-info">
+                  <div class="mini-item-name">${item.productName}</div>
+                  <div class="mini-item-sub">
+                    ${item.deviceName ? `✓ ${item.deviceName}` : '<span style="color:var(--color-danger)">Select device model</span>'}
+                  </div>
+                  <div class="mini-item-type">Finish: ${Utils.formatSkinType(item.skinType)}</div>
+                </div>
+                <div class="mini-item-price">₹${(Number(item.productPrice) || 0) * (item.qty || 1)}</div>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Free Delivery Progress / Status -->
+          <div class="sidebar-shipping-banner ${isFreeDelivery ? 'is-free' : ''}">
+            ${isFreeDelivery ? `
+              <div class="shipping-unlocked">
+                <span class="shipping-icon">🎉</span>
+                <div>
+                  <div style="font-weight:700;color:var(--color-primary);font-size:var(--text-xs)">FREE Delivery Unlocked!</div>
+                  <div style="font-size:11px;color:var(--color-text-secondary)">You saved ₹${this.settings?.defaultDeliveryCharge || 50} on delivery</div>
+                </div>
+              </div>
+            ` : `
+              <div class="shipping-progress-wrap">
+                <div class="shipping-progress-text">
+                  <span>Add <strong>₹${freeDeliveryThreshold - subtotal}</strong> for <strong>FREE Delivery</strong></span>
+                  <span style="font-weight:700;color:var(--color-primary)">${Math.round((subtotal / freeDeliveryThreshold) * 100)}%</span>
+                </div>
+                <div class="shipping-progress-bar">
+                  <div class="shipping-progress-fill" style="width:${Math.min(100, Math.round((subtotal / freeDeliveryThreshold) * 100))}%"></div>
+                </div>
+              </div>
+            `}
+          </div>
+
+          <!-- Price Breakdown -->
+          <div class="sidebar-price-rows">
+            <div class="sidebar-price-row">
+              <span class="price-label">Subtotal</span>
+              <span class="price-val">₹${subtotal}</span>
+            </div>
+            <div class="sidebar-price-row">
+              <span class="price-label">Delivery</span>
+              <span class="price-val ${isFreeDelivery ? 'free-tag' : ''}">${deliveryCharge === 0 ? 'FREE' : '₹' + deliveryCharge}</span>
+            </div>
+            <div class="sidebar-price-row total-row">
+              <span class="price-label">Total Amount</span>
+              <span class="price-val total-amount">₹${total}</span>
+            </div>
+            <div class="payment-method-hint">
+              <span>💵 Cash on Delivery</span>
+              <span style="opacity:0.75">· Pay at delivery</span>
+            </div>
+          </div>
+
+          <!-- Primary Action CTA Button -->
+          <div class="sidebar-cta-wrap">
+            ${this.currentStep === 3 ? `
+              <button type="button" class="btn btn-whatsapp btn-lg btn-full sidebar-action-btn" id="sidebar-place-order-btn" style="font-weight:800">
+                ${Icons.whatsapp} Submit to WhatsApp
+              </button>
+            ` : `
+              <button type="button" class="btn btn-primary btn-lg btn-full sidebar-action-btn" id="sidebar-next-step-btn" style="font-weight:800">
+                ${this.currentStep === 1 ? 'Continue to Address →' : 'Review Order →'}
+              </button>
+            `}
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="sidebar-trust-features">
+            <div class="trust-feat">
+              <span class="trust-icon">✂️</span>
+              <span>100% Precision Laser Cut</span>
+            </div>
+            <div class="trust-feat">
+              <span class="trust-icon">🛡️</span>
+              <span>Bubble-Free Easy Application</span>
+            </div>
+            <div class="trust-feat">
+              <span class="trust-icon">🔄</span>
+              <span>Free Model Replacement Guarantee</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    sidebarCol.querySelector('#sidebar-next-step-btn')?.addEventListener('click', () => this.nextStep());
+    sidebarCol.querySelector('#sidebar-place-order-btn')?.addEventListener('click', () => this.placeOrder());
+
+    return sidebarCol;
   }
 
   // ─── Bottom Bar ─────────────────────────────────────────────
