@@ -1,4 +1,4 @@
-# Skinify Robots.txt
+# Cormal Robots.txt
 User-agent: *
 Allow: /
 Disallow: /data/

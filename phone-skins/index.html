@@ -10,10 +10,10 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Phone Skins | Premium Mobile Back Skins | Skinify</title>
+  <title>Phone Skins | Premium Mobile Back Skins | Cormal</title>
   <meta name="description" content="Shop premium phone skins in Minimal, Anime, Nature, Abstract and Gaming designs. Compatible with iPhone, Samsung, OnePlus, Xiaomi and more. Order on WhatsApp.">
   <link rel="canonical" href="phone-skins/">
-  <meta property="og:title" content="Phone Skins | Skinify">
+  <meta property="og:title" content="Phone Skins | Cormal">
   <meta property="og:description" content="Premium vinyl phone skins. Choose your design, order on WhatsApp.">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,13 +52,13 @@
     <section style="padding: var(--space-8) var(--space-4);">
       <h2 style="font-size:var(--text-lg);font-weight:800;margin-bottom:var(--space-3)">Custom Phone Skins Online</h2>
       <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.7;margin-bottom:var(--space-4)">
-        Give your phone a fresh look and protection with Skinify's premium vinyl wraps. Precision-cut for iPhone, Samsung Galaxy,
+        Give your phone a fresh look and protection with Cormal's premium vinyl wraps. Precision-cut for iPhone, Samsung Galaxy,
         OnePlus, Xiaomi, Pixel, Vivo, Oppo, Realme and 40+ brands. Ultra-thin 0.2mm 3M vinyl, bubble-free application, zero residue.
       </p>
     </section>
 
     <footer class="site-footer">
-      <p>© 2026 Skinify. All rights reserved.</p>
+      <p>© 2026 Cormal. All rights reserved.</p>
     </footer>
   </main>
 
@@ -80,8 +80,8 @@
   </script>
 
   <script type="module">
-    import { dataService, Utils, Analytics } from './assets/js/app.js';
-    import { initPage, createFilterChips, createSkinTypeChips, renderProductGrid } from './assets/js/components.js';
+    import { dataService, Utils, Analytics } from './assets/js/app.js?v=2';
+    import { initPage, createFilterChips, createSkinTypeChips, renderProductGrid } from './assets/js/components.js?v=2';
 
     await initPage(dataService, { activePage: 'categories', showBack: true });
 
@@ -144,7 +144,7 @@
 
     // If active device, show banner and update title
     if (activeDevice) {
-      document.title = `${activeDevice.name} Skins | Skinify`;
+      document.title = `${activeDevice.name} Skins | Cormal`;
       const titleEl = document.querySelector('.page-title-small');
       if (titleEl) titleEl.textContent = `${activeDevice.name} Skins`;
       const subtitleEl = document.querySelector('.page-subtitle-small');

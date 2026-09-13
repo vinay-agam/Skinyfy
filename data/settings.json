@@ -1,5 +1,5 @@
 {
-  "storeName": "Skinify",
+  "storeName": "Cormal",
   "tagline": "Style Your Tech",
   "whatsappNumber": "919876543210",
   "currency": "INR",
@@ -7,8 +7,8 @@
   "defaultDeliveryCharge": 50,
   "freeDeliveryAbove": 500,
   "country": "India",
-  "supportEmail": "hello@skinify.in",
-  "orderIdPrefix": "SK",
+  "supportEmail": "hello@cormal.in",
+  "orderIdPrefix": "CR",
   "socialLinks": {
     "instagram": "",
     "facebook": "",

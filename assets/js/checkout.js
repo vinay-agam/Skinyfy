@@ -1,5 +1,5 @@
 /**
- * Skinify — Multi-Item Ecommerce Checkout Flow
+ * Cormal — Multi-Item Ecommerce Checkout Flow
  * 3-step order process:
  * Step 1: Select Model for all skins (Add / Remove / Change skins)
  * Step 2: Fill Address
@@ -1526,13 +1526,13 @@ export class CheckoutFlow {
 
   // ─── Place Order (WhatsApp) ─────────────────────────────────
   placeOrder() {
-    const orderId = Utils.generateOrderId(this.settings?.orderIdPrefix || 'SK');
+    const orderId = Utils.generateOrderId(this.settings?.orderIdPrefix || 'CR');
     const subtotal = Cart.subtotal();
     const isFreeDelivery = subtotal >= (this.settings?.freeDeliveryAbove || 999);
     const deliveryCharge = isFreeDelivery ? 0 : (this.settings?.defaultDeliveryCharge || 50);
     const total = subtotal + deliveryCharge;
 
-    let message = `Hi Skinify 👋\nI would like to place an order!\n\n`;
+    let message = `Hi Cormal 👋\nI would like to place an order!\n\n`;
     message += `📦 *ORDER #${orderId}*\n`;
     message += `━━━━━━━━━━━━━━━━━━━━\n`;
     message += `*ITEMS (${this.items.length}):*\n`;

@@ -10,7 +10,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>My Favorites | Skinify</title>
+  <title>My Favorites | Cormal</title>
   <meta name="description" content="Your saved skin designs. Browse your favorites and order on WhatsApp.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,13 +40,13 @@
     </div>
 
     <footer class="site-footer">
-      <p>© 2026 Skinify. All rights reserved.</p>
+      <p>© 2026 Cormal. All rights reserved.</p>
     </footer>
   </main>
 
   <script type="module">
-    import { dataService, Utils, Favorites, Analytics } from './assets/js/app.js';
-    import { initPage, renderProductGrid } from './assets/js/components.js';
+    import { dataService, Utils, Favorites, Analytics } from './assets/js/app.js?v=2';
+    import { initPage, renderProductGrid } from './assets/js/components.js?v=2';
 
     await initPage(dataService, { activePage: 'favorites', showBack: true });
 

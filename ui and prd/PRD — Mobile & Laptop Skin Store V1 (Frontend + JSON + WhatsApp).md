@@ -604,7 +604,7 @@ The final button should open WhatsApp with a pre-filled message.
 Example:
 
 ```text
-Hi Skinify 👋
+Hi Cormal 👋
 
 I would like to order a skin.
 
@@ -875,7 +875,7 @@ Example:
 
 ```text
 Title:
-iPhone 15 Pro Skins | Premium Back Skins | Skinify
+iPhone 15 Pro Skins | Premium Back Skins | Cormal
 
 Description:
 Shop premium iPhone 15 Pro skins in different designs.
@@ -1107,7 +1107,7 @@ Example:
 
 ```json
 {
-  "storeName": "Skinify",
+  "storeName": "Cormal",
   "whatsappNumber": "919876543210",
   "currency": "INR",
   "defaultDeliveryCharge": 50,

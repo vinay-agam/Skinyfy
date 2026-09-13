@@ -1,5 +1,5 @@
 /**
- * Skinify — Core Application Module
+ * Cormal — Core Application Module
  * DataService, Utils, Favorites, Analytics, SEO helpers
  * 
  * Architecture: All data fetching goes through DataService.
@@ -327,11 +327,11 @@ export const Utils = {
 
 // ─── Favorites (localStorage) ───────────────────────────────────
 export const Favorites = {
-  KEY: 'skinify_favorites',
+  KEY: 'cormal_favorites',
 
   getAll() {
     try {
-      return JSON.parse(localStorage.getItem(this.KEY)) || [];
+      return JSON.parse(localStorage.getItem(this.KEY)) || JSON.parse(localStorage.getItem('skinify_favorites')) || [];
     } catch { return []; }
   },
 
@@ -359,11 +359,11 @@ export const Favorites = {
 
 // ─── Shopping Cart (multi-item order) ───────────────────────────
 export const Cart = {
-  KEY: 'skinify_cart',
+  KEY: 'cormal_cart',
 
   getItems() {
     try {
-      return JSON.parse(localStorage.getItem(this.KEY) || '[]');
+      return JSON.parse(localStorage.getItem(this.KEY) || localStorage.getItem('skinify_cart') || '[]');
     } catch {
       return [];
     }
@@ -436,10 +436,10 @@ export const Analytics = {
     }
     // Store recent events for debugging
     try {
-      const events = JSON.parse(sessionStorage.getItem('skinify_events') || '[]');
+      const events = JSON.parse(sessionStorage.getItem('cormal_events') || sessionStorage.getItem('skinify_events') || '[]');
       events.push(entry);
       if (events.length > 100) events.shift();
-      sessionStorage.setItem('skinify_events', JSON.stringify(events));
+      sessionStorage.setItem('cormal_events', JSON.stringify(events));
     } catch {}
   },
 

@@ -20,10 +20,10 @@ function createDevicePageHTML(device) {
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>${device.name} Skins | Premium Vinyl Wraps | Skinify</title>
+  <title>${device.name} Skins | Premium Vinyl Wraps | Cormal</title>
   <meta name="description" content="Precision-cut skins for ${device.name}. Bubble-free application, scratch resistant, ultra thin. Choose design and order on WhatsApp.">
   <link rel="canonical" href="phone-skins/${device.id}/">
-  <meta property="og:title" content="${device.name} Skins | Skinify">
+  <meta property="og:title" content="${device.name} Skins | Cormal">
   <meta property="og:description" content="Custom vinyl skins for ${device.name}. Order on WhatsApp.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,14 +65,14 @@ function createDevicePageHTML(device) {
     <section style="padding: var(--space-8) var(--space-4);">
       <h2 style="font-size:var(--text-lg);font-weight:800;margin-bottom:var(--space-3)">Custom ${device.name} Skins</h2>
       <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.7;margin-bottom:var(--space-4)">
-        Protect and customize your ${brandName} ${device.name} with Skinify's precision-cut vinyl skins.
+        Protect and customize your ${brandName} ${device.name} with Cormal's precision-cut vinyl skins.
         Engineered specifically for the dimensions and camera cutouts of ${device.name}, our skins offer 3M-grade quality,
         air-release channels for bubble-free application, and leave zero sticky residue upon removal.
       </p>
     </section>
 
     <footer class="site-footer">
-      <p>© 2026 Skinify. All rights reserved.</p>
+      <p>© 2026 Cormal. All rights reserved.</p>
     </footer>
   </main>
 
@@ -87,8 +87,8 @@ function createDevicePageHTML(device) {
   </script>
 
   <script type="module">
-    import { dataService, Utils, Analytics } from './assets/js/app.js';
-    import { initPage, createFilterChips, renderProductGrid } from './assets/js/components.js';
+    import { dataService, Utils, Analytics } from './assets/js/app.js?v=2';
+    import { initPage, createFilterChips, renderProductGrid } from './assets/js/components.js?v=2';
 
     await initPage(dataService, { activePage: 'categories', showBack: true });
 

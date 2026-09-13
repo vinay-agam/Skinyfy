@@ -10,7 +10,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Order Your Skin | Skinify</title>
+  <title>Order Your Skin | Cormal</title>
   <meta name="description" content="Select your device, choose a skin design, enter your details and place your order on WhatsApp. Quick and easy checkout.">
   <link rel="canonical" href="checkout/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,9 +33,9 @@
   </main>
 
   <script type="module">
-    import { dataService } from './assets/js/app.js';
-    import { createHeader, createSearchOverlay } from './assets/js/components.js';
-    import { CheckoutFlow } from './assets/js/checkout.js';
+    import { dataService } from './assets/js/app.js?v=2';
+    import { createHeader, createSearchOverlay } from './assets/js/components.js?v=2';
+    import { CheckoutFlow } from './assets/js/checkout.js?v=2';
 
     // Insert header
     const header = createHeader({ showBack: true, showSearch: false, showCart: true });
@@ -49,14 +49,15 @@
     const settings = await dataService.getSettings();
     const waBtn = document.getElementById('header-whatsapp-btn');
     if (waBtn) {
-      waBtn.href = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent('Hi Skinify 👋')}`;
+      waBtn.href = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent('Hi Cormal 👋')}`;
       waBtn.target = '_blank';
     }
 
     // Initialize checkout flow
     const container = document.getElementById('checkout-container');
     const checkout = new CheckoutFlow(container);
-    window.skinifyCheckout = checkout; // For edit buttons in review step
+    window.cormalCheckout = checkout;
+    window.skinifyCheckout = checkout; // Backwards compatibility for edit buttons
     await checkout.init();
   </script>
 </body>

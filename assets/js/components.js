@@ -1,5 +1,5 @@
 /**
- * Skinify — Reusable UI Components
+ * Cormal — Reusable UI Components
  * All components are pure functions that return DOM elements.
  */
 
@@ -441,7 +441,7 @@ export function createHeader(options = {}) {
       <div class="header-left">
         ${showBack ? `<button class="header-back-btn" onclick="history.back()" aria-label="Go back">${Icons.arrowLeft}</button>` : ''}
         <a href="${Utils.resolveUrl('')}" class="header-logo">
-          <span class="logo-text">Skinify</span>
+          <span class="logo-text">Cormal</span>
           <span class="logo-tagline">Style Your Tech</span>
         </a>
       </div>
@@ -505,7 +505,7 @@ export function createHeader(options = {}) {
     waBtn.addEventListener('click', (e) => {
       e.preventDefault();
       const num = options.whatsappNumber || '919876543210';
-      window.open(Utils.buildWhatsAppURL(num, 'Hi Skinify 👋\nI need help choosing a skin or finding my device!'), '_blank');
+      window.open(Utils.buildWhatsAppURL(num, 'Hi Cormal 👋\nI need help choosing a skin or finding my device!'), '_blank');
     });
   }
 
@@ -689,7 +689,7 @@ export async function initPage(dataService, options = {}) {
   const settings = await dataService.getSettings();
   const waBtn = document.getElementById('header-whatsapp-btn');
   if (waBtn && settings.whatsappNumber) {
-    waBtn.href = Utils.buildWhatsAppURL(settings.whatsappNumber, 'Hi Skinify 👋\nI have a question about skins.');
+    waBtn.href = Utils.buildWhatsAppURL(settings.whatsappNumber, 'Hi Cormal 👋\nI have a question about skins.');
     waBtn.target = '_blank';
     waBtn.rel = 'noopener noreferrer';
   }

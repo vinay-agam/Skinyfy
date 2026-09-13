@@ -10,18 +10,18 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Skinify — Premium Skins for Phones & Laptops | Style Your Tech</title>
+  <title>Cormal — Premium Skins for Phones & Laptops | Style Your Tech</title>
   <meta name="description" content="Shop premium vinyl skins for phones and laptops. Choose your device, pick a design, and order easily on WhatsApp. Precision cut, scratch resistant, bubble-free.">
   <meta name="keywords" content="phone skins, laptop skins, mobile skins, vinyl wraps, iPhone skins, Samsung skins, MacBook skins">
   <link rel="canonical" href="./">
-  <meta property="og:title" content="Skinify — Premium Skins for Phones & Laptops">
+  <meta property="og:title" content="Cormal — Premium Skins for Phones & Laptops">
   <meta property="og:description" content="Express your style with premium vinyl skins. Easy WhatsApp ordering, cash on delivery.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1B8C5C">
 </head>
@@ -49,7 +49,10 @@
         </a>
       </div>
       <div class="hero-image-area">
-        <div class="hero-phone-placeholder"></div>
+        <picture class="hero-gallery-picture">
+          <source srcset="assets/images/hero-gallery.webp" type="image/webp" />
+          <img src="assets/images/hero-gallery.png" alt="Cormal Skins Showcase Gallery" class="hero-gallery-img" width="500" height="1500" fetchpriority="high" decoding="async" />
+        </picture>
       </div>
     </section>
 
@@ -243,7 +246,10 @@
             </a>
           </div>
           <div class="how-step-graphic">
-            <img src="assets/images/how-step-1.png" alt="Pick Your Skin - 3 Phones Preview" class="how-step-img" loading="lazy" />
+            <picture class="how-step-picture">
+              <source srcset="assets/images/how-step-1.webp" type="image/webp" />
+              <img src="assets/images/how-step-1.png" alt="Pick Your Skin - 3 Phones Preview" class="how-step-img" width="120" height="120" loading="lazy" decoding="async" />
+            </picture>
           </div>
         </div>
 
@@ -276,7 +282,10 @@
             </a>
           </div>
           <div class="how-step-graphic">
-            <img src="assets/images/how-step-2.png" alt="Select Your Device Model" class="how-step-img" loading="lazy" />
+            <picture class="how-step-picture">
+              <source srcset="assets/images/how-step-2.webp" type="image/webp" />
+              <img src="assets/images/how-step-2.png" alt="Select Your Device Model" class="how-step-img" width="120" height="120" loading="lazy" decoding="async" />
+            </picture>
           </div>
         </div>
 
@@ -309,7 +318,10 @@
             </a>
           </div>
           <div class="how-step-graphic">
-            <img src="assets/images/how-step-3.png" alt="Order on WhatsApp with Doorstep Delivery" class="how-step-img" loading="lazy" />
+            <picture class="how-step-picture">
+              <source srcset="assets/images/how-step-3.webp" type="image/webp" />
+              <img src="assets/images/how-step-3.png" alt="Order on WhatsApp with Doorstep Delivery" class="how-step-img" width="120" height="120" loading="lazy" decoding="async" />
+            </picture>
           </div>
         </div>
       </div>
@@ -365,7 +377,7 @@
     <!-- Footer -->
     <footer class="site-footer">
       <div class="footer-tagline">Simple · Secure · Delivered to You</div>
-      <p>© 2026 Skinify. All rights reserved.</p>
+      <p>© 2026 Cormal. All rights reserved.</p>
     </footer>
   </main>
 
@@ -374,7 +386,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Skinify",
+    "name": "Cormal",
     "url": "/",
     "description": "Premium vinyl skins for phones and laptops. Order via WhatsApp.",
     "contactPoint": {
@@ -388,7 +400,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Skinify",
+    "name": "Cormal",
     "url": "/",
     "potentialAction": {
       "@type": "SearchAction",
@@ -399,8 +411,8 @@
   </script>
 
   <script type="module">
-    import { dataService, Utils, Analytics } from './assets/js/app.js';
-    import { initPage, createCategoryCircle, renderProductScroll, createProductCard } from './assets/js/components.js';
+    import { dataService, Utils, Analytics } from './assets/js/app.js?v=2';
+    import { initPage, createCategoryCircle, renderProductScroll, createProductCard } from './assets/js/components.js?v=2';
 
     // Init header, bottom nav, search overlay
     await initPage(dataService, { activePage: 'home' });
@@ -437,7 +449,7 @@
     // ─── Header WhatsApp CTA ──────────
     const headerWA = document.getElementById('header-whatsapp-btn');
     if (headerWA && settings?.whatsappNumber) {
-      headerWA.href = Utils.buildWhatsAppURL(settings.whatsappNumber, 'Hi Skinify 👋\nI need help choosing a skin for my device!');
+      headerWA.href = Utils.buildWhatsAppURL(settings.whatsappNumber, 'Hi Cormal 👋\nI need help choosing a skin for my device!');
       headerWA.target = '_blank';
       headerWA.rel = 'noopener noreferrer';
     }
@@ -445,7 +457,7 @@
     // ─── How It Works WhatsApp CTA ────
     const howWA = document.getElementById('how-whatsapp-btn');
     if (howWA && settings?.whatsappNumber) {
-      howWA.href = Utils.buildWhatsAppURL(settings.whatsappNumber, 'Hi Skinify 👋\nI would like to order a custom skin for my device!');
+      howWA.href = Utils.buildWhatsAppURL(settings.whatsappNumber, 'Hi Cormal 👋\nI would like to order a custom skin for my device!');
     }
 
     // ─── Search bar click → open overlay ─
