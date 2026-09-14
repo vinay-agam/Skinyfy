@@ -324,6 +324,16 @@ export class CheckoutFlow {
             </div>
             <div class="cart-item-info">
               <div class="cart-item-title">${item.productName}</div>
+              ${item.productImage ? `
+                <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin:3px 0;">
+                  <span style="display:inline-flex;align-items:center;background:var(--color-primary-light);color:var(--color-primary);border:1px solid var(--color-primary);padding:1px 7px;border-radius:var(--radius-full);font-size:10px;font-weight:700;">
+                    ${(item.productImage.match(/\d+/) ? '#' + item.productImage.match(/\d+/)[0] : 'Design')}
+                  </span>
+                  <span style="display:inline-flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid var(--color-border);padding:1px 6px;border-radius:var(--radius-sm);font-size:10px;font-family:monospace;color:var(--color-text-secondary);">
+                    📁 ${item.productImage.split('/').pop()}
+                  </span>
+                </div>
+              ` : ''}
               <div class="cart-item-price">₹${item.productPrice} each</div>
               <a href="${Utils.resolveUrl((item.deviceType === 'laptop' ? 'laptop-skins/' : 'phone-skins/') + '?replace=' + item.cartItemId + (item.deviceId ? '&device=' + encodeURIComponent(item.deviceId) : ''))}" class="item-change-skin-link" style="font-size:var(--text-xs);color:var(--color-primary);background:var(--color-primary-light);padding:3px 10px;border-radius:var(--radius-full);text-decoration:none;margin-top:4px;display:inline-flex;align-items:center;gap:4px;font-weight:700">
                 <span>🔄</span> Change Skin
@@ -1260,10 +1270,18 @@ export class CheckoutFlow {
           <button class="review-edit-btn" id="edit-items-btn" type="button">Edit</button>
         </div>
         <div style="display:flex;flex-direction:column;gap:var(--space-3)">
-          ${this.items.map((item, idx) => `
-            <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:var(--space-2);${idx < this.items.length - 1 ? 'border-bottom:1px dashed var(--color-border)' : ''}">
+          ${this.items.map((item, idx) => {
+            const imgFile = item.productImage ? item.productImage.split('/').pop() : '';
+            const numMatch = (imgFile || item.productId || '').match(/\d+/);
+            const designNum = numMatch ? `#${numMatch[0]}` : '';
+            return `
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:var(--space-2);${idx < this.items.length - 1 ? 'border-bottom:1px dashed var(--color-border)' : ''}">
               <div>
-                <div style="font-weight:700;font-size:var(--text-sm)">${item.productName} × ${item.qty || 1}</div>
+                <div style="font-weight:700;font-size:var(--text-sm);display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                  <span>${item.productName} × ${item.qty || 1}</span>
+                  ${designNum ? `<span style="background:var(--color-primary-light);color:var(--color-primary);font-size:10px;font-weight:800;padding:1px 7px;border-radius:var(--radius-full);border:1px solid var(--color-primary)">Design ${designNum}</span>` : ''}
+                </div>
+                ${imgFile ? `<div style="font-size:10px;font-family:monospace;color:var(--color-text-secondary);margin-top:2px">Image File: <strong>${imgFile}</strong></div>` : ''}
                 <div style="font-size:var(--text-xs);color:var(--color-text-secondary);margin-top:2px">
                   Model: <strong>${item.deviceName?.toLowerCase().startsWith(item.brandName?.toLowerCase()) ? item.deviceName : `${item.brandName || ''} ${item.deviceName || 'Selected Model'}`.trim()}</strong>
                   · Type: <strong style="color:var(--color-primary)">${Utils.formatSkinType(item.skinType || (item.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'))}</strong>
@@ -1271,7 +1289,8 @@ export class CheckoutFlow {
               </div>
               <div style="font-weight:800;font-size:var(--text-sm)">₹${(Number(item.productPrice) || 0) * (item.qty || 1)}</div>
             </div>
-          `).join('')}
+            `;
+          }).join('')}
         </div>
       </div>
 
@@ -1382,7 +1401,11 @@ export class CheckoutFlow {
 
           <!-- Mini Item Previews -->
           <div class="sidebar-items-mini-list">
-            ${this.items.map(item => `
+            ${this.items.map(item => {
+              const imgFile = item.productImage ? item.productImage.split('/').pop() : '';
+              const numMatch = (imgFile || item.productId || '').match(/\d+/);
+              const designNum = numMatch ? `#${numMatch[0]}` : '';
+              return `
               <div class="sidebar-mini-item">
                 <div class="mini-item-thumb">
                   ${item.productImage 
@@ -1391,7 +1414,11 @@ export class CheckoutFlow {
                   <span class="mini-item-qty">${item.qty || 1}</span>
                 </div>
                 <div class="mini-item-info">
-                  <div class="mini-item-name">${item.productName}</div>
+                  <div class="mini-item-name" style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+                    <span>${item.productName}</span>
+                    ${designNum ? `<span style="font-size:9px;font-weight:800;color:var(--color-primary);background:var(--color-primary-light);padding:0 4px;border-radius:4px">${designNum}</span>` : ''}
+                  </div>
+                  ${imgFile ? `<div style="font-size:9px;font-family:monospace;color:var(--color-text-tertiary);margin:1px 0">${imgFile}</div>` : ''}
                   <div class="mini-item-sub">
                     ${item.deviceName ? `✓ ${item.deviceName}` : '<span style="color:var(--color-danger)">Select device model</span>'}
                   </div>
@@ -1399,7 +1426,8 @@ export class CheckoutFlow {
                 </div>
                 <div class="mini-item-price">₹${(Number(item.productPrice) || 0) * (item.qty || 1)}</div>
               </div>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
 
           <!-- Free Delivery Progress / Status -->
@@ -1540,7 +1568,15 @@ export class CheckoutFlow {
       const modelName = item.deviceName || 'Custom Model';
       const brandName = item.brandName || '';
       const fullModel = modelName.toLowerCase().startsWith(brandName.toLowerCase()) ? modelName : `${brandName} ${modelName}`.trim();
-      message += `${idx + 1}. *${item.productName}*\n`;
+      
+      const imgFile = item.productImage ? item.productImage.split('/').pop() : '';
+      const numMatch = (imgFile || item.productId || '').match(/\d+/);
+      const designNum = numMatch ? `#${numMatch[0]}` : '';
+
+      message += `${idx + 1}. *${item.productName}* ${designNum ? `[Design ${designNum}]` : ''}\n`;
+      if (imgFile) {
+        message += `   • Design Image: *${imgFile}*\n`;
+      }
       message += `   • Device: ${fullModel}\n`;
       message += `   • Type / Finish: ${Utils.formatSkinType(item.skinType || (item.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'))}\n`;
       message += `   • Qty: ${item.qty || 1} × ₹${item.productPrice} = ₹${(Number(item.productPrice) || 0) * (item.qty || 1)}\n`;

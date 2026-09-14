@@ -24,38 +24,51 @@
 </head>
 <body>
 
-  <main id="main-content">
-    <!-- Filter Chips -->
-    <div id="filter-chips-container"></div>
-
-    <!-- Skin Type / Finish Filter Chips -->
-    <div id="skin-type-chips-container"></div>
-
-    <!-- Page Title + Sort -->
-    <div class="sort-wrapper">
-      <div>
-        <h1 class="page-title-small">Laptop Skins</h1>
-        <p class="page-subtitle-small">Upgrade your laptop's look.</p>
+  <main id="main-content" style="min-height:75vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:var(--space-8) var(--space-4);">
+    <div style="max-width:580px;width:100%;text-align:center;background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:var(--radius-2xl);padding:var(--space-10) var(--space-6);box-shadow:var(--shadow-xl);position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-50px;left:50%;transform:translateX(-50%);width:200px;height:100px;background:var(--color-primary);filter:blur(80px);opacity:0.25;pointer-events:none;"></div>
+      
+      <!-- Icon & Badge -->
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;border-radius:var(--radius-2xl);background:var(--color-primary-light);color:var(--color-primary);margin-bottom:var(--space-4);box-shadow:0 8px 24px var(--color-primary-glow);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+          <line x1="2" y1="20" x2="22" y2="20"></line>
+        </svg>
       </div>
-      <button class="sort-btn" id="sort-btn">
-        Sort by
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
-      </button>
+
+      <div style="display:inline-block;padding:4px 12px;background:rgba(245,158,11,0.15);color:#d97706;border:1px solid rgba(245,158,11,0.3);border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:800;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:var(--space-3);">
+        🚀 Launching Soon
+      </div>
+
+      <h1 style="font-size:var(--text-2xl);font-weight:900;color:var(--color-text);margin-bottom:var(--space-3);line-height:1.2;">
+        Laptop Skins Coming Soon
+      </h1>
+
+      <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.7;margin-bottom:var(--space-6);max-width:460px;margin-left:auto;margin-right:auto;">
+        We're precision-engineering 3M vinyl wraps for MacBook, Dell XPS, ThinkPad, HP, and Asus. Full lid, keyboard deck, and trackpad cuts are currently in production.
+      </p>
+
+      <!-- Supported Brands Preview -->
+      <div style="display:flex;justify-content:center;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-8);">
+        <span style="background:var(--color-bg-secondary);padding:4px 10px;border-radius:var(--radius-md);font-size:11px;font-weight:700;color:var(--color-text-secondary);">Apple MacBook</span>
+        <span style="background:var(--color-bg-secondary);padding:4px 10px;border-radius:var(--radius-md);font-size:11px;font-weight:700;color:var(--color-text-secondary);">Dell XPS</span>
+        <span style="background:var(--color-bg-secondary);padding:4px 10px;border-radius:var(--radius-md);font-size:11px;font-weight:700;color:var(--color-text-secondary);">Lenovo ThinkPad</span>
+        <span style="background:var(--color-bg-secondary);padding:4px 10px;border-radius:var(--radius-md);font-size:11px;font-weight:700;color:var(--color-text-secondary);">HP Spectre / Envy</span>
+        <span style="background:var(--color-bg-secondary);padding:4px 10px;border-radius:var(--radius-md);font-size:11px;font-weight:700;color:var(--color-text-secondary);">Asus ROG / ZenBook</span>
+      </div>
+
+      <!-- Actions -->
+      <div style="display:flex;flex-direction:column;gap:var(--space-3);max-width:320px;margin:0 auto;">
+        <a href="phone-skins/" class="btn btn-primary btn-lg" style="font-weight:800;display:flex;align-items:center;justify-content:center;gap:var(--space-2);">
+          <span>📱 Explore 240+ Phone Skins</span>
+        </a>
+        <a id="laptop-notify-wa" href="https://wa.me/919876543210?text=Hi%20Cormal%2C%20please%20notify%20me%20when%20Laptop%20Skins%20are%20available!" target="_blank" class="btn btn-outline btn-lg" style="font-weight:700;display:flex;align-items:center;justify-content:center;gap:var(--space-2);">
+          <span>💬 Notify Me on WhatsApp</span>
+        </a>
+      </div>
     </div>
 
-    <!-- Product Grid -->
-    <div class="product-grid" id="product-grid"></div>
-
-    <!-- SEO Content -->
-    <section style="padding: var(--space-8) var(--space-4);">
-      <h2 style="font-size:var(--text-lg);font-weight:800;margin-bottom:var(--space-3)">Premium Laptop Skins Online</h2>
-      <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.7;margin-bottom:var(--space-4)">
-        Give your laptop a fresh new look with Cormal's premium vinyl lid skins. Compatible with MacBook Air, MacBook Pro,
-        Dell XPS, HP Pavilion, HP Spectre, Lenovo ThinkPad, Asus ROG and more. Precision-cut for a perfect fit on your laptop lid.
-      </p>
-    </section>
-
-    <footer class="site-footer">
+    <footer class="site-footer" style="margin-top:var(--space-8);width:100%;">
       <p>© 2026 Cormal. All rights reserved.</p>
     </footer>
   </main>

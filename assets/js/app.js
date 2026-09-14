@@ -16,7 +16,7 @@ export class DataService {
     if (this._cache[key]) return this._cache[key];
     try {
       const resolvedPath = Utils.resolveUrl(path);
-      const res = await fetch(resolvedPath);
+      const res = await fetch(`${resolvedPath}?v=3`);
       if (!res.ok) throw new Error(`Failed to load ${resolvedPath} (${res.status})`);
       const data = await res.json();
       this._cache[key] = data;

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <defs>
+    <radialGradient id="spk1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="35%" stop-color="#a5f3fc" stop-opacity="0.7"/>
+      <stop offset="70%" stop-color="#e879f9" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="spk2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#fef08a" stop-opacity="0.6"/>
+      <stop offset="80%" stop-color="#38bdf8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Fine micro-glitter speckles -->
+  <circle cx="12" cy="18" r="1.5" fill="url(#spk1)"/>
+  <circle cx="28" cy="8" r="1" fill="#fff" opacity="0.85"/>
+  <circle cx="45" cy="22" r="2" fill="url(#spk2)"/>
+  <circle cx="68" cy="14" r="1.2" fill="#fff" opacity="0.9"/>
+  <circle cx="88" cy="26" r="2.5" fill="url(#spk1)"/>
+  <circle cx="106" cy="12" r="1" fill="#fff" opacity="0.8"/>
+  <circle cx="15" cy="42" r="2.2" fill="url(#spk2)"/>
+  <circle cx="34" cy="54" r="1.2" fill="#fff" opacity="0.9"/>
+  <circle cx="56" cy="46" r="2.8" fill="url(#spk1)"/>
+  <circle cx="78" cy="58" r="1" fill="#fff" opacity="0.75"/>
+  <circle cx="98" cy="48" r="1.8" fill="url(#spk2)"/>
+  <circle cx="114" cy="56" r="1.2" fill="#fff" opacity="0.85"/>
+  <circle cx="8" cy="78" r="1.6" fill="url(#spk1)"/>
+  <circle cx="26" cy="88" r="2.6" fill="url(#spk2)"/>
+  <circle cx="48" cy="74" r="1" fill="#fff" opacity="0.8"/>
+  <circle cx="66" cy="84" r="2.2" fill="url(#spk1)"/>
+  <circle cx="86" cy="76" r="1.4" fill="#fff" opacity="0.9"/>
+  <circle cx="108" cy="88" r="2.5" fill="url(#spk2)"/>
+  <circle cx="18" cy="106" r="2.4" fill="url(#spk1)"/>
+  <circle cx="40" cy="114" r="1" fill="#fff" opacity="0.75"/>
+  <circle cx="62" cy="104" r="1.8" fill="url(#spk2)"/>
+  <circle cx="82" cy="112" r="2.2" fill="url(#spk1)"/>
+  <circle cx="102" cy="106" r="1.2" fill="#fff" opacity="0.9"/>
+  <!-- Cross star glints -->
+  <path d="M56 46 L56 41 M56 46 L56 51 M56 46 L51 46 M56 46 L61 46" stroke="#fff" stroke-width="0.75" opacity="0.9"/>
+  <path d="M88 26 L88 22 M88 26 L88 30 M88 26 L84 26 M88 26 L92 26" stroke="#fff" stroke-width="0.6" opacity="0.85"/>
+  <path d="M26 88 L26 84 M26 88 L26 92 M26 88 L22 88 M26 88 L30 88" stroke="#fff" stroke-width="0.6" opacity="0.85"/>
+  <path d="M108 88 L108 84 M108 88 L108 92 M108 88 L104 88 M108 88 L112 88" stroke="#fff" stroke-width="0.6" opacity="0.85"/>
+</svg>

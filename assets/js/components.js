@@ -16,34 +16,72 @@ export function createProductCard(product, options = {}) {
   const badge = product.badges && product.badges[0];
   const gradient = Utils.getPlaceholderGradient(product.id);
 
-  const multipleFinishes = product.supportedSkinTypes && product.supportedSkinTypes.length > 1;
-  const variantCount = multipleFinishes ? product.supportedSkinTypes.length : 0;
+  const isPhone = product.deviceType !== 'laptop';
+  const variantCount = product.supportedSkinTypes ? product.supportedSkinTypes.length : 1;
 
   // Device type icon for placeholder
   const deviceIcon = product.deviceType === 'laptop'
     ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="placeholder-icon"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`
     : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="placeholder-icon"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>`;
 
-    card.innerHTML = `
-    <div class="card-image-wrap">
-      <img src="${Utils.resolveUrl(product.images[0])}" alt="${product.name} skin" loading="lazy"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="product-placeholder" style="display:none;background:${gradient}">
-        ${deviceIcon}
-        <span class="placeholder-name">${product.name}</span>
-      </div>
+  const imageSrc = product.images && product.images[0] ? Utils.resolveUrl(product.images[0]) : '';
+
+  card.innerHTML = `
+    <div class="card-image-wrap ${isPhone ? 'phone-mockup-mode' : ''}">
+      ${isPhone ? `
+        <div class="iphone-mockup-stage">
+          <!-- iPhone 16 Pro Automatic Mockup Chassis -->
+          <div class="iphone-chassis">
+            <!-- Automatically Blended Skin Design -->
+            <img class="iphone-skin-img" src="${imageSrc}" alt="${product.name} skin" loading="lazy"
+                 onerror="this.style.display='none';this.parentElement.querySelector('.product-placeholder').style.display='flex'">
+            <div class="product-placeholder" style="display:none;background:${gradient}">
+              ${deviceIcon}
+              <span class="placeholder-name">${product.name}</span>
+            </div>
+            <!-- Precision iPhone Camera Plateau & Triple Lenses -->
+            <div class="iphone-camera-plateau">
+              <div class="iphone-lens lens-tl"><div class="lens-glass"></div><div class="lens-glint"></div></div>
+              <div class="iphone-lens lens-bl"><div class="lens-glass"></div><div class="lens-glint"></div></div>
+              <div class="iphone-lens lens-rc"><div class="lens-glass"></div><div class="lens-glint"></div></div>
+              <div class="iphone-flash"></div>
+              <div class="iphone-lidar"></div>
+              <div class="iphone-mic"></div>
+            </div>
+            <!-- 3D Curved Glass Specular Highlight -->
+            <div class="iphone-specular-gloss"></div>
+            <!-- Titanium Outer Bezel Rim -->
+            <div class="iphone-chassis-rim"></div>
+          </div>
+        </div>
+      ` : `
+        <img src="${imageSrc}" alt="${product.name} skin" loading="lazy"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="product-placeholder" style="display:none;background:${gradient}">
+          ${deviceIcon}
+          <span class="placeholder-name">${product.name}</span>
+        </div>
+      `}
+      
       <div class="card-badges-row">
+        ${badge ? `
+          <span class="card-badge-pill badge-${badge}">
+            ${badge.toUpperCase()}
+          </span>
+        ` : ''}
         ${variantCount > 1 ? `
           <span class="card-variant-badge">
             <span class="variant-dot"></span>
-            <span>${variantCount} Variants</span>
+            <span>${variantCount} Finishes</span>
           </span>
         ` : ''}
       </div>
+      
       <button class="card-fav-btn ${isFav ? 'active' : ''}" aria-label="Add to favorites" data-product-id="${product.id}">
         ${isFav ? Icons.heartFilled : Icons.heart}
       </button>
     </div>
+    
     <div class="card-info">
       <div class="card-name">${product.name}</div>
       <div class="card-price"><span class="currency">₹</span>${product.price}</div>
@@ -57,15 +95,11 @@ export function createProductCard(product, options = {}) {
   `;
 
   // Image error handler: auto-show placeholder
-  const img = card.querySelector('img');
+  const img = card.querySelector('.iphone-skin-img') || card.querySelector('.card-image-wrap > img');
   const placeholder = card.querySelector('.product-placeholder');
-  if (img) {
-    // If image fails, placeholder is shown via onerror inline
-    // Also set placeholder visible immediately if src is empty
-    if (!product.images || !product.images[0]) {
-      img.style.display = 'none';
-      placeholder.style.display = 'flex';
-    }
+  if (img && placeholder && (!product.images || !product.images[0])) {
+    img.style.display = 'none';
+    placeholder.style.display = 'flex';
   }
 
   // Favorite button handler
@@ -89,6 +123,8 @@ export function createProductCard(product, options = {}) {
   const selectThisSkin = (e) => {
     if (e) e.stopPropagation();
 
+    const chosenSkinType = product.skinType || (product.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin');
+
     if (replaceId) {
       // Direct replace in cart
       Cart.updateItem(replaceId, {
@@ -97,7 +133,7 @@ export function createProductCard(product, options = {}) {
         productPrice: product.price,
         productImage: (product.images && product.images[0]) || '',
         deviceType: product.deviceType || 'phone',
-        skinType: product.skinType || (product.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'),
+        skinType: chosenSkinType,
         supportedSkinTypes: product.supportedSkinTypes || (product.skinType ? [product.skinType] : [])
       });
       window.location.href = Utils.resolveUrl('checkout.html');
@@ -111,7 +147,7 @@ export function createProductCard(product, options = {}) {
       productPrice: product.price,
       productImage: (product.images && product.images[0]) || '',
       deviceType: product.deviceType || 'phone',
-      skinType: product.skinType || (product.deviceType === 'laptop' ? 'laptop-matt' : 'back-skin'),
+      skinType: chosenSkinType,
       supportedSkinTypes: product.supportedSkinTypes || (product.skinType ? [product.skinType] : []),
       deviceId: activeDevice || null,
       deviceName: activeDevice || '',

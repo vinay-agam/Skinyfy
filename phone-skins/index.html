@@ -48,6 +48,9 @@
       <!-- Populated by JS -->
     </div>
 
+    <!-- Pagination Controls -->
+    <div id="pagination-container"></div>
+
     <!-- SEO Content -->
     <section style="padding: var(--space-8) var(--space-4);">
       <h2 style="font-size:var(--text-lg);font-weight:800;margin-bottom:var(--space-3)">Custom Phone Skins Online</h2>
@@ -80,8 +83,8 @@
   </script>
 
   <script type="module">
-    import { dataService, Utils, Analytics } from './assets/js/app.js?v=2';
-    import { initPage, createFilterChips, createSkinTypeChips, renderProductGrid } from './assets/js/components.js?v=2';
+    import { dataService, Utils, Analytics } from './assets/js/app.js?v=3';
+    import { initPage, createFilterChips, createSkinTypeChips, renderProductGrid } from './assets/js/components.js?v=3';
 
     await initPage(dataService, { activePage: 'categories', showBack: true });
 
@@ -95,10 +98,13 @@
     const filterContainer = document.getElementById('filter-chips-container');
     const skinTypeContainer = document.getElementById('skin-type-chips-container');
 
-    // Get initial category, skinType, and device from URL params
+    // Get initial category, skinType, page and device from URL params
     const params = new URLSearchParams(window.location.search);
     let activeCategory = params.get('category') || 'all';
     let activeSkinType = params.get('type') || params.get('skinType') || 'all';
+    let currentPage = parseInt(params.get('page')) || 1;
+    const ITEMS_PER_PAGE = 24;
+
     const deviceParam = params.get('device') || params.get('model') || params.get('phone') || params.get('slug');
     const activeDevice = deviceParam ? allDevices.find(d => 
       d.id.toLowerCase() === deviceParam.toLowerCase() ||
@@ -118,7 +124,7 @@
           <span style="font-size:1.2rem">🔄</span>
           <div>
             <div>Changing Skin Design</div>
-            <div style="font-size:11px;font-weight:500;opacity:0.85">Tap any skin design below to replace it in your order</div>
+            <div style="font-size:11px;font-weight:500;color:#b45309">Choose any skin design below to replace</div>
           </div>
         </div>
         <a href="${Utils.resolveUrl('checkout.html')}" style="background:#f59e0b;color:#fff;border-radius:var(--radius-full);padding:4px 12px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Keep Current</a>
@@ -163,25 +169,29 @@
       mainContent.insertBefore(banner, document.querySelector('.sort-wrapper'));
     }
 
-    // Render category filter chips
+    // Render filter chips (Categories)
     const styleCategories = categories.filter(c => c.active);
-    const categoryChips = createFilterChips(styleCategories, activeCategory, (catId) => {
+    const chips = createFilterChips(styleCategories, activeCategory, (catId) => {
       activeCategory = catId;
+      currentPage = 1;
       renderFiltered();
       const url = new URL(window.location);
       if (catId === 'all') url.searchParams.delete('category');
       else url.searchParams.set('category', catId);
+      url.searchParams.delete('page');
       window.history.replaceState({}, '', url);
     });
-    filterContainer.appendChild(categoryChips);
+    filterContainer.appendChild(chips);
 
-    // Render skin type filter chips
+    // Render Skin Type / Finish filter chips
     const skinTypeChips = createSkinTypeChips(activeSkinType, (typeId) => {
       activeSkinType = typeId;
+      currentPage = 1;
       renderFiltered();
       const url = new URL(window.location);
       if (typeId === 'all') url.searchParams.delete('type');
       else url.searchParams.set('type', typeId);
+      url.searchParams.delete('page');
       window.history.replaceState({}, '', url);
     }, 'phone');
     skinTypeContainer.appendChild(skinTypeChips);
@@ -196,6 +206,7 @@
       sortBy = sortOptions[(currentIdx + 1) % sortOptions.length];
       sortBtn.querySelector('span') || sortBtn.insertBefore(document.createElement('span'), sortBtn.querySelector('svg'));
       sortBtn.childNodes[0].textContent = labels[sortBy] + ' ';
+      currentPage = 1;
       renderFiltered();
     });
 
@@ -219,9 +230,14 @@
         );
       }
 
-      // If active device, prioritize compatible products
+      // All phone skins support all phone models
       if (activeDevice) {
-        const compatible = products.filter(p => p.compatibleDevices && p.compatibleDevices.includes(activeDevice.id));
+        const compatible = products.filter(p => 
+          p.deviceType === 'phone' ||
+          !p.compatibleDevices ||
+          p.compatibleDevices.includes('all') ||
+          p.compatibleDevices.includes(activeDevice.id)
+        );
         if (compatible.length > 0) {
           products = compatible;
         }
@@ -235,10 +251,108 @@
         default: break; // popular = default order
       }
 
-      renderProductGrid(grid, products, {
+      const totalItems = products.length;
+      const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE) || 1;
+
+      if (currentPage > totalPages) currentPage = 1;
+
+      // Empty State (No result error when filter search)
+      if (totalItems === 0) {
+        grid.innerHTML = `
+          <div class="empty-filter-state">
+            <div class="empty-state-icon">🔍</div>
+            <h3 class="empty-state-title">No Skins Found</h3>
+            <p class="empty-state-desc">No mobile skin designs match your selected filters. Try choosing a different style or finish.</p>
+            <button type="button" class="empty-state-reset-btn" id="reset-filters-btn">Clear All Filters</button>
+          </div>
+        `;
+        const pagContainer = document.getElementById('pagination-container');
+        if (pagContainer) pagContainer.innerHTML = '';
+        
+        document.getElementById('reset-filters-btn')?.addEventListener('click', () => {
+          activeCategory = 'all';
+          activeSkinType = 'all';
+          currentPage = 1;
+          document.querySelectorAll('#filter-chips-container .filter-chip').forEach((c, i) => c.classList.toggle('active', i === 0));
+          document.querySelectorAll('#skin-type-chips-container .filter-chip').forEach((c, i) => c.classList.toggle('active', i === 0));
+          const url = new URL(window.location);
+          url.searchParams.delete('category');
+          url.searchParams.delete('type');
+          url.searchParams.delete('page');
+          window.history.replaceState({}, '', url);
+          renderFiltered();
+        });
+        return;
+      }
+
+      // Slice items for current page
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const pageProducts = products.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+      renderProductGrid(grid, pageProducts, {
         device: activeDevice ? activeDevice.id : null,
         replace: replaceParam,
         action: actionParam
+      });
+
+      renderPagination(totalItems, totalPages, currentPage);
+    }
+
+    function renderPagination(total, totalPages, curPage) {
+      const container = document.getElementById('pagination-container');
+      if (!container) return;
+
+      if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+      }
+
+      const start = (curPage - 1) * ITEMS_PER_PAGE + 1;
+      const end = Math.min(curPage * ITEMS_PER_PAGE, total);
+
+      let pages = [];
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= curPage - 2 && i <= curPage + 2)) {
+          pages.push(i);
+        } else if (pages[pages.length - 1] !== '...') {
+          pages.push('...');
+        }
+      }
+
+      container.innerHTML = `
+        <div class="pagination-bar">
+          <div class="pagination-info">
+            Showing <strong>${start}–${end}</strong> of <strong>${total}</strong> skins
+          </div>
+          <div class="pagination-nav">
+            <button type="button" class="page-nav-btn prev-btn" ${curPage === 1 ? 'disabled' : ''} data-page="${curPage - 1}">
+              ‹ Prev
+            </button>
+            <div class="page-numbers-list">
+              ${pages.map(p => {
+                if (p === '...') return `<span class="page-ellipsis">…</span>`;
+                return `<button type="button" class="page-num-btn ${p === curPage ? 'active' : ''}" data-page="${p}">${p}</button>`;
+              }).join('')}
+            </div>
+            <button type="button" class="page-nav-btn next-btn" ${curPage === totalPages ? 'disabled' : ''} data-page="${curPage + 1}">
+              Next ›
+            </button>
+          </div>
+        </div>
+      `;
+
+      container.querySelectorAll('[data-page]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetPage = parseInt(btn.dataset.page);
+          if (targetPage && targetPage !== curPage && targetPage >= 1 && targetPage <= totalPages) {
+            currentPage = targetPage;
+            const url = new URL(window.location);
+            url.searchParams.set('page', targetPage);
+            window.history.pushState({}, '', url);
+            renderFiltered();
+            document.querySelector('.sort-wrapper')?.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
       });
     }
 

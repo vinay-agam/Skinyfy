@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function() {
+      const isGh = location.hostname.endsWith('github.io');
+      const base = isGh ? '/' + (location.pathname.split('/').filter(Boolean)[0] || '') + '/' : '/';
+      document.write('<base href="' + base + '">');
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Page Not Found (404) | Cormal</title>
+  <meta name="description" content="The page you are looking for could not be found. Explore Cormal premium phone skins.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <meta name="theme-color" content="#1B8C5C">
+</head>
+<body style="min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;">
+
+  <main id="main-content" style="flex:1;display:flex;align-items:center;justify-content:center;padding:var(--space-8) var(--space-4);">
+    <div style="max-width:520px;width:100%;text-align:center;background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:var(--radius-2xl);padding:var(--space-10) var(--space-6);box-shadow:var(--shadow-xl);position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:220px;height:120px;background:#ef4444;filter:blur(90px);opacity:0.2;pointer-events:none;"></div>
+
+      <!-- 404 Visual -->
+      <div style="font-size:5rem;font-weight:900;line-height:1;color:var(--color-primary);margin-bottom:var(--space-2);letter-spacing:-2px;text-shadow:0 4px 20px var(--color-primary-glow);">
+        404
+      </div>
+
+      <h1 style="font-size:var(--text-xl);font-weight:800;color:var(--color-text);margin-bottom:var(--space-3);">
+        Page Not Found
+      </h1>
+
+      <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.6;margin-bottom:var(--space-6);max-width:400px;margin-left:auto;margin-right:auto;">
+        The link you followed might be broken, or the skin design has been relocated. Don't worry, our 240+ premium skins are ready for you!
+      </p>
+
+      <!-- Quick Action Buttons -->
+      <div style="display:flex;flex-direction:column;gap:var(--space-3);max-width:300px;margin:0 auto;">
+        <a href="./" class="btn btn-primary btn-lg" style="font-weight:800;display:flex;align-items:center;justify-content:center;gap:var(--space-2);">
+          <span>🏠 Return to Home</span>
+        </a>
+        <a href="phone-skins/" class="btn btn-outline btn-lg" style="font-weight:700;display:flex;align-items:center;justify-content:center;gap:var(--space-2);">
+          <span>📱 Browse Phone Skins</span>
+        </a>
+        <a href="https://wa.me/919876543210?text=Hi%20Cormal%2C%20I%20need%20help%20finding%20a%20skin%20on%20your%20website" target="_blank" class="btn btn-sm" style="color:var(--color-text-secondary);background:transparent;border:none;margin-top:var(--space-2);font-weight:600;">
+          <span>Need help? Chat on WhatsApp →</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 Cormal. All rights reserved.</p>
+  </footer>
+
+  <script type="module">
+    import { dataService } from './assets/js/app.js?v=3';
+    import { initPage } from './assets/js/components.js?v=3';
+    await initPage(dataService, { activePage: '', showBack: true });
+  </script>
+</body>
+</html>
